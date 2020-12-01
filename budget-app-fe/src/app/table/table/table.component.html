@@ -1,0 +1,139 @@
+<mat-card>
+  <mat-card-content>
+    <ng-container *ngIf="hasData()">
+      <table mat-table [dataSource]="table.displayRows" matSort class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container *ngFor="let header of table.headers">
+          <ng-container [matColumnDef]="getHeading(header)">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef="getHeading(header)">{{getHeading(header)}}</th>
+            <td mat-footer-cell *matFooterCellDef>
+              <ng-container *ngIf="table.hasSumColumn(getBackgroundField(header)) === true">
+                {{table.sumValues(getBackgroundField(header))}}
+              </ng-container>
+            </td>
+            <ng-container *ngIf="isReadOnly() === true">
+              <td mat-cell *matCellDef="let element">
+                {{ getCellValue(table.getCellByHeaderName(element, getHeading(header)).value) }}
+              </td>
+            </ng-container>
+            <ng-container *ngIf="isReadOnly() === false">
+              <ng-container>
+                <td mat-cell *matCellDef="let element">
+                  <div *ngIf="table.isDropDownField(header)">
+                    <mat-select [(value)]="table.getCellByHeaderName(element, getHeading(header)).value"
+                                [ngStyle]="{'background-color': getColor(element, header)}" [ngClass]="{
+            'light' : getIsDarkColor(element, header),
+            'dark' : !getIsDarkColor(element, header)
+         }">
+                      <mat-option *ngFor="let item of getDropDownOptions(header.backgroundField)" [value]="item.key">
+                        {{item.value.name}}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                  <div *ngIf="!table.isDropDownField(header)">
+                    <input matInput (change)="table.getCellByHeaderName(element,header.heading).cellChange($event)"
+                           [value]="getCellValue(table.getCellByHeaderName(element,header.heading))"/>
+                  </div>
+                </td>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <ng-container matColumnDef="test" *ngIf="!table.options.readOnly">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <ng-container>
+              <button mat-button (click)="onDeleteRow(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <ng-container *ngFor="let action of table.options.customActions">
+                <ng-container *ngIf="action.checkIsDisabled(element) === false">
+                  <button mat-button (click)="runCustom(action, element)" [ngStyle]="{'background-color': action.color}"
+                          [ngClass]="{
+            'dark' : action.isDarkColor,
+            'light' : !action.isDarkColor
+         }">
+                    <ng-container *ngIf="action.matIconName !== ''">
+                      <mat-icon [ngClass]="{
+            'dark' : action.isDarkColor,
+            'light' : !action.isDarkColor
+         }">{{action.matIconName}}
+                      </mat-icon>
+                    </ng-container>
+                    <span>{{action.label}}</span>
+                  </button>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </td>
+          <ng-container *ngIf="hasFooterFields() === true">
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <ng-container *ngIf="hasFooterFields() === true">
+          <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+        </ng-container>
+      </table>
+    </ng-container>
+    <ng-container *ngIf="!hasData()">
+      <mat-chip color="primary" class="no-data-error">
+        <mat-icon>warning</mat-icon>
+        No data for {{table.type}} !
+      </mat-chip>
+    </ng-container>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="row">
+      <div class="col-xs-2">
+        <td *ngIf="!table.options.readOnly">
+          <button mat-button (click)="sendAddCb()">
+            <mat-icon>add</mat-icon>
+            Add record
+          </button>
+        </td>
+      </div>
+      <div class="col-xs-5"></div>
+      <ng-container *ngIf="table.options.hasPagination === true">
+        <div class="mat-paginator-page-size col-xs-2">
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="mat-paginator-page-size-label" style="width:100%"> Items per page:</div>
+            </div>
+            <div class="col-xs-6">
+              <mat-select [(value)]="table.pagination.pageSize" style="width:100%">
+
+                <mat-option *ngFor="let item of table.options.pageSizes" [value]="item">
+                  {{item}}
+                </mat-option>
+              </mat-select>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-2">
+          <div class="row">
+            <div class="col-xs-5"> {{(table.pagination.currentPage*table.pagination.pageSize)+1}} –
+              {{(table.pagination.currentPage*table.pagination.pageSize)+table.pagination.pageSize}} of
+              {{table.pagination.totalRows}}
+            </div>
+            <div class="col-xs-7">
+              <!--<button mat-button (click)="table.pagination.">-->
+              <!--<mat-icon>first_page</mat-icon>-->
+              <!--</button>&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+              <button mat-button (click)="table.getPreviousPage()" *ngIf="table.previousIsDisabled === false">
+                <mat-icon>chevron_left</mat-icon>
+              </button><!---->
+              <button mat-button (click)="table.getNextPage()" *ngIf="table.nextIsDisabled === false">
+                <mat-icon>chevron_right</mat-icon>
+              </button><!---->
+              <!--<button mat-button>-->
+              <!--<mat-icon>last_page</mat-icon>-->
+              <!--</button>&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </mat-card-actions>
+</mat-card>

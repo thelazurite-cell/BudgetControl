@@ -1,0 +1,63 @@
+<h1 mat-dialog-title>Add Outgoing</h1>
+<div mat-dialog-content>
+  <form [formGroup]="outgoingsForm">
+    <h2>Term Settings</h2>
+    <p>A term is used to state your income for a period. The periods can run over a length of time.</p>
+    <div class="row">
+      <div class="col-xs">
+        <div class="box">
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="box">
+                <mat-form-field appearance="fill">
+                  <mat-label>Name</mat-label>
+                  <input label="Name" matInput formControlName="name"/>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="box">
+                <mat-form-field appearance="fill">
+                  <mat-label>Category</mat-label>
+                  <mat-select  [ngStyle]="{'background-color': getColor()}" [ngClass]="{
+            'light' : getIsDarkColor(),
+            'dark' : !getIsDarkColor()
+         }" formControlName="categoryId">
+                    <mat-option *ngFor="let item of getDropDownOptions('categoryId')" [value]="item.key">
+                      {{item.value.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Cost</mat-label>
+                <input label="Cost" matInput formControlName="cost"/>
+              </mat-form-field>
+            </div>
+            <div class="col-xs-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Quantity</mat-label>
+                <input label="Quantity" matInput formControlName="quantity"/>
+              </mat-form-field>
+            </div>
+            <div class="col-xs-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Pay On Day</mat-label>
+                <input label="Pay On Day" matInput formControlName="payOnDay"/>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="abortAdd()">Cancel</button>
+  <button [attr.disabled]="!outgoingsForm.valid ? '' : null"
+          [matTooltip]="!outgoingsForm.valid ? 'Term data must be valid before submitting': null" mat-button (click)="addRecord()" cdkFocusInitial>Add</button>
+</div>

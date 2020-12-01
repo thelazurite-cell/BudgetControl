@@ -1,0 +1,19 @@
+{
+  "compilerOptions" : { 
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "./dist",
+    "baseUrl": "./src"
+  }, 
+  "include": [ 
+    "src/**/*.ts",
+    "appConfig.json"
+  ],
+  "exclude": [
+    "node_modules"
+  ] 
+}

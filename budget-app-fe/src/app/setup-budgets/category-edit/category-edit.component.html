@@ -1,0 +1,89 @@
+<mat-card>
+  <mat-card-content>
+    <p>Set up categories that expenses can fall under</p>
+    <div class="row">
+      <div class="col-xs">
+        <div class="box">
+          <div class="row">
+            <div class="col-sm-4">Allocated: {{categoriesAllocated}}</div>
+            <div class="col-sm-4">Unallocated: {{thresholdValue-categoriesAllocated}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs">
+        <div class="box">
+          <div class="row">
+            <ng-container *ngFor="let category of categories">
+              <div class="col-sm-3 category-container" *ngIf="!category.isDeleted">
+                <div class="category" [ngStyle]="{'background-color': category.color}" [ngClass]="{
+            'dark' : category.isDarkColor,
+            'light' : !category.isDarkColor
+         }">
+                  <div class="top-icons" *ngIf="category.removable">
+                    <button (click)="onDelete(category)">
+                      <mat-icon [ngClass]="{'dark' : category.isDarkColor, 'light' : !category.isDarkColor }">
+                        delete_forever
+                      </mat-icon>
+                    </button>
+                  </div>
+                  <div class="category-input">
+                    <input style="min-width: 50px;" [(value)]="category.name"
+                           (change)="onCategoryChange(category, $event)"
+                           [ngClass]="{'dark' : category.isDarkColor, 'light' : !category.isDarkColor }"/>
+                    <div class="currency-input"><p>£</p>
+                      <input style="min-width: 50px;"
+                             [(value)]="category.threshold"
+                             [ngClass]="{'dark' : category.isDarkColor, 'light' : !category.isDarkColor }"
+                             (change)="onCategoryThresholdChange(category, $event)"/>
+                    </div>
+                  </div>
+                  <input disabled="disabled" style="width:0; background: none; border: none;"
+                         [(colorPicker)]="category.color"
+                         [(cpToggle)]="category.togglePicker"
+                         (colorPickerChange)="colorChanged(category,$event)"/>
+                  <div class="bottom-icons">
+                    <button style="display: contents;" (click)="category.togglePicker=!category.togglePicker">
+                      <mat-icon [ngClass]="{'dark' : category.isDarkColor, 'light' : !category.isDarkColor }">
+                        colorize
+                      </mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs">
+        <div class="box">
+          <div class="row" style="margin: unset;">
+            <div class="col-sm-1 category-container">
+              <div class="category add-category">
+                <div class="category-input">
+                  <button (click)="addCategory()">
+                    <mat-icon class="dark">add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions align="right">
+    <button mat-button class="success" (click)="onSave(['category'])">
+      save
+      <mat-icon>done</mat-icon>
+    </button>
+    <button mat-button class="error">
+      revert
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

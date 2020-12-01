@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Pay Off {{currentExpenditure.name}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="outgoingsForm">
+    <div class="row">
+      <div class="col-xs-7">
+        <mat-form-field appearance="fill">
+          <mat-label>Amount Paid</mat-label>
+          <input label="Amount Paid" matInput formControlName="amountPaid"/>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-1"><span>/</span></div>
+      <div class="col-xs-3"><span>{{expectedValue}}</span></div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="abortAdd()">Cancel</button>
+  <button [attr.disabled]="!outgoingsForm.valid ? '' : null"
+          [matTooltip]="!outgoingsForm.valid ? 'Period data must be valid before submitting': null" mat-button
+          (click)="addRecord()" cdkFocusInitial>Pay Off
+  </button>
+</div>

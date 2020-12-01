@@ -1,0 +1,10 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{chartName}}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ngx-chartjs [data]="constructDataModel()" [options]="chartOptions" [legend]="chartLegend" [type]="chartType"></ngx-chartjs>
+  </mat-card-content>
+</mat-card>

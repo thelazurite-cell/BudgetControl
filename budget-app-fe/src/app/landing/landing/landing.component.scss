@@ -1,0 +1,68 @@
+.dashboard-container {
+  position: relative;
+  top: -52vh;
+}
+
+::ng-deep .mat-grid-tile {
+  display: list-item;
+  position: inherit;
+  overflow:visible!important;
+  //display: table !important;
+  //position: absolute !important;
+  ::ng-deep .mat-grid-tile .mat-figure {
+    top: unset !important;
+    left: unset !important;
+    right: unset !important;
+    bottom: 0 !important;
+    position: absolute !important;
+    display: block !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+}
+::ng-deep .mat-figure{
+    top: unset !important;
+    left: unset !important;
+    right: unset !important;
+    bottom: 0 !important;
+    position: unset !important;
+    display: block !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+    padding: 5% !important;
+    margin: 3% !important;
+}
+
+//::ng-deep .mat-grid-list {
+//  display: block !important;
+//  position: relative !important;
+//}
+app-dash-bar-chart{
+  width: 100%;
+}
+@media all and(max-width: 800px) {
+  .dashboard-container{
+    top: -40vh;
+  }
+}
+@media all and(max-width: 620px) {
+   .dashboard-container{
+     top:-10vh;
+   }
+  ::ng-deep .mat-grid-tile {
+    position: inherit !important;
+    width: 100vw !important;
+    display: block;
+  }
+  ::ng-deep .mat-grid-tile .mat-figure {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+ }
+

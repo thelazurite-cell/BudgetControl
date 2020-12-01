@@ -1,0 +1,20 @@
+<mat-card appProtected>
+  <mat-card-header class="highlight-card">
+    <mat-card-title>Log in</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Username</mat-label>
+      <input #Username label="Username" matInput/>
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input #Password label="Password" type="password" matInput/>
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions align="right">
+    <button mat-button (click)="attemptAuthenticate()">Submit</button>
+  </mat-card-actions>
+</mat-card>
