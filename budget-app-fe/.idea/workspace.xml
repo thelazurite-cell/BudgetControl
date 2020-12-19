@@ -2,54 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a8bdc2bd-4b74-4289-a842-2eca6fd4e525" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../budget-app-be/src/routes/insertMany.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../budget-app-be/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../budget-app-be/appConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/appConfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../budget-app-be/src/dto/exception.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/src/dto/exception.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../budget-app-be/src/dto/expenditure.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/src/dto/expenditure.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../budget-app-be/src/dto/financial-term.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/src/dto/financial-term.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../budget-app-be/src/mongo-manager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/src/mongo-manager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../budget-app-be/src/routes/export/routes-module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/src/routes/export/routes-module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../budget-app-be/src/routes/insert.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/src/routes/insert.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../budget-app-be/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/src/server.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/classes/dto/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/classes/dto/category.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/classes/dto/exception.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/classes/dto/exception.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/classes/dto/expenditure.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/classes/dto/expenditure.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/classes/dto/filtering/filter-type.enum.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/classes/dto/filtering/filter-type.enum.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/classes/dto/period.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/classes/dto/period.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dropdown.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dropdown.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/expenditures/expenditures.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/expenditures/expenditures.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/services/base-table.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/base-table.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/services/data-transfer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/data-transfer.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/services/generation.options.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/generation.options.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/services/table.pagination.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/table.pagination.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/services/table.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/table.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/add-exception-dialog/add-exception-dialog.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/add-exception-dialog/add-exception-dialog.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/add-exception-dialog/add-exception-dialog.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/add-exception-dialog/add-exception-dialog.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/add-outgoing-dialog/add-outgoing-dialog.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/add-outgoing-dialog/add-outgoing-dialog.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/add-term-dialog/add-term-dialog.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/add-term-dialog/add-term-dialog.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/add-term-dialog/add-term-dialog.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/add-term-dialog/add-term-dialog.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/base-table.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/table/base-table.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/category-edit/category-edit.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/category-edit/category-edit.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/exception-edit/exception-edit.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/exception-edit/exception-edit.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/outgoings-edit/outgoings-edit.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/outgoings-edit/outgoings-edit.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/outgoings-edit/outgoings-edit.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/outgoings-edit/outgoings-edit.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/setup-budgets.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/setup-budgets.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/setup-budgets/term-edit/term-edit.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/setup-budgets/term-edit/term-edit.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/table/table/table.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/table/table/table.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/table/table/table.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/table/table/table.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/table/table/table.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/table/table/table.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/environments/environment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/services/login.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/login.service.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -64,14 +19,9 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/environments/environment.prod.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/environments/environment.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
+            <state relative-caret-position="92">
               <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -81,40 +31,47 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.ts">
+        <entry file="file://$PROJECT_DIR$/src/app/state.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
+            <state relative-caret-position="184">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/classes/authentication-status.ts">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/authentication-manager/authentication-manager.module.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
               <folding>
-                <element signature="e#0#77#0" expanded="true" />
+                <element signature="e#0#41#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/table/base-table.component.ts">
+        <entry file="file://$PROJECT_DIR$/src/app/authentication-manager/protected.directive.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="26" column="3" selection-start-line="26" selection-start-column="3" selection-end-line="26" selection-end-column="3" />
+            <state relative-caret-position="184">
+              <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
+              <folding>
+                <element signature="e#0#51#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.scss">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/services/login.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19067">
-              <caret line="829" column="15" selection-start-line="829" selection-start-column="15" selection-end-line="829" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="12" column="28" lean-forward="true" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+            <state relative-caret-position="260">
+              <caret line="58" column="32" lean-forward="true" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -209,7 +166,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/app/setup-budgets/add-outgoing-dialog/add-outgoing-dialog.component.html" />
         <option value="$PROJECT_DIR$/src/app/setup-budgets/add-exception-dialog/add-exception-dialog.component.scss" />
         <option value="$PROJECT_DIR$/src/app/setup-budgets/term-edit/term-edit.component.ts" />
         <option value="$PROJECT_DIR$/src/app/setup-budgets/base-table.component.ts" />
@@ -260,6 +216,7 @@
         <option value="$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.ts" />
         <option value="$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.html" />
         <option value="$PROJECT_DIR$/src/environments/environment.ts" />
+        <option value="$PROJECT_DIR$/src/app/services/login.service.ts" />
       </list>
     </option>
   </component>
@@ -280,8 +237,7 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-74" />
-    <option name="y" value="32" />
+    <option name="x" value="-4" />
     <option name="width" value="1928" />
     <option name="height" value="1048" />
   </component>
@@ -332,15 +288,21 @@
               <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="expenditures" type="462c0819:PsiDirectoryNode" />
+              <item name="authentication-manager" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
               <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="expenditures" type="462c0819:PsiDirectoryNode" />
-              <item name="expenditures" type="462c0819:PsiDirectoryNode" />
+              <item name="budget-plan" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="login" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
@@ -358,7 +320,7 @@
     <property name="SearchEverywhereHistoryKey" value="expendi&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/expenditures/expenditures/expenditures.component.ts&#10;expenditures&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/expenditures/expenditures/expenditures.component.ts&#10;exp&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/classes/dto/expenditure.ts&#10;component&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/table/table/table.component.html&#10;tab&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/table.ts&#10;table&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/table/table/table.component.html&#10;table.ts&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/table.ts&#10;base&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/base-table.service.ts&#10;drop&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/dropdown.service.ts&#10;genera&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/generation.options.ts&#10;pagina&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/table.pagination.ts&#10;gen&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/generation.options.ts&#10;table.com&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/table/table/table.component.html&#10;gene&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/generation.options.ts&#10;basetable&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/table/base-table.component.ts&#10;expe&#9;null&#9;null&#10;addterm&#9;null&#9;null&#10;onsave&#9;null&#9;null&#10;expet&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/classes/dto/expenditure.ts&#10;expen&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/classes/dto/expenditure.ts&#10;data&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/data-transfer.service.ts&#10;query&#9;null&#9;null&#10;que&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/classes/dto/filtering/query-group.ts&#10;expenditu&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/classes/dto/expenditure.ts&#10;period&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/period.service.ts&#10;cacheba&#9;null&#9;null&#10;periodser&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/period.service.ts&#10;outgoings&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/setup-budgets/outgoings-edit/outgoings-edit.component.html&#10;addout&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/setup-budgets/add-outgoing-dialog/add-outgoing-dialog.component.ts&#10;baset&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/table/base-table.component.ts&#10;dropdo&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/dropdown.service.ts&#10;expenditure&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/classes/dto/expenditure.ts&#10;peri&#9;null&#9;null&#10;term&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/setup-budgets/add-term-dialog/add-term-dialog.component.html&#10;outgoin&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/setup-budgets/outgoings-edit/outgoings-edit.component.ts&#10;excep&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/classes/dto/exception.ts&#10;exception&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/setup-budgets/exception-edit/exception-edit.component.ts&#10;table.c&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/table/table/table.component.scss&#10;customac&#9;null&#9;null&#10;customa&#9;null&#9;null&#10;custom&#9;null&#9;null&#10;isdark&#9;null&#9;null&#10;color&#9;null&#9;null&#10;table.co&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/table/table/table.component.html&#10;outgoingscompone&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/setup-budgets/outgoings-edit/outgoings-edit.component.ts&#10;edit&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/setup-budgets/outgoings-edit/outgoings-edit.component.ts&#10;table.ser&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/base-table.service.ts&#10;gener&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/generation.options.ts&#10;outgoing&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/classes/dto/outgoing.ts&#10;datas&#9;FILE&#9;file:///home/dylane/code/budgetcontrol/budget-app-fe/src/app/services/data-transfer.service.ts" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.last.introduce.type" value="LET" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../node_modules/tslint/bin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="$PROJECT_DIR$/node_modules/tslint" />
@@ -471,23 +433,25 @@
       <workItem from="1598316220769" duration="694000" />
       <workItem from="1600997448112" duration="780000" />
       <workItem from="1603446877145" duration="860000" />
+      <workItem from="1608381689632" duration="1175000" />
+      <workItem from="1608405466137" duration="566000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="398581000" />
+    <option name="totallyTimeSpent" value="400322000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-74" y="32" width="1920" height="1048" extended-state="0" />
+    <frame x="-4" y="0" width="1928" height="1048" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31815776" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31787032" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3275862" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49540788" weight="0.30694142" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3275488" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49540788" visible="true" weight="0.30694142" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4986494" weight="0.39957264" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -496,7 +460,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49594814" weight="0.1691974" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5045921" side_tool="true" weight="0.32905984" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49324688" weight="0.32901832" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49324688" weight="0.3286334" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -541,34 +505,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/setup-budgets/setup-budgets/dto.helper.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/expenditures/expenditures.module.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="39" column="24" lean-forward="true" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="63" column="11" lean-forward="true" selection-start-line="63" selection-start-column="11" selection-end-line="63" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/classes/dto/filtering/query-group.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/classes/dto/filtering/query.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
@@ -583,13 +519,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/rxjs/src/internal/BehaviorSubject.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="44" column="1" lean-forward="true" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/rxjs/src/internal/BehaviorSubject.ts" />
     <entry file="file://$PROJECT_DIR$/src/app/setup-budgets/category-edit/category-edit.component.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
@@ -647,13 +577,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/state.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/expenditures/add-expenditure/add-expenditure.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
@@ -689,13 +612,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.es5.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="1276" column="4" selection-start-line="1276" selection-start-column="4" selection-end-line="1276" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.es5.d.ts" />
     <entry file="file://$PROJECT_DIR$/src/app/expenditures/add-period/add-period.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="284">
@@ -825,13 +742,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/environments/environment.prod.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#77#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -846,6 +763,62 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19067">
           <caret line="829" column="15" selection-start-line="829" selection-start-column="15" selection-end-line="829" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/environments/environment.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/state.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/classes/authentication-status.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/authentication-manager/authentication-manager.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/authentication-manager/protected.directive.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tsconfig.app.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tsconfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -866,33 +839,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/expenditures/expenditures/expenditures.component.html">
+    <entry file="file://$PROJECT_DIR$/src/app/services/login.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="12" column="28" lean-forward="true" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tsconfig.app.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tsconfig.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/environments/environment.prod.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/environments/environment.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state relative-caret-position="260">
+          <caret line="58" column="32" lean-forward="true" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="32" />
         </state>
       </provider>
     </entry>
