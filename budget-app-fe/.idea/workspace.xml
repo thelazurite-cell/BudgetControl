@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a8bdc2bd-4b74-4289-a842-2eca6fd4e525" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../budget-app-be/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../budget-app-be/src/authentication-manager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/src/authentication-manager.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../budget-app-be/src/routes/auth/authenticate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/src/routes/auth/authenticate.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/login/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/login/login/login.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/services/login.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/login.service.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -70,8 +73,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/services/login.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="58" column="32" lean-forward="true" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="32" />
+            <state relative-caret-position="102">
+              <caret line="51" column="27" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
+              <folding>
+                <element signature="n#!!block;n#Authenticate#0;n#LoginService#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -122,8 +128,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>isdarkcolo</find>
-      <find>behavi</find>
       <find>viewchil</find>
       <find>termid</find>
       <find>setvalue</find>
@@ -152,6 +156,8 @@
       <find>mat-selec</find>
       <find>port</find>
       <find>production</find>
+      <find>logout</find>
+      <find>Authenticate</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -287,27 +293,6 @@
               <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
               <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="authentication-manager" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="budget-plan" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="login" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="environments" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -434,24 +419,24 @@
       <workItem from="1600997448112" duration="780000" />
       <workItem from="1603446877145" duration="860000" />
       <workItem from="1608381689632" duration="1175000" />
-      <workItem from="1608405466137" duration="566000" />
+      <workItem from="1608405466137" duration="2087000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="400322000" />
+    <option name="totallyTimeSpent" value="401843000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="0" width="1928" height="1048" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31787032" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31787032" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3275488" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49540788" visible="true" weight="0.30694142" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49540788" weight="0.30694142" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4986494" weight="0.39957264" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -460,7 +445,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49594814" weight="0.1691974" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5045921" side_tool="true" weight="0.32905984" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49324688" weight="0.3286334" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49324688" visible="true" weight="0.3286334" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -749,6 +734,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#77#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -841,8 +829,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/services/login.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="58" column="32" lean-forward="true" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="32" />
+        <state relative-caret-position="102">
+          <caret line="51" column="27" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
+          <folding>
+            <element signature="n#!!block;n#Authenticate#0;n#LoginService#0" />
+          </folding>
         </state>
       </provider>
     </entry>

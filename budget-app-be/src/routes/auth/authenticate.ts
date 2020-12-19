@@ -56,7 +56,7 @@ class auth extends Route {
                             this.invalid(response, "You are locked out");
                         } else {
                             auth.eventCompleted.on("generateHash", async (value) => {
-                                const correct = auth.generateDiff(Utf8Encoding.getBytes(value), Utf8Encoding.getBytes(user.password));
+                                const correct = auth.getTimeSafeDifference(Utf8Encoding.getBytes(value), Utf8Encoding.getBytes(user.password));
                                 console.log(correct);
                                 if (correct) {
                                     user.loginAttempts = 0;
@@ -69,7 +69,7 @@ class auth extends Route {
                                     await db.insert(success);
 
                                     const tkn = new token();
-                                    tkn.accessToken = auth.getEncVal(255);
+                                    tkn.accessToken = auth.getEncryptedValue(255);
                                     tkn.accessTokenExpiresAt = moment().add(ServerState.conf.general.tokenExpiryMinutes, "minutes");
                                     tkn.userId = user._id;
 

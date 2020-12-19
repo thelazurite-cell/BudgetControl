@@ -49,7 +49,7 @@ export class LoginService {
     return '';
   }
 
-  public async Authenticate(username, password): Promise<void> {
+  public async authenticate(username, password): Promise<void> {
     const requestBody = {attempt: btoa(`${username}:${password}`)};
     await this.http.post(`${environment.backendHost}auth/login`, requestBody).subscribe((obj: any) => {
       const errors = [];
@@ -62,9 +62,10 @@ export class LoginService {
         this.authToken = `${obj.result}`;
         const decoded: any = JSON.parse(atob(this.authToken));
         const expires =  moment(decoded.accessTokenExpiresAt);
-        document.cookie = 'token=' + this.authToken + ';' + new Date(expires.utc().date()).toUTCString() + ';path=/';
+        document.cookie = 'token=' + this.authToken + ';' + new Date(expires.utc().date()).toUTCString() + ';path=/;';
         this.checkAuthenticationStatus();
       }
+      return;
     }, (err) => {
       this.authenticated = false;
       this.emitAuthenticationStatus(false, [err]);
@@ -72,9 +73,11 @@ export class LoginService {
   }
 
   public logout() {
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+    const date = new Date();
+    date.setTime(date.getTime() + (-10 * 24 * 60 * 60 * 1000));
+    document.cookie = `token=; expires=${date.toUTCString()}; path=/;`;
     this.authenticated = false;
-    this.authToken = '';
+    this.emitAuthenticationStatus(false);
   }
 
   private emitAuthenticationStatus(success: boolean, errors: Array<string> = []): void {

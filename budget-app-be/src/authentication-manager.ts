@@ -52,22 +52,22 @@ export class AuthorizationModel {
     private mhl: number = 256;
     private dg: string = "sha256";
     public eventCompleted: EventEmitter = new EventEmitter();
-    private pwCr: RegExp = /(?=(.*[A-z]{2,}))(?=(.*?[^ \w]{2,}))(?=(.*?\d){2,})+^(.){12,}$/;
+    private passwordCriteria: RegExp = /(?=(.*[A-z]{2,}))(?=(.*?[^ \w]{2,}))(?=(.*?\d){2,})+^(.){12,}$/;
 
-    matchesPwCr(password:string): boolean {
-        return this.pwCr.test(password);
+    matchesPasswordCriteria(password:string): boolean {
+        return this.passwordCriteria.test(password);
     }
 
     generateSalt(): string {
-        return this.getEncVal(this.msl);
+        return this.getEncryptedValue(this.msl);
     }
 
-    public getEncVal(len: number) {
+    public getEncryptedValue(len: number) {
         return crypto.randomBytes(Math.ceil(len >> 1))
             .toString('hex', 0, len);
     }
 
-    generateDiff(sourceA: number[], sourceB: number[]) {
+    getTimeSafeDifference(sourceA: number[], sourceB: number[]) {
         let diff: number = sourceA.length ^ sourceB.length;
         for (let i: number = 0; i < sourceA.length && i < sourceB.length; i++) {
             diff |= sourceA[i] ^ sourceB[i];
@@ -77,9 +77,9 @@ export class AuthorizationModel {
     }
 
     async generateHash(password: string, salt: string): Promise<void> {
-        await crypto.pbkdf2(password, salt, this.mi, this.mhl, this.dg, (err: Error | null, donkeyKong: Buffer) => {
+        await crypto.pbkdf2(password, salt, this.mi, this.mhl, this.dg, (err: Error | null, derivedKey: Buffer) => {
             if (!err) {
-                this.eventCompleted.emit("generateHash", donkeyKong.toString('base64'));
+                this.eventCompleted.emit("generateHash", derivedKey.toString('base64'));
                 return;
             }
             let ex = new Error("An unexpected error occurred hashing the password");
@@ -89,6 +89,6 @@ export class AuthorizationModel {
     }
 
     generateAccessToken(): string {
-        return this.getEncVal(255);
+        return this.getEncryptedValue(255);
     }
 }
