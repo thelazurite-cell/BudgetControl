@@ -49,7 +49,7 @@ export class LoginService {
       const expires = new Date(value.accessTokenExpiresAt);
       if (currentDate > expires) {
         this.logout();
-        this.dialogService.showDismissableSnackbar('Your session has expired, please authenticate');
+        this.dialogService.showAutoCloseSnackbar('Your session has expired, please authenticate');
       } else {
         this.authToken = token;
         this.authenticated = true;
@@ -67,6 +67,7 @@ export class LoginService {
       if (!obj.success) {
         errors.push(obj.reason);
         this.emitAuthenticationStatus(obj.success, errors);
+        this.dialogService.showAutoCloseSnackbar(obj.reason);
       } else {
         this.authToken = `${obj.result}`;
         const decoded: any = JSON.parse(atob(this.authToken));
@@ -78,6 +79,10 @@ export class LoginService {
     }, (err) => {
       this.authenticated = false;
       this.emitAuthenticationStatus(false, [err]);
+      console.log(err);
+      if (err.status === 400) {
+        this.dialogService.showAutoCloseSnackbar(err.error.reason);
+      }
     });
   }
 

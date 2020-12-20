@@ -38,7 +38,7 @@ export class DialogService {
     this.ConfigureDialog(component, model, buttons);
   }
 
-  public showDismissableSnackbar(message: string): void  {
+  public showAutoCloseSnackbar(message: string): void  {
     this.snackBarResolver.open(message, 'Dismiss', {duration: 2000});
   }
 

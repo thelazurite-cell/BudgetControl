@@ -79,9 +79,6 @@ export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoChe
       Promise.resolve(() => ct.addRecord.unsubscribe()).then(() => ct.addRecord.subscribe(async (item: Term) => {
         this.dataService.cache.get(this.type).push(item);
         this.dataService.updater.emit({name: 'cacheUpdated', type: this.type});
-
-        // await this.dataService.insertItem(this.type, item).then(async () => {
-        // });
       }));
     }
 

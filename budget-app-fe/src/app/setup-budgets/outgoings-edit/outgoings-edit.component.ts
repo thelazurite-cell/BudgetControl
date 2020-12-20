@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit} from '@angular/core';
 import {BaseTableService} from '../../services/base-table.service';
 import {AddTermDialogComponent} from '../add-term-dialog/add-term-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import {CustomActionBuilder} from '../../services/table';
 export class OutgoingsEditComponent extends BaseTableComponent {
 
   constructor(public dialog: MatDialog, public dataService: DataTransferService, public tableService: BaseTableService,
-              public cdref: ChangeDetectorRef
+              public cdref: ChangeDetectorRef,protected componentFactoryResolver: ComponentFactoryResolver,
   ) {
     super(
       'outgoing',

@@ -209,6 +209,7 @@ export class DataTransferService {
       promises.push(await this.insertManyItem(type, itemsWithoutIdentifier));
       Promise.all(promises).then(async () => {
         return await Thread.sleep(1000).then(async () => {
+          this.dialogService.showAutoCloseSnackbar('Changes Applied.');
           return await this.cacheBaseItems(true).then(() => {
           });
         });
@@ -219,12 +220,12 @@ export class DataTransferService {
   async cacheExpenditureItems() {
     this.caches = 0;
     this.cachesCompleted = 0;
-    if (this.periodService.selectedPeriod.value) {
+    if (this.stateService.selectedPeriod.value) {
       const qg = new QueryGroup();
       const q = new Query();
       q.fieldName = 'periodId';
       q.comparisonType = FilterTypeEnum.equals;
-      q.fieldValue = this.periodService.selectedPeriod.value;
+      q.fieldValue = this.stateService.selectedPeriod.value;
       qg.queries.push(q);
       return await this.createCacheFor('expenditure', qg);
     }
