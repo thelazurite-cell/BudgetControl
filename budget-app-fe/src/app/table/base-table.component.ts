@@ -1,13 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  DoCheck,
-  EventEmitter,
-  OnInit,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, DoCheck, EventEmitter, OnInit, ViewChild, ViewContainerRef, Directive } from '@angular/core';
 import {ComponentType} from '@angular/cdk/portal';
 import {MatDialog} from '@angular/material/dialog';
 import {DataTransferService} from '../services/data-transfer.service';
@@ -20,6 +11,7 @@ import {Term} from '../classes/dto/term';
 import {GenerationOptions} from '../services/generation.options';
 import {IDataTransferObject} from '../classes/dto/interfaces/data-transfer-object.interface';
 
+@Directive()
 export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoCheck, AfterContentChecked {
   public abstract get isAddRecordSubscribed(): boolean;
   public abstract set isAddRecordSubscribed(value: boolean);
