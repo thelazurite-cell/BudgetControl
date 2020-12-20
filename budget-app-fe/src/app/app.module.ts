@@ -30,6 +30,7 @@ import {TermEditComponent} from './setup-budgets/term-edit/term-edit.component';
 import {Outgoing} from './classes/dto/outgoing';
 import {OutgoingsEditComponent} from './setup-budgets/outgoings-edit/outgoings-edit.component';
 import {StateService} from './state.service';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {StateService} from './state.service';
     MatDividerModule,
     MatSidenavModule,
     MatOptionModule,
+    MatSnackBarModule
   ],
   providers: [
     SidenavService,

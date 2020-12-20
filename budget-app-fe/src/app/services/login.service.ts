@@ -4,12 +4,11 @@ import {BehaviorSubject, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import * as moment from 'moment';
+import {DialogService} from './dialog.service';
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  public authToken;
 
   public get authenticated() {
     return this.isAuthenticated.getValue();
@@ -19,27 +18,13 @@ export class LoginService {
     this.isAuthenticated.next(value);
   }
 
-  private events: EventEmitter<AuthenticationStatus> = new EventEmitter();
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private dialogService: DialogService) {
     this.checkAuthenticationStatus();
   }
+  public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public authToken;
 
-  private checkAuthenticationStatus() {
-    const token = LoginService.readTokenCookie();
-    if(token && token.length > 0) {
-      const value: any = JSON.parse(atob(token));
-      const currentDate = new Date();
-      const expires = new Date(value.accessTokenExpiresAt);
-      if (currentDate > expires) {
-        this.logout();
-      } else {
-        this.authToken = token;
-        this.authenticated = true;
-        this.emitAuthenticationStatus(true);
-      }
-    }
-  }
+  private events: EventEmitter<AuthenticationStatus> = new EventEmitter();
 
   private static readTokenCookie() {
     const name = 'token=';
@@ -54,6 +39,23 @@ export class LoginService {
       }
     }
     return '';
+  }
+
+  private checkAuthenticationStatus() {
+    const token = LoginService.readTokenCookie();
+    if (token && token.length > 0) {
+      const value: any = JSON.parse(atob(token));
+      const currentDate = new Date();
+      const expires = new Date(value.accessTokenExpiresAt);
+      if (currentDate > expires) {
+        this.logout();
+        this.dialogService.showDismissableSnackbar('Your session has expired, please authenticate');
+      } else {
+        this.authToken = token;
+        this.authenticated = true;
+        this.emitAuthenticationStatus(true);
+      }
+    }
   }
 
   public async authenticate(username, password): Promise<void> {
