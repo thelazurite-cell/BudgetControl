@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {DataTransferService} from '../../services/data-transfer.service';
 import {BaseTableService} from '../../services/base-table.service';
@@ -12,8 +12,10 @@ import {AddExceptionDialogComponent} from '../add-exception-dialog/add-exception
   styleUrls: ['./exception-edit.component.scss']
 })
 export class ExceptionEditComponent extends BaseTableComponent {
-  constructor(public dialog: MatDialog, public dataService: DataTransferService, public tableService: BaseTableService) {
-    super('exception', AddExceptionDialogComponent, dialog, dataService, tableService);
+  constructor(public dialog: MatDialog, public dataService: DataTransferService, public tableService: BaseTableService,
+              public cdref:ChangeDetectorRef
+              ) {
+    super('exception', AddExceptionDialogComponent, dialog, dataService, tableService, cdref);
     if (ExceptionEditComponent.isSubscribed == null) {
       ExceptionEditComponent.isSubscribed = false;
     }

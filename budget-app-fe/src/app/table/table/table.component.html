@@ -77,7 +77,7 @@
         </ng-container>
       </table>
     </ng-container>
-    <ng-container *ngIf="!hasData()">
+    <ng-container *ngIf="!newHasData">
       <mat-chip color="primary" class="no-data-error">
         <mat-icon>warning</mat-icon>
         No data for {{table.type}} !

@@ -1,4 +1,4 @@
-import {ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, ViewContainerRef} from '@angular/core';
 import {IDataTransferObject} from '../classes/dto/interfaces/data-transfer-object.interface';
 import {TableComponent} from '../table/table/table.component';
 import {Table} from './table';

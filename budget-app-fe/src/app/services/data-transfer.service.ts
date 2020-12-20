@@ -9,7 +9,7 @@ import {Thread} from '../setup-budgets/setup-budgets/thread';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Query} from '../classes/dto/filtering/query';
 import {FilterTypeEnum} from '../classes/dto/filtering/filter-type.enum';
-import {tap} from 'rxjs/operators';
+import {take, takeUntil, tap} from 'rxjs/operators';
 import {StateService} from '../state.service';
 import {DropDownList} from './table';
 
@@ -30,6 +30,20 @@ export class DataTransferService {
   }
 
   public async findItems<T extends IDataTransferObject>(typeName: string, queryGrouping: QueryGroup = null): Promise<string> {
+    if (this.loginService.authenticated) {
+      return await this.performFetch(typeName, queryGrouping);
+    } else {
+      return new Promise(resolve => {
+        this.loginService.isAuthenticated.pipe(take(1)).subscribe(async (next: boolean) => {
+          if (next) {
+            resolve(await this.performFetch(typeName, queryGrouping));
+          }
+        });
+      });
+    }
+  }
+
+  private async performFetch(typeName: string, queryGrouping: QueryGroup) {
     let items: any[] = [];
 
     const requestUrl = `${environment.backendHost}find/${typeName}`;

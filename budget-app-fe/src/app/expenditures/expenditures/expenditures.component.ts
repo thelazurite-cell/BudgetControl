@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {DataTransferService} from '../../services/data-transfer.service';
 import {BaseTableService} from '../../services/base-table.service';
@@ -51,13 +51,16 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
     public dataService: DataTransferService,
     public tableService: BaseTableService,
     public dropDownService: DropdownService,
-    public periodService: StateService) {
+    public periodService: StateService,
+    public cdref: ChangeDetectorRef,
+  ) {
     super(
       'expenditure',
       AddExpenditureComponent,
       dialog,
       dataService,
       tableService,
+      cdref,
       new GenerationOptions(
         ['cost', 'quantity', 'amountSpent'],
         [

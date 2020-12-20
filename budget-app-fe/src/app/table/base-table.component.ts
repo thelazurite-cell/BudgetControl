@@ -1,4 +1,13 @@
-import {AfterViewInit, DoCheck, EventEmitter, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  DoCheck,
+  EventEmitter,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {ComponentType} from '@angular/cdk/portal';
 import {MatDialog} from '@angular/material/dialog';
 import {DataTransferService} from '../services/data-transfer.service';
@@ -11,7 +20,7 @@ import {Term} from '../classes/dto/term';
 import {GenerationOptions} from '../services/generation.options';
 import {IDataTransferObject} from '../classes/dto/interfaces/data-transfer-object.interface';
 
-export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoCheck {
+export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoCheck, AfterContentChecked {
   public abstract get isAddRecordSubscribed(): boolean;
   public abstract set isAddRecordSubscribed(value: boolean);
 
@@ -32,16 +41,10 @@ export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoChe
     public dialog: MatDialog,
     public dataService: DataTransferService,
     public tableService: BaseTableService,
+    public cdref: ChangeDetectorRef,
     public generationOptions: GenerationOptions = new GenerationOptions(),
   ) {
-    this.items = this.dataService.cache.get(this.type) || [];
-    this.dataService.updater.subscribe((val) => {
-      if (val.name === 'cacheUpdated') {
-        if (val.type === this.type) {
-          this.items = this.dataService.cache.get(this.type) || [];
-        }
-      }
-    });
+
   }
 
   @ViewChild(`Table`, {read: ViewContainerRef})
@@ -52,6 +55,14 @@ export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoChe
   private isInit: boolean = false;
 
   ngOnInit(): void {
+    this.items = this.dataService.cache.get(this.type) || [];
+    this.dataService.updater.subscribe((val) => {
+      if (val.name === 'cacheUpdated') {
+        if (val.type === this.type) {
+          this.items = this.dataService.cache.get(this.type) || [];
+        }
+      }
+    });
   }
 
   async ngAfterViewInit() {
@@ -99,5 +110,9 @@ export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoChe
   }
 
   async ngDoCheck() {
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdref.detectChanges();
   }
 }

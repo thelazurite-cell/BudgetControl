@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DataTransferService} from '../../services/data-transfer.service';
 import {BaseTableService} from '../../services/base-table.service';
 import {AddTermDialogComponent} from '../add-term-dialog/add-term-dialog.component';
@@ -12,8 +12,10 @@ import {Term} from '../../classes/dto/term';
   styleUrls: ['./term-edit.component.scss']
 })
 export class TermEditComponent extends BaseTableComponent implements OnInit, AfterViewInit {
-  constructor(public dialog: MatDialog, public dataService: DataTransferService, public tableService: BaseTableService) {
-    super('term', AddTermDialogComponent, dialog, dataService, tableService);
+  constructor(public dialog: MatDialog, public dataService: DataTransferService, public tableService: BaseTableService,
+              public cdref: ChangeDetectorRef
+  ) {
+    super('term', AddTermDialogComponent, dialog, dataService, tableService, cdref);
     if (TermEditComponent.isSubscribed == null) {
       TermEditComponent.isSubscribed = false;
     }

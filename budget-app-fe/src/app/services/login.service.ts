@@ -27,7 +27,13 @@ export class LoginService {
 
   private checkAuthenticationStatus() {
     const token = LoginService.readTokenCookie();
-    if (token && token.length > 0) {
+    const value: any = JSON.parse(atob(token));
+    const currentDate = new Date();
+    const expires = new Date(value.accessTokenExpiresAt);
+    if(currentDate > expires) {
+      this.logout();
+    }
+    else if (token && token.length > 0) {
       this.authToken = token;
       this.authenticated = true;
       this.emitAuthenticationStatus(true);
