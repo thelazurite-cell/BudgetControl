@@ -36,7 +36,7 @@ export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoChe
     public cdref: ChangeDetectorRef,
     public generationOptions: GenerationOptions = new GenerationOptions(),
   ) {
-
+    this.items = [];
   }
 
   @ViewChild(`Table`, {read: ViewContainerRef})
@@ -47,6 +47,10 @@ export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoChe
   private isInit: boolean = false;
 
   ngOnInit(): void {
+
+  }
+
+  async ngAfterViewInit() {
     this.items = this.dataService.cache.get(this.type) || [];
     this.dataService.updater.subscribe((val) => {
       if (val.name === 'cacheUpdated') {
@@ -55,9 +59,6 @@ export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoChe
         }
       }
     });
-  }
-
-  async ngAfterViewInit() {
     this.initializeTable().then(() => {
       this.isInit = true;
     });
@@ -102,6 +103,5 @@ export abstract class BaseTableComponent implements OnInit, AfterViewInit, DoChe
   }
 
   ngAfterContentChecked(): void {
-    this.cdref.detectChanges();
   }
 }

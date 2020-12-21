@@ -12,6 +12,7 @@ import {FilterTypeEnum} from '../classes/dto/filtering/filter-type.enum';
 import {take, takeUntil, tap} from 'rxjs/operators';
 import {StateService} from '../state.service';
 import {DropDownList} from './table';
+import {DialogService} from './dialog.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,11 +26,11 @@ export class DataTransferService {
   private caches: number;
   private cachesCompleted: number;
 
-  constructor(private http: HttpClient, private loginService: LoginService, private periodService: StateService) {
+  constructor(private http: HttpClient, private loginService: LoginService, private stateService: StateService, private dialogService: DialogService) {
     this.loginService.isAuthenticated.subscribe(async (value) => this.cacheBaseItems(value));
   }
 
-  public async findItems<T extends IDataTransferObject>(typeName: string, queryGrouping: QueryGroup = null): Promise<string> {
+  public async findItems<T extends IDataTransferObject>(typeName: string, queryGrouping: QueryGroup = null): Promise<any[]> {
     if (this.loginService.authenticated) {
       return await this.performFetch(typeName, queryGrouping);
     } else {
@@ -43,22 +44,25 @@ export class DataTransferService {
     }
   }
 
-  private async performFetch(typeName: string, queryGrouping: QueryGroup) {
-    let items: any[] = [];
+  private async performFetch(typeName: string, queryGrouping: QueryGroup): Promise<any>{
+    return new Promise(async (resolve, reject) => {
+      let items: any[] = [];
 
-    const requestUrl = `${environment.backendHost}find/${typeName}`;
-    const req = this.http.post(requestUrl, queryGrouping, {headers: this.commonHeaders()});
-    await req.subscribe((value: any[]) => {
-      items = value;
-      console.log(`fetch: ${JSON.stringify(value)}`);
-      this.js.emit({name: 'find', type: typeName, value: items});
-    }, (err) => {
-      console.error('couldn\'t fetch: ');
-      console.error(JSON.stringify(err));
-    }, () => {
-      console.log('fetch complete');
+      const requestUrl = `${environment.backendHost}find/${typeName}`;
+      const req = this.http.post(requestUrl, queryGrouping, {headers: this.commonHeaders()});
+      await req.subscribe((value: any[]) => {
+        items = value;
+        console.log(`fetch: ${JSON.stringify(value)}`);
+        this.js.emit({name: 'find', type: typeName, value: items});
+        resolve(items);
+      }, (err) => {
+        console.error('couldn\'t fetch: ');
+        console.error(JSON.stringify(err));
+        reject(err);
+      }, () => {
+        console.log('fetch complete');
+      });
     });
-    return Promise.resolve('');
   }
 
   public async insertItem<T extends IDataTransferObject>(typeName, item: T): Promise<void> {

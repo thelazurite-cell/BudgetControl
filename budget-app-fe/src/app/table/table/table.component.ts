@@ -38,7 +38,14 @@ export class TableComponent implements AfterViewInit, AfterViewChecked {
   public addCallback: EventEmitter<any> = new EventEmitter<any>();
   public tableBe: BehaviorSubject<Table> = new BehaviorSubject<Table>(null);
   public newHasData: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public table: Table = new Table();
+  public tableSubject: BehaviorSubject<Table> = new BehaviorSubject(new Table());
+
+  public set table(value: Table) {
+    this.tableSubject.next(value);
+  }
+  public get table(): Table {
+    return this.tableSubject.getValue();
+  }
 
   public getDropDownOptions(backingField) {
     return this.dropDownService.getDropDownOptions(backingField);
