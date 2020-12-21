@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {DialogComponent} from '../dialog/dialog/dialog.component';
 import {DialogModel} from '../dialog/dialog/dialog-model';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 @Injectable()
 export class DialogService {
@@ -23,7 +24,7 @@ export class DialogService {
    * creates an instance of the dialog service.
    * @param componentFactoryResolver - the component factory resolver.
    */
-  constructor(protected componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(protected componentFactoryResolver: ComponentFactoryResolver, protected snackBarResolver: MatSnackBar) {
   }
 
   /**
@@ -35,6 +36,10 @@ export class DialogService {
   public showDialog(model: DialogModel, buttons: string[]): void {
     const component = this.resolveDialogBox();
     this.ConfigureDialog(component, model, buttons);
+  }
+
+  public showAutoCloseSnackbar(message: string): void  {
+    this.snackBarResolver.open(message, 'Dismiss', {duration: 2000});
   }
 
   /**

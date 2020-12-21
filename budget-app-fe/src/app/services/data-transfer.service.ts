@@ -9,9 +9,10 @@ import {Thread} from '../setup-budgets/setup-budgets/thread';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Query} from '../classes/dto/filtering/query';
 import {FilterTypeEnum} from '../classes/dto/filtering/filter-type.enum';
-import {tap} from 'rxjs/operators';
+import {take, takeUntil, tap} from 'rxjs/operators';
 import {StateService} from '../state.service';
 import {DropDownList} from './table';
+import {DialogService} from './dialog.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,26 +26,43 @@ export class DataTransferService {
   private caches: number;
   private cachesCompleted: number;
 
-  constructor(private http: HttpClient, private loginService: LoginService, private periodService: StateService) {
+  constructor(private http: HttpClient, private loginService: LoginService, private stateService: StateService, private dialogService: DialogService) {
     this.loginService.isAuthenticated.subscribe(async (value) => this.cacheBaseItems(value));
   }
 
-  public async findItems<T extends IDataTransferObject>(typeName: string, queryGrouping: QueryGroup = null): Promise<string> {
-    let items: any[] = [];
+  public async findItems<T extends IDataTransferObject>(typeName: string, queryGrouping: QueryGroup = null): Promise<any[]> {
+    if (this.loginService.authenticated) {
+      return await this.performFetch(typeName, queryGrouping);
+    } else {
+      return new Promise(resolve => {
+        this.loginService.isAuthenticated.pipe(take(1)).subscribe(async (next: boolean) => {
+          if (next) {
+            resolve(await this.performFetch(typeName, queryGrouping));
+          }
+        });
+      });
+    }
+  }
 
-    const requestUrl = `${environment.backendHost}find/${typeName}`;
-    const req = this.http.post(requestUrl, queryGrouping, {headers: this.commonHeaders()});
-    await req.subscribe((value: any[]) => {
-      items = value;
-      console.log(`fetch: ${JSON.stringify(value)}`);
-      this.js.emit({name: 'find', type: typeName, value: items});
-    }, (err) => {
-      console.error('couldn\'t fetch: ');
-      console.error(JSON.stringify(err));
-    }, () => {
-      console.log('fetch complete');
+  private async performFetch(typeName: string, queryGrouping: QueryGroup): Promise<any>{
+    return new Promise(async (resolve, reject) => {
+      let items: any[] = [];
+
+      const requestUrl = `${environment.backendHost}find/${typeName}`;
+      const req = this.http.post(requestUrl, queryGrouping, {headers: this.commonHeaders()});
+      await req.subscribe((value: any[]) => {
+        items = value;
+        console.log(`fetch: ${JSON.stringify(value)}`);
+        this.js.emit({name: 'find', type: typeName, value: items});
+        resolve(items);
+      }, (err) => {
+        console.error('couldn\'t fetch: ');
+        console.error(JSON.stringify(err));
+        reject(err);
+      }, () => {
+        console.log('fetch complete');
+      });
     });
-    return Promise.resolve('');
   }
 
   public async insertItem<T extends IDataTransferObject>(typeName, item: T): Promise<void> {
@@ -195,6 +213,7 @@ export class DataTransferService {
       promises.push(await this.insertManyItem(type, itemsWithoutIdentifier));
       Promise.all(promises).then(async () => {
         return await Thread.sleep(1000).then(async () => {
+          this.dialogService.showAutoCloseSnackbar('Changes Applied.');
           return await this.cacheBaseItems(true).then(() => {
           });
         });
@@ -205,12 +224,12 @@ export class DataTransferService {
   async cacheExpenditureItems() {
     this.caches = 0;
     this.cachesCompleted = 0;
-    if (this.periodService.selectedPeriod.value) {
+    if (this.stateService.selectedPeriod.value) {
       const qg = new QueryGroup();
       const q = new Query();
       q.fieldName = 'periodId';
       q.comparisonType = FilterTypeEnum.equals;
-      q.fieldValue = this.periodService.selectedPeriod.value;
+      q.fieldValue = this.stateService.selectedPeriod.value;
       qg.queries.push(q);
       return await this.createCacheFor('expenditure', qg);
     }

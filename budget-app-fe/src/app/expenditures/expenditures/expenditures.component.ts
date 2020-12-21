@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {DataTransferService} from '../../services/data-transfer.service';
 import {BaseTableService} from '../../services/base-table.service';
@@ -19,6 +19,7 @@ import {Exception} from '../../classes/dto/exception';
 import {Expenditure} from '../../classes/dto/expenditure';
 import * as moment from 'moment';
 import {PayOutgoingComponent} from '../pay-outgoing/pay-outgoing.component';
+import {DialogService} from '../../services/dialog.service';
 
 
 @Component({
@@ -29,21 +30,21 @@ import {PayOutgoingComponent} from '../pay-outgoing/pay-outgoing.component';
 export class ExpendituresComponent extends BaseTableComponent implements AfterViewInit {
 
   public get expectedTotal(): number{
-    let itms = this.items;
+    const itms = this.items;
     let tmpTotal = 0;
-    for(let i =0; i < itms.length; i++){
-      let itm = itms[i] as Expenditure;
+    for (let i = 0; i < itms.length; i++){
+      const itm = itms[i] as Expenditure;
       tmpTotal += itm.quantity * itm.cost;
     }
     return tmpTotal;
   }
 
   public get isAddPeriodSubscribed(): boolean {
-    return this._addPeriodSubscribed;
+    return this.addPeriodSubscribed;
   }
 
   public set isAddPeriodSubscribed(value: boolean) {
-    this._addPeriodSubscribed = value;
+    this.addPeriodSubscribed = value;
   }
 
   constructor(
@@ -51,13 +52,17 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
     public dataService: DataTransferService,
     public tableService: BaseTableService,
     public dropDownService: DropdownService,
-    public periodService: StateService) {
+    public stateService: StateService,
+    public cdref: ChangeDetectorRef,
+    private dialogService: DialogService
+  ) {
     super(
       'expenditure',
       AddExpenditureComponent,
       dialog,
       dataService,
       tableService,
+      cdref,
       new GenerationOptions(
         ['cost', 'quantity', 'amountSpent'],
         [
@@ -70,7 +75,7 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
               return exp.outgoingId === '' || exp.paid;
             }).withColor('#78d08b').and.withIcon('done')
             .withCustomAction((event, item) => {
-              this.periodService.currentExpenditure = item.source;
+              this.stateService.currentExpenditure = item.source;
               this.dialog.open(PayOutgoingComponent, {width: '500vw'});
             }).build()
         ], ['outgoingId', 'periodId', 'paid']
@@ -78,7 +83,7 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
     if (ExpendituresComponent.isSubscribed == null) {
       ExpendituresComponent.isSubscribed = false;
     }
-    this.periodService.selectedPeriod.subscribe((value) => {
+    this.stateService.selectedPeriod.subscribe((value) => {
       this.selectedPeriod = value;
     });
   }
@@ -98,7 +103,7 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
   private static isSubscribed = null;
   private isInsertingPeriod: boolean = false;
   private isJsSubscribed: boolean = false;
-  private _addPeriodSubscribed = false;
+  private addPeriodSubscribed = false;
 
   public selectedPeriod: string = null;
 
@@ -112,7 +117,11 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
       Promise.resolve(() => AddPeriodComponent.addRecord.unsubscribe()).then(() => AddPeriodComponent.addRecord
         .subscribe(async (item: Period) => {
           await this.dataService.insertItem('period', item)
-            .then(async () => await this.afterPeriodInserted(item));
+            .then(async () => {
+              await this.dataService.createCacheFor('period', null).then(async value => {
+                await this.afterPeriodInserted(item);
+              });
+            });
         }));
     }
   }
@@ -151,37 +160,51 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
           const thisPeriod = filter[0];
 
           const pushUp: Expenditure[] = [];
-          this.generateExpenditures(item, thisPeriod, pushUp);
-          await this.dataService.insertManyItem('expenditure', pushUp).then(async (val) => {
-            this.periodService.selectedPeriod.next(thisPeriod._id);
-            return await this.dataService.cacheBaseItems(true)
-              .then(() => this.dataService.loading.next(false));
+          this.generateExpenditures(item, thisPeriod, pushUp).then(async (res) => {
+            await this.dataService.insertManyItem('expenditure', res).then(async (val) => {
+              this.stateService.selectedPeriod.next(thisPeriod._id);
+              this.dialogService.showAutoCloseSnackbar('Financial Period Created');
+              return await this.dataService.cacheBaseItems(true)
+                .then(() => this.dataService.loading.next(false));
+            });
           });
         }
       }
     }
   }
 
-  private generateExpenditures(item: Period, thisPeriod, pushUp: Expenditure[]) {
-    const exceptions = this.dataService.cache.get('exception');
-    const outgoings = this.dataService.cache.get('outgoing');
-    for (let i = 0; i < outgoings.length; i++) {
-      const outgoing = outgoings[i] as Outgoing;
-      const tmp = new Expenditure();
-      const val = this.getExceptionsValue(exceptions, outgoing, item);
-      tmp.paid = false;
-      tmp.categoryId = outgoing.categoryId;
-      tmp.quantity = outgoing.quantity;
-      tmp.name = outgoing.name;
-      tmp.cost = Number(outgoing.cost) + val;
-      tmp.periodId = thisPeriod._id;
-      tmp.outgoingId = outgoing._id;
-      const startDate = moment(item.startsFrom.toString());
-      tmp.dueDate = outgoing.payOnDay >= startDate.date()
-        ? startDate.set('date', outgoing.payOnDay).toDate()
-        : startDate.add('month', 1).set('date', outgoing.payOnDay).toDate();
-      pushUp.push(JSON.parse(JSON.stringify(tmp)));
-    }
+  private async generateExpenditures(item: Period, thisPeriod, pushUp: Expenditure[]): Promise<any[]> {
+    return new Promise(async resolve => {
+      let exceptions = this.dataService.cache.get('exception');
+      let outgoings = this.dataService.cache.get('outgoing');
+
+      if (!(outgoings && outgoings.length > 0)) {
+        outgoings = await this.dataService.findItems('outgoing');
+      }
+
+      if (!(exceptions && exceptions.length > 0)) {
+        exceptions = await this.dataService.findItems('exception');
+      }
+
+      for (let i = 0; i < outgoings.length; i++) {
+        const outgoing = outgoings[i] as Outgoing;
+        const tmp = new Expenditure();
+        const val = this.getExceptionsValue(exceptions, outgoing, item);
+        tmp.paid = false;
+        tmp.categoryId = outgoing.categoryId;
+        tmp.quantity = outgoing.quantity;
+        tmp.name = outgoing.name;
+        tmp.cost = Number(outgoing.cost) + val;
+        tmp.periodId = thisPeriod._id;
+        tmp.outgoingId = outgoing._id;
+        const startDate = moment(item.startsFrom.toString());
+        tmp.dueDate = outgoing.payOnDay >= startDate.date()
+          ? startDate.set('date', outgoing.payOnDay).toDate()
+          : startDate.add('month', 1).set('date', outgoing.payOnDay).toDate();
+        pushUp.push(JSON.parse(JSON.stringify(tmp)));
+      }
+      resolve(pushUp);
+    });
   }
 
   private getExceptionsValue(exceptions, outgoing, item: Period) {
@@ -226,7 +249,7 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
   }
 
   async onPeriodSelected(value: any) {
-    await this.periodService.setSelectedPeriod(value);
+    await this.stateService.setSelectedPeriod(value);
     await this.dataService.cacheExpenditureItems();
   }
 }

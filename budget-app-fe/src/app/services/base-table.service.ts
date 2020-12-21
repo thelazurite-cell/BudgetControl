@@ -1,4 +1,4 @@
-import {ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, ViewContainerRef} from '@angular/core';
 import {IDataTransferObject} from '../classes/dto/interfaces/data-transfer-object.interface';
 import {TableComponent} from '../table/table/table.component';
 import {Table} from './table';
@@ -8,6 +8,7 @@ import {TableRow} from './table.row';
 import {TableCell} from './table.cell';
 import {TableHeader} from './table.header';
 import {DataTransferService} from './data-transfer.service';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class BaseTableService {
 
   public add: EventEmitter<AddEmitter> = new EventEmitter<AddEmitter>();
   public addEmitters: AddEmitter[] = [];
+  public tables: Map<string, BehaviorSubject<Table>> = new Map();
 
   constructor(protected componentFactoryResolver: ComponentFactoryResolver) {
   }
@@ -37,12 +39,12 @@ export class BaseTableService {
 
     const table = this.generateTable(type, items, generationOptions);
     const component = this.resolveTable(view);
+    component.tableSubject.next(table);
     const emitter = new AddEmitter();
     emitter.type = type;
     emitter.emitter = component.addCallback;
     component.addCallback.subscribe((dtoType: string) => this.sendCallBack(dtoType, emitter));
     this.addEmitters.push(emitter);
-    component.table = table;
     return table;
   }
 
@@ -103,7 +105,6 @@ export class BaseTableService {
 
   private sendCallBack(type: any, emitter: AddEmitter) {
     if (emitter.type === type) {
-      console.log('add emitting!');
       this.add.emit(emitter);
     }
   }

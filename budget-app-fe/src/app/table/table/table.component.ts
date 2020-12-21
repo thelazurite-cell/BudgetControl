@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
 import {TableCell} from '../../services/table.cell';
 import {KeyValuePair, Table, DropDownList, CustomAction} from '../../services/table';
 import {DialogService} from '../../services/dialog.service';
@@ -8,15 +8,23 @@ import {INamedDto} from '../../classes/dto/interfaces/expense-dto.interface';
 import {TableHeader} from '../../services/table.header';
 import {BaseTableService} from '../../services/base-table.service';
 import {DropdownService} from '../../dropdown.service';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements AfterViewInit, AfterViewChecked {
 
-  constructor(private dialogService: DialogService, private dropDownService: DropdownService) {
+  constructor(private dialogService: DialogService, private dropDownService: DropdownService, public cdref: ChangeDetectorRef) {
+    this.newHasData.next(this.table ? this.table.rows.length > 0 : false);
+    this.tableBe.subscribe(next => {
+      this.table = next;
+      this.newHasData.next(this.table ? this.table.rows.length > 0 : false);
+      this.cdref.markForCheck();
+      // this.cdref.detectChanges();
+    });
   }
 
   public get displayedColumns(): string[] {
@@ -28,7 +36,16 @@ export class TableComponent implements OnInit {
   }
 
   public addCallback: EventEmitter<any> = new EventEmitter<any>();
-  public table: Table = new Table();
+  public tableBe: BehaviorSubject<Table> = new BehaviorSubject<Table>(null);
+  public newHasData: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public tableSubject: BehaviorSubject<Table> = new BehaviorSubject(new Table());
+
+  public set table(value: Table) {
+    this.tableSubject.next(value);
+  }
+  public get table(): Table {
+    return this.tableSubject.getValue();
+  }
 
   public getDropDownOptions(backingField) {
     return this.dropDownService.getDropDownOptions(backingField);
@@ -37,6 +54,7 @@ export class TableComponent implements OnInit {
   public hasData(): boolean {
     try {
       if (this.table) {
+        this.cdref.markForCheck();
         return this.table.rows.length > 0;
       }
       return false;
@@ -50,9 +68,6 @@ export class TableComponent implements OnInit {
       return cell.value;
     }
     return ' ';
-  }
-
-  ngOnInit(): void {
   }
 
   sendAddCb() {
@@ -154,5 +169,15 @@ export class TableComponent implements OnInit {
 
   runCustom(action: CustomAction, element) {
     action.customAction(null, element);
+  }
+
+  ngAfterViewInit(): void {
+    this.cdref.detectChanges();
+  }
+
+  ngAfterViewChecked(): void {
+    this.newHasData.next(this.table ? this.table.rows.length > 0 : false);
+
+    this.cdref.detectChanges();
   }
 }

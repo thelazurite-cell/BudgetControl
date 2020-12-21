@@ -21,6 +21,6 @@ export class LoginComponent implements OnInit {
     let username1 = this.username.nativeElement.value;
     console.log(username1);
     let password1 = this.password.nativeElement.value;
-    await this.loginService.Authenticate(username1, password1);
+    await this.loginService.authenticate(username1, password1);
   }
 }

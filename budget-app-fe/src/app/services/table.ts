@@ -108,6 +108,7 @@ export class Table {
   public pagination: TablePagination = new TablePagination();
   public type: string = '';
   public options: GenerationOptions = new GenerationOptions();
+  public hasData: boolean = true;
 
   public get columns() {
     return this.headers.map(x => x.heading);
@@ -123,7 +124,7 @@ export class Table {
     return header.backgroundField.endsWith('Id');
   }
 
-  public getCellByHeaderName(row, header) {
+  public getCellByHeaderName(row, header): any {
     const ts = row.cells.filter(x => x.header.heading === header);
     if (ts.length > 0) {
       return ts[0];

@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-content>
-    <ng-container *ngIf="hasData()">
-      <table mat-table [dataSource]="table.displayRows" matSort class="mat-elevation-z8">
+    <!--<ng-container *ngIf="hasData()">-->
+      <table mat-table [dataSource]="tableSubject.getValue().displayRows" matSort class="mat-elevation-z8">
         <!-- Position Column -->
         <ng-container *ngFor="let header of table.headers">
           <ng-container [matColumnDef]="getHeading(header)">
@@ -76,13 +76,13 @@
           <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
         </ng-container>
       </table>
-    </ng-container>
-    <ng-container *ngIf="!hasData()">
-      <mat-chip color="primary" class="no-data-error">
-        <mat-icon>warning</mat-icon>
-        No data for {{table.type}} !
-      </mat-chip>
-    </ng-container>
+    <!--</ng-container>-->
+    <!--<ng-container *ngIf="!newHasData">-->
+      <!--<mat-chip color="primary" class="no-data-error">-->
+        <!--<mat-icon>warning</mat-icon>-->
+        <!--No data for {{table.type}} !-->
+      <!--</mat-chip>-->
+    <!--</ng-container>-->
   </mat-card-content>
   <mat-card-actions>
     <div class="row">

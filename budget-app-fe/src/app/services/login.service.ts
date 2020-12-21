@@ -3,13 +3,12 @@ import {AuthenticationStatus} from '../classes/authentication-status';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import * as moment from "moment";
+import * as moment from 'moment';
+import {DialogService} from './dialog.service';
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  public authToken;
 
   public get authenticated() {
     return this.isAuthenticated.getValue();
@@ -19,16 +18,13 @@ export class LoginService {
     this.isAuthenticated.next(value);
   }
 
-  private events: EventEmitter<AuthenticationStatus> = new EventEmitter();
-
-  constructor(private http: HttpClient) {
-    let token = LoginService.readTokenCookie();
-    if(token && token.length > 0) {
-      this.authToken = token;
-      this.authenticated = true;
-      this.emitAuthenticationStatus(true);
-    }
+  constructor(private http: HttpClient, private dialogService: DialogService) {
+    this.checkAuthenticationStatus();
   }
+  public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public authToken;
+
+  private events: EventEmitter<AuthenticationStatus> = new EventEmitter();
 
   private static readTokenCookie() {
     const name = 'token=';
@@ -45,31 +41,57 @@ export class LoginService {
     return '';
   }
 
-  public async Authenticate(username, password): Promise<void> {
+  private checkAuthenticationStatus() {
+    const token = LoginService.readTokenCookie();
+    if (token && token.length > 0) {
+      const value: any = JSON.parse(atob(token));
+      const currentDate = new Date();
+      const expires = new Date(value.accessTokenExpiresAt);
+      if (currentDate > expires) {
+        this.logout();
+        this.dialogService.showAutoCloseSnackbar('Your session has expired, please authenticate');
+      } else {
+        this.authToken = token;
+        this.authenticated = true;
+        this.emitAuthenticationStatus(true);
+      }
+    }
+  }
+
+  public async authenticate(username, password): Promise<void> {
     const requestBody = {attempt: btoa(`${username}:${password}`)};
     await this.http.post(`${environment.backendHost}auth/login`, requestBody).subscribe((obj: any) => {
-      let errors = [];
+      const errors = [];
       console.log(obj);
       this.authenticated = obj.success;
       if (!obj.success) {
         errors.push(obj.reason);
+        this.emitAuthenticationStatus(obj.success, errors);
+        this.dialogService.showAutoCloseSnackbar(obj.reason);
       } else {
         this.authToken = `${obj.result}`;
-        let decoded:any = JSON.parse(atob(this.authToken));
+        const decoded: any = JSON.parse(atob(this.authToken));
         const expires =  moment(decoded.accessTokenExpiresAt);
-        document.cookie = "token=" + this.authToken + ";" + new Date(expires.utc().date()).toUTCString() + ";path=/";
+        document.cookie = 'token=' + this.authToken + ';' + new Date(expires.utc().date()).toUTCString() + ';path=/;';
+        this.checkAuthenticationStatus();
       }
-      this.emitAuthenticationStatus(obj.success, errors);
+      return;
     }, (err) => {
       this.authenticated = false;
       this.emitAuthenticationStatus(false, [err]);
+      console.log(err);
+      if (err.status === 400) {
+        this.dialogService.showAutoCloseSnackbar(err.error.reason);
+      }
     });
   }
 
-  public logout(){
-    document.cookie="token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  public logout() {
+    const date = new Date();
+    date.setTime(date.getTime() + (-10 * 24 * 60 * 60 * 1000));
+    document.cookie = `token=; expires=${date.toUTCString()}; path=/;`;
     this.authenticated = false;
-    this.authToken = "";
+    this.emitAuthenticationStatus(false);
   }
 
   private emitAuthenticationStatus(success: boolean, errors: Array<string> = []): void {
