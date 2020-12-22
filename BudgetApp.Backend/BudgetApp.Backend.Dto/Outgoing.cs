@@ -5,7 +5,7 @@ using BudgetApp.Backend.Dto.Interfaces;
 
 namespace BudgetApp.Backend.Dto
 {
-    [TransferrableDataType]
+    [TransferableDataType]
     public class Outgoing:ExpenseDto
     {
         [JsonPropertyName("payOnDay")]

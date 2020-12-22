@@ -2,32 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed45397c-4bc5-4f3f-8160-b46119c5cad8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api.Test/AuthenticationTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Configuration/ApplicationSettings.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/CustomAuthenticationService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Incident.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/IncidentLevel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/IncidentType.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Token.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/User.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Category.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Exception.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Expenditure.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/FilterType.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/Query.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/QueryGroup.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/DataTransferObject.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/ExpenseDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/IComparableItem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/TransferrableDataTypeAttribute.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Outgoing.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Period.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Term.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Urgency.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Configuration/DatabaseSettings.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Configuration/GeneralSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/BudgetApp.Backend.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/BudgetApp.Backend.Api.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Configuration/ApplicationSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Configuration/ApplicationSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Controllers/FindController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Controllers/FindController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/appConfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/find.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/find.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../budget-app-fe/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-fe/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -421,12 +403,12 @@
       <workItem from="1608381146077" duration="1140000" />
       <workItem from="1608405463684" duration="2657000" />
       <workItem from="1608626590566" duration="258000" />
-      <workItem from="1608628055835" duration="8601000" />
+      <workItem from="1608628055835" duration="9802000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="322531000" />
+    <option name="totallyTimeSpent" value="323732000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">

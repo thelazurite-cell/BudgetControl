@@ -5,7 +5,7 @@ using BudgetApp.Backend.Dto.Interfaces;
 
 namespace BudgetApp.Backend.Dto
 {
-    [TransferrableDataType]
+    [TransferableDataType]
     public class Term : DataTransferObject
     {
         [JsonPropertyName("name")] public string Name { get; set; }

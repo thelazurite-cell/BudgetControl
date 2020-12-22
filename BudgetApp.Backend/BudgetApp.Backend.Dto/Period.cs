@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto
 {
-    [TransferrableDataType]
+    [TransferableDataType]
     public class Period : DataTransferObject
     {
         [BsonElement("name")]

@@ -5,7 +5,7 @@ using BudgetApp.Backend.Dto.Interfaces;
 
 namespace BudgetApp.Backend.Dto.Auth
 {
-    [TransferrableDataType]
+    [TransferableDataType]
     public class Token : DataTransferObject
     {
         [JsonPropertyName("accessToken")] public string AccessToken { get; set; }
