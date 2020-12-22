@@ -27,7 +27,6 @@ class find extends Route {
                 console.log("Couldn't initialize find parameters");
                 console.log(e);
             }
-
             await this.executeQuery(response, typeName, res).catch(reason => {
                 response.status(500).contentType("application/json").send(JSON.stringify(reason));
             });
