@@ -25,17 +25,17 @@ namespace BudgetApp.Backend.Dto.Auth
         [JsonPropertyName("lockedOut")]
         public bool LockedOut { get; set; }
 
-        public override Boolean ValidateInsert(params String[] args)
+        public override bool ValidateInsert(params string[] args)
         {
             return true;
         }
 
-        public override Boolean ValidateUpdate(params String[] args)
+        public override bool ValidateUpdate(params string[] args)
         {
             return true;
         }
 
-        public override Boolean ValidateDelete(params String[] args)
+        public override bool ValidateDelete(params string[] args)
         {
             return true;
         }

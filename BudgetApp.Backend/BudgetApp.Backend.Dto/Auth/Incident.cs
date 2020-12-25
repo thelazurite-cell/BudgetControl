@@ -13,21 +13,24 @@ namespace BudgetApp.Backend.Dto.Auth
         [JsonPropertyName("remoteAddress")] public string RemoteAddress { get; set; }
         [JsonPropertyName("incidentType")] public IncidentType IncidentType { get; set; }
         [JsonPropertyName("incidentLevel")] public IncidentLevel IncidentLevel { get; set; }
-        [JsonPropertyName("parameters")] public List<String> Parameters { get; set; }
+        [JsonPropertyName("parameters")] public List<string> Parameters { get; set; }
         
-        public override Boolean ValidateInsert(params String[] args)
+        public override bool ValidateInsert(params string[] args)
         {
             throw new NotImplementedException();
         }
 
-        public override Boolean ValidateUpdate(params String[] args)
+        public override bool ValidateUpdate(params string[] args)
         {
             throw new NotImplementedException();
         }
 
-        public override Boolean ValidateDelete(params String[] args)
+        public override bool ValidateDelete(params string[] args)
         {
-            ValidationErrors.Add("Cannot delete an incident");
+            this.ValidationErrors.Messages.Add(new Message
+            {
+                ErrorCode = ApiErrorCode.ItemCannotBeDeleted, Level = IncidentLevel.Error, MessageText = "An incident cannot be deleted"
+            });
             return false;
         }
     }

@@ -32,10 +32,10 @@ namespace BudgetApp.Backend.Dto.Interfaces
         [JsonPropertyName("isDirty")]
         public bool IsDirty { get; set; }
 
-        [BsonIgnore] public List<string> ValidationErrors { get; set; } = new List<String>();
+        [BsonIgnore][JsonIgnore] public RequestReport ValidationErrors { get; set; } = new();
         
-        public abstract Boolean ValidateInsert(params String[] args);
-        public abstract Boolean ValidateUpdate(params String[] args);
-        public abstract Boolean ValidateDelete(params String[] args);
+        public abstract bool ValidateInsert(params string[] args);
+        public abstract bool ValidateUpdate(params string[] args);
+        public abstract bool ValidateDelete(params string[] args);
     }
 }

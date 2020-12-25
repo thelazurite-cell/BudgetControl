@@ -16,17 +16,17 @@ namespace BudgetApp.Backend.Dto
         [JsonPropertyName("dueDate")] public DateTime DueDate { get; set; }
         [JsonPropertyName("notes")] public string Notes { get; set; }
 
-        public override Boolean ValidateInsert(params String[] args)
+        public override bool ValidateInsert(params string[] args)
         {
             throw new NotImplementedException();
         }
 
-        public override Boolean ValidateUpdate(params String[] args)
+        public override bool ValidateUpdate(params string[] args)
         {
             throw new NotImplementedException();
         }
 
-        public override Boolean ValidateDelete(params String[] args)
+        public override bool ValidateDelete(params string[] args)
         {
             throw new NotImplementedException();
         }

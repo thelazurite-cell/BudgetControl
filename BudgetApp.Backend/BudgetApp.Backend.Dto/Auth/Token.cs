@@ -14,17 +14,17 @@ namespace BudgetApp.Backend.Dto.Auth
         public string AccessTokenExpiresAt { get; set; }
 
         [JsonPropertyName("userId")] public string UserId { get; set; }
-        public override Boolean ValidateInsert(params String[] args)
+        public override bool ValidateInsert(params string[] args)
         {
             return true;
         }
 
-        public override Boolean ValidateUpdate(params String[] args)
+        public override bool ValidateUpdate(params string[] args)
         {
             return true;
         }
 
-        public override Boolean ValidateDelete(params String[] args)
+        public override bool ValidateDelete(params string[] args)
         {
             return true;
         }
