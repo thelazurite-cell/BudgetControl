@@ -1,11 +1,21 @@
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using BudgetApp.Backend.Dto.Converters;
 using BudgetApp.Backend.Dto.Filtering;
 
 namespace BudgetApp.Backend.Dto.Interfaces
 {
-    public interface IComparableItem
+    public abstract class ComparableItem: ITypeDiscriminator
     {
-        [DataMember(Name="comparisonType")]
+        
+        [JsonPropertyName("comparisonType")]
         public FilterType ComparisonType { get; set; }
+
+        public ComparableItem()
+        {
+            
+        }
+        [JsonPropertyName("typeDiscriminator")]
+        public virtual string TypeDiscriminator { get; }
     }
 }
