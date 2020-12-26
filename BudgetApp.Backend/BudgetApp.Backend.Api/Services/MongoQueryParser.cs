@@ -16,12 +16,19 @@ namespace BudgetApp.Backend.Api.Services
     {
         public string Result { get; set; } = string.Empty;
         public RequestReport RequestReport { get; } = new();
-        
+
+        public static List<Type> WrappedInQuoteTypes { get; } = new List<Type>
+        {
+            typeof(string),
+            typeof(decimal),
+            typeof(float)
+        };
+
         public static bool QueryHasValidStructure(QueryGroup parameters)
         {
             return parameters != null && parameters.Queries != null && parameters.Queries.Count > 0;
         }
-        
+
         public bool GenerateQuery(Type transferObjectType, IComparableItem? comparable)
         {
             if (EnsureValueNotNull(comparable)) return true;
@@ -55,16 +62,18 @@ namespace BudgetApp.Backend.Api.Services
         private bool GenerateForQuery(Type transferObjectType, Query query)
         {
             if (!AttemptToFindProperty(transferObjectType, query, out var isString)) return false;
-            return  GenerateQueryType(query, isString);;
+            return GenerateQueryType(query, isString);
+            ;
         }
 
-        private bool GenerateQueryType(Query query, bool isString)
+        private bool GenerateQueryType(Query query, bool requiresQuoteWrap)
         {
             if (query.ComparisonType == null)
             {
                 AddError(ApiErrorCode.QueryRequiresComparisonType, "A query must provide a comparison type");
                 return false;
             }
+
             Result += "{ ";
             Result += $"{query.FieldName}: ";
             Result += "{ ";
@@ -73,12 +82,12 @@ namespace BudgetApp.Backend.Api.Services
             {
                 Result += "[";
 
-                Result += string.Join(",",  isString? ToQuotedValueArray(query): query.FieldValue);
+                Result += string.Join(",", requiresQuoteWrap ? ToQuotedValueArray(query) : query.FieldValue);
                 Result += "]";
             }
             else
             {
-                Result += isString ? $"\"{query.FieldValue[0]}\"" : query.FieldValue[0];
+                Result += requiresQuoteWrap ? $"\"{query.FieldValue[0]}\"" : query.FieldValue[0];
             }
 
             Result += " }";
@@ -92,20 +101,14 @@ namespace BudgetApp.Backend.Api.Services
             return tmp;
         }
 
-        private bool AttemptToFindProperty(Type transferObjectType, Query query, out bool isString)
+        private bool AttemptToFindProperty(Type transferObjectType, Query query, out bool requiresQuoteWrap)
         {
-            isString = true;
+            requiresQuoteWrap = true;
             var found = false;
             var properties = transferObjectType.GetProperties();
             foreach (var property in properties)
             {
-                foreach (var attribute in property.GetCustomAttributes())
-                {
-                    if (attribute is not JsonPropertyNameAttribute jsonAttrib) continue;
-                    if (jsonAttrib.Name != query.FieldName) continue;
-                    found = true;
-                    //isString = property.PropertyType == typeof(string);
-                }
+                if (!FindProperty(query, ref requiresQuoteWrap, property, ref found)) return false;
             }
 
             if (!found)
@@ -115,6 +118,31 @@ namespace BudgetApp.Backend.Api.Services
             }
 
             return true;
+        }
+
+        private bool FindProperty(Query query, ref bool requiresQuoteWrap, PropertyInfo property, ref bool found)
+        {
+            foreach (var attribute in property.GetCustomAttributes())
+            {
+                if (attribute is not JsonPropertyNameAttribute jsonAttrib) continue;
+                if (jsonAttrib.Name != query.FieldName) continue;
+                found = true;
+                requiresQuoteWrap = WrappedInQuoteTypes.Any(itm => itm == property.PropertyType);
+                if (!PerformBooleanValidationIfRequired(query, property))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private bool PerformBooleanValidationIfRequired(Query query, PropertyInfo property)
+        {
+            if (property.PropertyType != typeof(bool)) return true;
+            if (query.FieldValue[0].ToLower() == "true" || query.FieldValue[0].ToLower() == "false")
+                return true;
+            AddError(ApiErrorCode.InvalidPropertyValue, "Value must be true or false for a boolean",
+                new List<string> {query.FieldName, string.Join(",", query.FieldValue)});
+            return false;
         }
 
         private bool GenerateForQueryGroup(Type transferObjectType, QueryGroup queryGroup)
@@ -136,8 +164,9 @@ namespace BudgetApp.Backend.Api.Services
             if (!QueryHasValidStructure(queryGroup))
             {
                 AddError(ApiErrorCode.InvalidQueryStructure, "Query structure is invalid.");
-                return false; 
+                return false;
             }
+
             if (queryGroup.Queries == null || queryGroup.Queries.Count != 2)
             {
                 AddError(ApiErrorCode.NeedTwoParameters, "You need two parameters for and/or statements.");
@@ -155,8 +184,9 @@ namespace BudgetApp.Backend.Api.Services
             if (!QueryHasValidStructure(queryGroup))
             {
                 AddError(ApiErrorCode.InvalidQueryStructure, "Query structure is invalid.");
-                return false; 
+                return false;
             }
+
             for (var enumerator = 0; enumerator < queryGroup.Queries.Count; enumerator++)
             {
                 var result = GenerateQuery(transferObjectType, queryGroup.Queries[enumerator] as IComparableItem);
@@ -176,9 +206,9 @@ namespace BudgetApp.Backend.Api.Services
             var enumType = queryGroupComparisonType.GetType();
             var memberInfos = enumType.GetMember(queryGroupComparisonType.ToString());
             var enumValueMemberInfo = memberInfos.FirstOrDefault(m => m.DeclaringType == enumType);
-            var valueAttributes = 
+            var valueAttributes =
                 enumValueMemberInfo.GetCustomAttributes(typeof(EnumMemberAttribute), false);
-            return ((EnumMemberAttribute)valueAttributes[0]).Value;
+            return ((EnumMemberAttribute) valueAttributes[0]).Value;
         }
 
         private bool AttemptGenerateByIdQuery(QueryGroup queryGroup)
@@ -193,7 +223,7 @@ namespace BudgetApp.Backend.Api.Services
             return true;
         }
 
-        private void AddError(ApiErrorCode errorCode, string message)
+        private void AddError(ApiErrorCode errorCode, string message, List<string> parameters = null)
         {
             RequestReport.IsSuccess = false;
             RequestReport.Messages.Add(new Message
@@ -201,6 +231,7 @@ namespace BudgetApp.Backend.Api.Services
                 ErrorCode = errorCode,
                 MessageText = message,
                 Level = IncidentLevel.Error,
+                Parameters = parameters
             });
         }
     }
