@@ -10,6 +10,7 @@ namespace BudgetApp.Backend.Dto
         InvalidQueryStructure = 112,
         NoQueryProvided = 113,
         QueryRequiresComparisonType = 114,
-        ItemCannotBeDeleted
+        ItemCannotBeDeleted = 115,
+        InvalidPropertyValue = 116
     }
 }

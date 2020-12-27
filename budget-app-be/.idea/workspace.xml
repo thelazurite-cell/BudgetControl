@@ -2,33 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed45397c-4bc5-4f3f-8160-b46119c5cad8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Controllers/BaseClasses/DataController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/MongoFindContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/MongoManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/MongoQueryParser.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Converters/DictionaryLookupNamingPolicy.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Converters/EnumMemberConverter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Converters/JsonNamingPolicyDecorator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/ApiErrorCode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/Message.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/RequestReport.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Controllers/InsertController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/QueryBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Controllers/FindController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Controllers/FindController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/CustomAuthenticationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/CustomAuthenticationService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Incident.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Incident.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Token.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Token.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/MongoQueryParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/MongoQueryParser.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Category.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Category.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/ApiErrorCode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/ApiErrorCode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Exception.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Exception.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Expenditure.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Expenditure.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/FilterType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/FilterType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/Query.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/Query.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/QueryGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/QueryGroup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/DataTransferObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/DataTransferObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/IComparableItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/IComparableItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/ExpenseDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/ExpenseDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Outgoing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Outgoing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Period.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Period.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Term.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Term.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dto/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/dto/category.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../budget-app-fe/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-fe/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -43,19 +30,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dto/exception.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mongo-manager.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1460">
-              <caret line="348" selection-start-line="348" selection-end-line="349" />
+            <state relative-caret-position="2507">
+              <caret line="137" column="46" selection-start-line="137" selection-start-column="46" selection-end-line="137" selection-end-column="46" />
               <folding>
                 <element signature="e#0#73#0" expanded="true" />
               </folding>
@@ -63,11 +41,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dto/filtering/query.ts">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/routes/insert.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+            <state relative-caret-position="391">
+              <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dto/category.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="74">
+              <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -75,7 +62,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.es5.d.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
+            <state relative-caret-position="1449">
               <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
             </state>
           </provider>
@@ -102,7 +89,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/dto/financial-term.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
+            <state relative-caret-position="506">
               <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
             </state>
           </provider>
@@ -220,7 +207,6 @@
         <option value="$PROJECT_DIR$/src/routes/interfaces/route.ts" />
         <option value="$PROJECT_DIR$/src/routes/auth/authenticate.ts" />
         <option value="$PROJECT_DIR$/src/node-application.ts" />
-        <option value="$PROJECT_DIR$/src/dto/category.ts" />
         <option value="$PROJECT_DIR$/src/routes/update.ts" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/dto/outgoing.ts" />
@@ -238,6 +224,7 @@
         <option value="$PROJECT_DIR$/src/authentication-manager.ts" />
         <option value="$PROJECT_DIR$/src/routes/find.ts" />
         <option value="$PROJECT_DIR$/src/dto/auth/token.ts" />
+        <option value="$PROJECT_DIR$/src/dto/category.ts" />
       </list>
     </option>
   </component>
@@ -257,9 +244,9 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-4" />
-    <option name="width" value="1928" />
+  <component name="ProjectFrameBounds" extendedState="3">
+    <option name="x" value="-1" />
+    <option name="width" value="1922" />
     <option name="height" value="1048" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -285,6 +272,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Scope 'Default Changelist'; set:Default Changelist; class com.intellij.packageDependencies.ChangeListScope">
+          <expand>
+            <path>
+              <item name="budget-app-be" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="budget-app-be" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name=".idea" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -303,21 +306,25 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="dto" type="462c0819:PsiDirectoryNode" />
             </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Scope 'Default Changelist'; set:Default Changelist; class com.intellij.packageDependencies.ChangeListScope">
-          <expand>
             <path>
-              <item name="budget-app-be" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="budget-app-be" type="b2602c69:ProjectViewProjectNode" />
+              <item name="budget-app-be" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="dto" type="462c0819:PsiDirectoryNode" />
+              <item name="auth" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="budget-app-be" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name=".idea" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="budget-app-be" type="b2602c69:ProjectViewProjectNode" />
+              <item name="budget-app-be" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="dto" type="462c0819:PsiDirectoryNode" />
+              <item name="interfaces" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="budget-app-be" type="b2602c69:ProjectViewProjectNode" />
+              <item name="budget-app-be" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="routes" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -426,12 +433,14 @@
       <workItem from="1608381146077" duration="1140000" />
       <workItem from="1608405463684" duration="2657000" />
       <workItem from="1608626590566" duration="258000" />
-      <workItem from="1608628055835" duration="27722000" />
+      <workItem from="1608628055835" duration="30401000" />
+      <workItem from="1609023183616" duration="2631000" />
+      <workItem from="1609035553013" duration="653000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="341652000" />
+    <option name="totallyTimeSpent" value="347615000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -443,15 +452,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-5" y="0" width="1930" height="1054" extended-state="7" />
+    <frame x="-1" y="0" width="1922" height="1048" extended-state="3" />
+    <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="npm" order="1" side_tool="true" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="3" weight="0.01790416" />
+      <window_info active="true" content_ui="combo" id="Project" order="3" visible="true" weight="0.19514768" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3286638" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.68176794" visible="true" weight="0.43103448" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.3286334" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.68176794" weight="0.43103448" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39957264" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -536,13 +546,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/insert.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="20" column="63" selection-end-line="49" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/@types/node/crypto.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="232">
@@ -603,12 +606,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
           <caret line="70" selection-start-line="70" selection-end-line="71" />
-          <folding>
-            <element signature="n#!!block;n#handler#0;n#find#0" />
-            <element signature="n#!!block;n#executeQuery#0;n#find#0" />
-            <element signature="n#!!block;n#toQueryTypes#0;n#find#0" />
-            <element signature="n#!!block;n#assignQueryTypes#0;n#find#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -654,9 +651,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
           <caret line="2" column="26" lean-forward="true" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#70#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -716,13 +710,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/category.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dto/exception.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -730,38 +717,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/urgency.enum.ts">
+    <entry file="file://$PROJECT_DIR$/src/dto/filtering/query.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="184">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/interfaces/expense-dto.ts">
+    <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.es5.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/outgoing.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/financial-term.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/expenditure.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="16" column="35" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
+        <state relative-caret-position="1449">
+          <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -772,27 +738,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.es5.d.ts">
+    <entry file="file://$PROJECT_DIR$/src/dto/expenditure.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
+        <state relative-caret-position="345">
+          <caret line="16" column="35" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dto/filtering/query.ts">
+    <entry file="file://$PROJECT_DIR$/src/dto/financial-term.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+        <state relative-caret-position="506">
+          <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/outgoing.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/interfaces/expense-dto.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/urgency.enum.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dto/category.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="74">
+          <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mongo-manager.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1460">
-          <caret line="348" selection-start-line="348" selection-end-line="349" />
+        <state relative-caret-position="2507">
+          <caret line="137" column="46" selection-start-line="137" selection-start-column="46" selection-end-line="137" selection-end-column="46" />
           <folding>
             <element signature="e#0#73#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/insert.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
         </state>
       </provider>
     </entry>

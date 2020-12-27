@@ -22,7 +22,7 @@ namespace BudgetApp.Backend.Dto.Interfaces
         }
         
         [BsonElement("removable")]
-        [DataMember(Name= "removable")]
+        [JsonPropertyName( "removable")]
         public bool Removable { get; set; }
         
         [BsonElement("isDeleted")]

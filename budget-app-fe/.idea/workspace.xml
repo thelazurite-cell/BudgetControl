@@ -2,31 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a8bdc2bd-4b74-4289-a842-2eca6fd4e525" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Controllers/BaseClasses/DataController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/MongoFindContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/MongoManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/MongoQueryParser.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Converters/DictionaryLookupNamingPolicy.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Converters/EnumMemberConverter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Converters/JsonNamingPolicyDecorator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/ApiErrorCode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/Message.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/RequestReport.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Controllers/FindController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Controllers/FindController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/CustomAuthenticationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Api/Services/CustomAuthenticationService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Incident.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Incident.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Token.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/Token.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Auth/User.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Category.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Category.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/ApiErrorCode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/ErrorReporting/ApiErrorCode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Exception.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Exception.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Expenditure.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Expenditure.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/FilterType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/FilterType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/Query.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/Query.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/QueryGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Filtering/QueryGroup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/DataTransferObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/DataTransferObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/IComparableItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/IComparableItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/ExpenseDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Interfaces/ExpenseDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Outgoing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Outgoing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Period.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Period.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Term.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BudgetApp.Backend/BudgetApp.Backend.Dto/Term.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../budget-app-be/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../budget-app-be/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -43,14 +25,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/services/data-transfer.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-123">
-              <caret line="20" column="40" lean-forward="true" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
+            <state relative-caret-position="406">
+              <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
               <folding>
                 <element signature="e#0#55#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/classes/dto/category.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="506">
+              <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+              <folding>
+                <element signature="e#0#80#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/setup-budgets/category-edit/category-edit.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="687">
+              <caret line="126" column="9" lean-forward="true" selection-start-line="126" selection-start-column="9" selection-end-line="126" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -60,24 +63,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="138">
               <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/table/table/table.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
-              <caret line="44" column="3" selection-start-line="44" selection-start-column="3" selection-end-line="44" selection-end-column="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/table/base-table.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2162">
-              <caret line="105" selection-start-line="105" selection-end-line="105" />
             </state>
           </provider>
         </entry>
@@ -317,6 +302,21 @@
               <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
               <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+              <item name="dto" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="budget-app-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="budget-app-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="environments" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -445,15 +445,16 @@
       <workItem from="1608381689632" duration="1175000" />
       <workItem from="1608405466137" duration="15977000" />
       <workItem from="1608509523839" duration="650000" />
-      <workItem from="1608687619330" duration="6807000" />
+      <workItem from="1608687619330" duration="10963000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="447506000" />
+    <option name="totallyTimeSpent" value="451662000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="0" width="1928" height="1048" extended-state="2" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31734318" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -515,20 +516,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/expenditures/pay-outgoing/pay-outgoing.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="19" column="22" lean-forward="true" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/expenditures/add-expenditure/add-expenditure.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="48" column="49" lean-forward="true" selection-start-line="48" selection-start-column="49" selection-end-line="48" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dropdown.service.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -833,11 +820,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/services/data-transfer.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-123">
-          <caret line="20" column="40" lean-forward="true" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
+        <state relative-caret-position="406">
+          <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
           <folding>
             <element signature="e#0#55#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/classes/dto/category.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+          <folding>
+            <element signature="e#0#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/setup-budgets/category-edit/category-edit.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="687">
+          <caret line="126" column="9" lean-forward="true" selection-start-line="126" selection-start-column="9" selection-end-line="126" selection-end-column="9" />
         </state>
       </provider>
     </entry>

@@ -4,18 +4,15 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using BudgetApp.Backend.Dto;
 using BudgetApp.Backend.Dto.Auth;
-using BudgetApp.Backend.Dto.Filtering;
 using BudgetApp.Backend.Dto.Interfaces;
-using MongoDB.Bson;
 
-namespace BudgetApp.Backend.Api.Services
+namespace BudgetApp.Backend.Dto.Filtering
 {
     public class MongoQueryParser
     {
         public string Result { get; set; } = string.Empty;
-        public RequestReport RequestReport { get; } = new();
+        public RequestReport Report { get; } = new();
 
         public static List<Type> WrappedInQuoteTypes { get; } = new List<Type>
         {
@@ -44,7 +41,7 @@ namespace BudgetApp.Backend.Api.Services
         {
             if (comparable != null) return false;
             Result = "{}";
-            RequestReport.Messages.Add(new Message
+            Report.Messages.Add(new Message
             {
                 ErrorCode = ApiErrorCode.NoQueryProvided,
                 Level = IncidentLevel.Warning,
@@ -225,8 +222,8 @@ namespace BudgetApp.Backend.Api.Services
 
         private void AddError(ApiErrorCode errorCode, string message, List<string> parameters = null)
         {
-            RequestReport.IsSuccess = false;
-            RequestReport.Messages.Add(new Message
+            Report.IsSuccess = false;
+            Report.Messages.Add(new Message
             {
                 ErrorCode = errorCode,
                 MessageText = message,

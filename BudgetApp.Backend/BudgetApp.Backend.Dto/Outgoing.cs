@@ -2,12 +2,14 @@ using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using BudgetApp.Backend.Dto.Interfaces;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto
 {
     [TransferableDataType]
     public class Outgoing:ExpenseDto
     {
+        [BsonElement("payOnDay")]
         [JsonPropertyName("payOnDay")]
         public int PayOnDay { get; set; }
         

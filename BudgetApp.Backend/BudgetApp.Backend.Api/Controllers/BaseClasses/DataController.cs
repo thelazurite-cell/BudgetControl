@@ -3,6 +3,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BudgetApp.Backend.Api.Configuration;
+using BudgetApp.Backend.Dto;
+using BudgetApp.Backend.Dto.Auth;
 using BudgetApp.Backend.Dto.Converters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,20 +12,22 @@ using Microsoft.Extensions.Options;
 
 namespace BudgetApp.Backend.Api.Controllers.BaseClasses
 {
-    public abstract class DataController: ControllerBase
+    public abstract class DataController : ControllerBase
     {
         protected IOptions<ApplicationSettings> Options { get; set; }
+
         public DataController(IOptions<ApplicationSettings> options)
         {
             this.Options = options;
         }
-        
+
         protected async Task<HttpResponse> SerializedObjectResponse(object responseObject, int statusCode = 200)
         {
             var jsonOptions = GetJsonSerializerOptions();
             this.Response.StatusCode = statusCode;
             this.Response.ContentType = "application/json";
-            await this.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(responseObject, jsonOptions)));
+            await this.Response.Body.WriteAsync(
+                Encoding.UTF8.GetBytes(JsonSerializer.Serialize(responseObject, jsonOptions)));
             return this.Response;
         }
 
@@ -44,8 +48,22 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
         {
             this.Response.StatusCode = 400;
             this.Response.ContentType = "application/json";
-            await this.Response.BodyWriter.WriteAsync(Encoding.UTF8.GetBytes(JsonSerializer.Serialize($"Could not find a type of {type}")));
+            await this.Response.BodyWriter.WriteAsync(
+                Encoding.UTF8.GetBytes(JsonSerializer.Serialize(GenerateInvalidTypeReport(type))));
             return this.Response;
+        }
+
+        private static RequestReport GenerateInvalidTypeReport(string type)
+        {
+            var report = new RequestReport {IsSuccess = false};
+            report.Messages.Add(new Message
+            {
+                ErrorCode = ApiErrorCode.InvalidDataType,
+                Level = IncidentLevel.Error,
+                MessageText = "The requested type is invalid",
+                Parameters = {type}
+            });
+            return report;
         }
     }
 }

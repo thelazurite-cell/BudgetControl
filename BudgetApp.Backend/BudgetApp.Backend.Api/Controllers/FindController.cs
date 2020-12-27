@@ -28,7 +28,7 @@ namespace BudgetApp.Backend.Api.Controllers
         private readonly ILogger<FindController> _logger;
         private MongoManager _manager;
 
-        public FindController(ILogger<FindController> logger, IOptions<ApplicationSettings> options): base (options)
+        public FindController(ILogger<FindController> logger, IOptions<ApplicationSettings> options) : base(options)
         {
             _logger = logger;
             _manager = new MongoManager(Options);
@@ -36,14 +36,14 @@ namespace BudgetApp.Backend.Api.Controllers
 
         protected override JsonSerializerOptions GetJsonSerializerOptions()
         {
-            var jsonOptions =  base.GetJsonSerializerOptions();
+            var jsonOptions = base.GetJsonSerializerOptions();
             jsonOptions.Converters.Add(new ComparableItemConverter<IComparableItem>());
             return jsonOptions;
         }
 
-        [HttpGet()] 
+        [HttpGet()]
         [Route("{requestedType}/findAll")]
-        public async Task<HttpResponse> Get(string requestedType)
+        public async Task<HttpResponse> FindAll(string requestedType)
         {
             var dtoType = _manager.GetDtoType(requestedType);
             if (dtoType == null)
@@ -67,9 +67,9 @@ namespace BudgetApp.Backend.Api.Controllers
 
             var requestBody = await GetRequestBodyJson();
             var queryParser = new MongoQueryParser();
-            if(!ParseQuerySuccessful(queryParser, dtoType, requestBody))
+            if (!ParseQuerySuccessful(queryParser, dtoType, requestBody))
             {
-                return await SerializedObjectResponse(queryParser.RequestReport, 400);
+                return await SerializedObjectResponse(queryParser.Report, 400);
             }
 
             var mongoFindResponse = _manager.GetMongoFindResponse(requestedType, dtoType, queryParser.Result);
@@ -80,24 +80,24 @@ namespace BudgetApp.Backend.Api.Controllers
                     return await SerializedObjectResponse(mongoFindResponse);
                 }
             }
+
             return await NoFindDataFound(requestedType, queryParser);
         }
 
         private async Task<HttpResponse> NoFindDataFound(string requestedType, MongoQueryParser queryParser)
         {
-            queryParser.RequestReport.Messages.Add(new Message
+            queryParser.Report.Messages.Add(new Message
             {
                 ErrorCode = ApiErrorCode.NoResultsReturned,
                 Level = IncidentLevel.Warning,
                 MessageText = $"No results found for {requestedType} with the given query",
                 Parameters = {queryParser.Result}
             });
-            return await SerializedObjectResponse(queryParser.RequestReport);
+            return await SerializedObjectResponse(queryParser.Report);
         }
 
         private bool ParseQuerySuccessful(MongoQueryParser queryParser, Type dtoType, string requestBody)
         {
-
             IComparableItem? comparableItem;
             try
             {
@@ -107,6 +107,7 @@ namespace BudgetApp.Backend.Api.Controllers
             {
                 comparableItem = null;
             }
+
             return queryParser.GenerateQuery(dtoType, comparableItem);
         }
     }
