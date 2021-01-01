@@ -7,6 +7,8 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using BudgetApp.Backend.Api.Configuration;
 using BudgetApp.Backend.Dto;
+using BudgetApp.Backend.Dto.Auth;
+using BudgetApp.Backend.Dto.Interfaces;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -21,13 +23,75 @@ namespace BudgetApp.Backend.Api.Services
         {
             this._options = options;
         }
-        
-        public object GetMongoFindResponse(string requestedType, Type dtoType, string query)
+
+        public object Find(string requestedType, Type dtoType, string query)
         {
-            var client = new MongoClient(_options.Value.Database.Host);
-            var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName), dtoType);
-            var mongoResponse = ConvertResponseToList(dtoType, MongoFindContext.PerformFindRequest(collection, dtoType, query));
-            return mongoResponse;
+            try
+            {
+                var client = new MongoClient(_options.Value.Database.Host);
+                var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
+                    dtoType);
+                var mongoResponse =
+                    ConvertResponseToList(dtoType, MongoFindContext.PerformFindRequest(collection, dtoType, query));
+                return mongoResponse;
+            }
+            catch (System.Exception e)
+            {
+                return MongoReportGenerator.ExceptionReport(requestedType,
+                    "A problem occurred while trying to find records", e);
+            }
+        }
+
+        public RequestReport Insert(string requestedType, Type dtoType, object query)
+        {
+            try
+            {
+                var client = new MongoClient(_options.Value.Database.Host);
+                var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
+                    dtoType);
+                ;
+                return MongoInsertContext.PerformInsertRequest(collection, requestedType, query);
+            }
+            catch (System.Exception e)
+            {
+                return MongoReportGenerator.ExceptionReport(requestedType,
+                    "A problem occurred while trying to insert records", e);
+            }
+        }
+
+        public RequestReport Update(string requestedType, Type dtoType, string filterQuery, string updateQuery)
+        {
+            try
+            {
+                var client = new MongoClient(_options.Value.Database.Host);
+                var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
+                    dtoType);
+                var update = MongoUpdateContext.PerformUpdateOneResult(collection, dtoType, filterQuery, updateQuery);
+
+                return MongoReportGenerator.CreateUpdateReport(requestedType, filterQuery, update);
+            }
+            catch (System.Exception e)
+            {
+                return MongoReportGenerator.ExceptionReport(requestedType,
+                    "A problem occurred while trying to update records", e);
+            }
+        }
+
+        public RequestReport Delete(string requestedType, Type dtoType, string query)
+        {
+            try
+            {
+                var client = new MongoClient(_options.Value.Database.Host);
+                var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
+                    dtoType);
+                var delete = MongoDeleteContext.PerformDeleteRequest(collection, dtoType, query);
+                return MongoReportGenerator.CreateDeleteReport(requestedType, query, delete);
+            }
+            catch (System.Exception e)
+            {
+                return MongoReportGenerator.ExceptionReport(requestedType,
+                    "A problem occurred while trying to delete records", e);
+            }
         }
 
         /// <summary>
@@ -37,7 +101,8 @@ namespace BudgetApp.Backend.Api.Services
         /// <returns>If the dto exists and is marked with the expected attribute, the type is returned. Otherwise the value will be null.</returns>
         public Type? GetDtoType(string type)
         {
-            var assemblyLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this._options.Value.General.DtoDllName);
+            var assemblyLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                this._options.Value.General.DtoDllName);
             var assembly = Assembly.LoadFile(assemblyLocation);
             var dtoType = assembly?.GetTypes()?
                 .FirstOrDefault(itm => itm.Name.ToLower().Equals(type.ToLower()));
@@ -54,28 +119,12 @@ namespace BudgetApp.Backend.Api.Services
             return enumerable!;
         }
 
-        private static object GetCollection(string type, IMongoDatabase db, Type asm)
+        private static object GetCollection(string type, IMongoDatabase db, Type dtoType)
         {
             var info = db.GetType().GetMethod(nameof(db.GetCollection));
-            var generic = info.MakeGenericMethod(asm);
+            var generic = info.MakeGenericMethod(dtoType);
             var collection = generic.Invoke(db, new object[] {type, new MongoCollectionSettings()});
             return collection;
-        }
-
-        public static JsonPropertyNameAttribute? GetJsonAttribute(IEnumerable<PropertyInfo> properties)
-        {
-            foreach (var property in properties)
-            {
-                foreach (var attribute in property.GetCustomAttributes())
-                {
-                    if (attribute is JsonPropertyNameAttribute jsonAttrib)
-                    {
-                        return jsonAttrib;
-                    }
-                }
-            }
-
-            return null;
         }
     }
 }

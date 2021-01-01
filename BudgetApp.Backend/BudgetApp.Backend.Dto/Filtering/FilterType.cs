@@ -18,6 +18,7 @@ namespace BudgetApp.Backend.Dto.Filtering
         [EnumMember(Value = "$and")] And = 10,
         [EnumMember(Value = "$or")] Or = 11,
         [EnumMember(Value = "$not")] Not = 12,
-        [EnumMember(Value = "$regex")] Matches = 13
+        [EnumMember(Value = "$regex")] Matches = 13,
+        [EnumMember(Value = "$set")] Set = 14
     }
 }

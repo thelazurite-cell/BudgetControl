@@ -2,31 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using BudgetApp.Backend.Dto.Auth;
 using BudgetApp.Backend.Dto.Interfaces;
+using static BudgetApp.Backend.Dto.Filtering.MongoQueryHelper;
 
 namespace BudgetApp.Backend.Dto.Filtering
 {
-    public class MongoQueryParser
+    public class MongoFilterParser : IParser
     {
         public string Result { get; set; } = string.Empty;
         public RequestReport Report { get; } = new();
 
-        public static List<Type> WrappedInQuoteTypes { get; } = new List<Type>
-        {
-            typeof(string),
-            typeof(decimal),
-            typeof(float)
-        };
 
         public static bool QueryHasValidStructure(QueryGroup parameters)
         {
             return parameters != null && parameters.Queries != null && parameters.Queries.Count > 0;
         }
 
-        public bool GenerateQuery(Type transferObjectType, IComparableItem? comparable)
+        public bool Parse(Type transferObjectType, IComparableItem? comparable)
         {
             if (EnsureValueNotNull(comparable)) return true;
             return comparable switch
@@ -45,7 +39,7 @@ namespace BudgetApp.Backend.Dto.Filtering
             {
                 ErrorCode = ApiErrorCode.NoQueryProvided,
                 Level = IncidentLevel.Warning,
-                MessageText = "No query was provided, finding all instead"
+                MessageText = "No filter was provided, finding all instead"
             });
             return true;
         }
@@ -67,14 +61,14 @@ namespace BudgetApp.Backend.Dto.Filtering
         {
             if (query.ComparisonType == null)
             {
-                AddError(ApiErrorCode.QueryRequiresComparisonType, "A query must provide a comparison type");
+                AddError(ApiErrorCode.QueryRequiresComparisonType, "A filter must provide a comparison type");
                 return false;
             }
 
             Result += "{ ";
             Result += $"{query.FieldName}: ";
             Result += "{ ";
-            Result += $"{GetComparisonType(query.ComparisonType ?? FilterType.None)}:  ";
+            Result += $"{(query.ComparisonType ?? FilterType.None).ToComparisonType()}:  ";
             if (query.FieldValue.Count > 1 || query.ComparisonType == FilterType.In)
             {
                 Result += "[";
@@ -124,7 +118,7 @@ namespace BudgetApp.Backend.Dto.Filtering
                 if (attribute is not JsonPropertyNameAttribute jsonAttrib) continue;
                 if (jsonAttrib.Name != query.FieldName) continue;
                 found = true;
-                requiresQuoteWrap = WrappedInQuoteTypes.Any(itm => itm == property.PropertyType);
+                requiresQuoteWrap = RequiresQuoteWrap(property);
                 if (!PerformBooleanValidationIfRequired(query, property))
                     return false;
             }
@@ -147,16 +141,30 @@ namespace BudgetApp.Backend.Dto.Filtering
             switch (queryGroup.ComparisonType)
             {
                 case FilterType.ById:
-                    return AttemptGenerateByIdQuery(queryGroup);
+                    return GenerateByIdQuery(queryGroup);
                 case FilterType.And:
                 case FilterType.Or:
-                    return PerformAndOrGeneration(transferObjectType, queryGroup);
+                    return GenerateGroupedQuery(transferObjectType, queryGroup);
+                case FilterType.Set:
+                    return GenerateAttemptInvalid(queryGroup);
                 default:
                     return GenerateQuerySection(transferObjectType, queryGroup);
             }
         }
 
-        private bool PerformAndOrGeneration(Type transferObjectType, QueryGroup queryGroup)
+        private bool GenerateAttemptInvalid(QueryGroup queryGroup)
+        {
+            Report.Messages.Add(new Message
+            {
+                ErrorCode = ApiErrorCode.InvalidQueryStructure,
+                Level = IncidentLevel.Error,
+                MessageText = "Cannot attempt to set a value during a filter",
+                Parameters = {queryGroup.TypeDiscriminator}
+            });
+            return false;
+        }
+
+        private bool GenerateGroupedQuery(Type transferObjectType, QueryGroup queryGroup)
         {
             if (!QueryHasValidStructure(queryGroup))
             {
@@ -170,7 +178,7 @@ namespace BudgetApp.Backend.Dto.Filtering
                 return false;
             }
 
-            Result += $"\"${GetComparisonType(queryGroup.ComparisonType ?? FilterType.Or)}\": [";
+            Result += $"\"${(queryGroup.ComparisonType ?? FilterType.Or).ToComparisonType()}\": [";
             var successful = GenerateQuerySection(transferObjectType, queryGroup);
             Result += "]";
             return successful;
@@ -186,7 +194,7 @@ namespace BudgetApp.Backend.Dto.Filtering
 
             for (var enumerator = 0; enumerator < queryGroup.Queries.Count; enumerator++)
             {
-                var result = GenerateQuery(transferObjectType, queryGroup.Queries[enumerator] as IComparableItem);
+                var result = Parse(transferObjectType, queryGroup.Queries[enumerator] as IComparableItem);
                 if (enumerator + 1 != queryGroup.Queries.Count)
                 {
                     Result += ",";
@@ -198,17 +206,7 @@ namespace BudgetApp.Backend.Dto.Filtering
             return true;
         }
 
-        private string GetComparisonType(FilterType queryGroupComparisonType)
-        {
-            var enumType = queryGroupComparisonType.GetType();
-            var memberInfos = enumType.GetMember(queryGroupComparisonType.ToString());
-            var enumValueMemberInfo = memberInfos.FirstOrDefault(m => m.DeclaringType == enumType);
-            var valueAttributes =
-                enumValueMemberInfo.GetCustomAttributes(typeof(EnumMemberAttribute), false);
-            return ((EnumMemberAttribute) valueAttributes[0]).Value;
-        }
-
-        private bool AttemptGenerateByIdQuery(QueryGroup queryGroup)
+        private bool GenerateByIdQuery(QueryGroup queryGroup)
         {
             if (queryGroup.Queries == null || queryGroup.Queries.Count != 1)
             {
@@ -216,7 +214,8 @@ namespace BudgetApp.Backend.Dto.Filtering
                 return false;
             }
 
-            Result = $"{{_id: ObjectId(\"{((Query) queryGroup.Queries[0]).FieldValue[0]}\")}}";
+            Result =
+                $"{{{FilterType.ById.ToComparisonType()}: ObjectId(\"{((Query) queryGroup.Queries[0]).FieldValue[0]}\")}}";
             return true;
         }
 

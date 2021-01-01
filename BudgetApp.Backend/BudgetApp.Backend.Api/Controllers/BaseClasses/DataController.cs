@@ -1,11 +1,16 @@
+using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BudgetApp.Backend.Api.Configuration;
+using BudgetApp.Backend.Api.Services;
 using BudgetApp.Backend.Dto;
 using BudgetApp.Backend.Dto.Auth;
 using BudgetApp.Backend.Dto.Converters;
+using BudgetApp.Backend.Dto.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -14,17 +19,29 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
 {
     public abstract class DataController : ControllerBase
     {
+        private const string DeserializeMethodName = "Deserialize";
+        private const int DeserializeMethodParameterCount = 2;
         protected IOptions<ApplicationSettings> Options { get; set; }
+        protected MongoManager Manager { get; set; }
 
         public DataController(IOptions<ApplicationSettings> options)
         {
             this.Options = options;
+            this.Manager = new MongoManager(options);
         }
 
         protected async Task<HttpResponse> SerializedObjectResponse(object responseObject, int statusCode = 200)
         {
             var jsonOptions = GetJsonSerializerOptions();
-            this.Response.StatusCode = statusCode;
+            if (responseObject is RequestReport report)
+            {
+                this.Response.StatusCode = report.IsInternalError ? 500 : statusCode;
+            }
+            else
+            {
+                this.Response.StatusCode = statusCode;
+            }
+
             this.Response.ContentType = "application/json";
             await this.Response.Body.WriteAsync(
                 Encoding.UTF8.GetBytes(JsonSerializer.Serialize(responseObject, jsonOptions)));
@@ -64,6 +81,28 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
                 Parameters = {type}
             });
             return report;
+        }
+
+        protected static bool IsDtoType(object? deserializedObject)
+        {
+            return deserializedObject?.GetType().BaseType?.Name.Equals(nameof(DataTransferObject)) ?? false;
+        }
+
+        protected static MethodInfo GetJsonDeserializeForDto(Type dtoType)
+        {
+            var deserializerMethod = typeof(JsonSerializer).GetMethods().FirstOrDefault(itm =>
+            {
+                if (itm.Name != DeserializeMethodName) return false;
+                var parameters = itm.GetParameters();
+                if (parameters.Length == DeserializeMethodParameterCount)
+                {
+                    return parameters[0].ParameterType == typeof(string);
+                }
+
+                return false;
+            });
+            var genericMethod = deserializerMethod.MakeGenericMethod(dtoType);
+            return genericMethod;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace BudgetApp.Backend.Dto.Filtering
                     new Query
                     {
                         ComparisonType = FilterType.ById,
-                        FieldValue = {id}
+                        FieldValue = new List<string>(){id}
                     }
                 }
             };
@@ -114,8 +114,8 @@ namespace BudgetApp.Backend.Dto.Filtering
 
         public string Build()
         {
-            var parser = new MongoQueryParser();
-            var isSuccessful = parser.GenerateQuery(_type, _object);
+            var parser = new MongoFilterParser();
+            var isSuccessful = parser.Parse(_type, _object);
             Report = parser.Report;
             if (isSuccessful)
             {

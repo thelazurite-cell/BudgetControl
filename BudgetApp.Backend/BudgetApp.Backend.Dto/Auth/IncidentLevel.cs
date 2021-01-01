@@ -11,6 +11,7 @@ namespace BudgetApp.Backend.Dto.Auth
         [JsonPropertyName("warning")] Warning,
         [JsonPropertyName("debug")] Debug,
         [JsonPropertyName("low")] Low,
-        [JsonPropertyName("none")] None
+        [JsonPropertyName("none")] None,
+        [JsonPropertyName("information")] Information
     }
 }
