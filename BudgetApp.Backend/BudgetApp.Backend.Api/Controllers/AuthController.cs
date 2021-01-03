@@ -1,10 +1,8 @@
 using System;
-using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using BudgetApp.Backend.Api.Configuration;
 using BudgetApp.Backend.Api.Controllers.BaseClasses;
@@ -12,7 +10,6 @@ using BudgetApp.Backend.Api.Services;
 using BudgetApp.Backend.Dto;
 using BudgetApp.Backend.Dto.Auth;
 using BudgetApp.Backend.Dto.Filtering;
-using BudgetApp.Backend.Dto.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -123,23 +120,6 @@ namespace BudgetApp.Backend.Api.Controllers
         {
             return new QueryBuilder(typeof(Dto.Auth.User)).CreateAQueryGroup().And.CreateAQuery().WhereField("username").Equals(username)
                 .Build();
-        }
-    }
-
-    public class AuthAttempt
-    {
-        [JsonPropertyName("attempt")]
-        public string Attempt { get; set; }
-    }
-    public class AuthSuccessfulResult
-    {
-        [JsonPropertyName("success")] public bool Success { get; set; } = true;
-        [JsonPropertyName("result")] public string Result { get; set; }
-
-        public AuthSuccessfulResult(Token token)
-        {
-            var str = JsonSerializer.Serialize(token, token.GetType());
-            Result = Convert.ToBase64String(Encoding.UTF8.GetBytes(str));
         }
     }
 }
