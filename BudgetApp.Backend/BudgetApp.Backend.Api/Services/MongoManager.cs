@@ -37,7 +37,7 @@ namespace BudgetApp.Backend.Api.Services
             }
             catch (System.Exception e)
             {
-                return MongoReportGenerator.ExceptionReport(requestedType,
+                return RequestReportGenerator.ExceptionReport(requestedType,
                     "A problem occurred while trying to find records", e);
             }
         }
@@ -46,17 +46,28 @@ namespace BudgetApp.Backend.Api.Services
         {
             try
             {
-                var client = new MongoClient(_options.Value.Database.Host);
-                var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
-                    dtoType);
+                var collection = GetCollection(requestedType, dtoType);
                 ;
                 return MongoInsertContext.PerformInsertRequest(collection, requestedType, query);
             }
             catch (System.Exception e)
             {
-                return MongoReportGenerator.ExceptionReport(requestedType,
+                return RequestReportGenerator.ExceptionReport(requestedType,
                     "A problem occurred while trying to insert records", e);
             }
+        }
+
+        private object GetCollection(string requestedType, Type dtoType)
+        {
+            var client = new MongoClient(_options.Value.Database.Host);
+            var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
+                dtoType);
+            return collection;
+        }
+
+        public void InsertIncident(Incident incident)
+        {
+            Insert(incident.GetType().Name, incident.GetType(), incident);
         }
 
         public RequestReport Update(string requestedType, Type dtoType, string filterQuery, string updateQuery)
@@ -68,11 +79,11 @@ namespace BudgetApp.Backend.Api.Services
                     dtoType);
                 var update = MongoUpdateContext.PerformUpdateOneResult(collection, dtoType, filterQuery, updateQuery);
 
-                return MongoReportGenerator.CreateUpdateReport(requestedType, filterQuery, update);
+                return RequestReportGenerator.CreateUpdateReport(requestedType, filterQuery, update);
             }
             catch (System.Exception e)
             {
-                return MongoReportGenerator.ExceptionReport(requestedType,
+                return RequestReportGenerator.ExceptionReport(requestedType,
                     "A problem occurred while trying to update records", e);
             }
         }
@@ -85,11 +96,11 @@ namespace BudgetApp.Backend.Api.Services
                 var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
                     dtoType);
                 var delete = MongoDeleteContext.PerformDeleteRequest(collection, dtoType, query);
-                return MongoReportGenerator.CreateDeleteReport(requestedType, query, delete);
+                return RequestReportGenerator.CreateDeleteReport(requestedType, query, delete);
             }
             catch (System.Exception e)
             {
-                return MongoReportGenerator.ExceptionReport(requestedType,
+                return RequestReportGenerator.ExceptionReport(requestedType,
                     "A problem occurred while trying to delete records", e);
             }
         }

@@ -42,6 +42,7 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
                 this.Response.StatusCode = statusCode;
             }
 
+            this.Response.Headers.Add("Access-Control-Allow-Origin", Options.Value.General.UserApplication);
             this.Response.ContentType = "application/json";
             await this.Response.Body.WriteAsync(
                 Encoding.UTF8.GetBytes(JsonSerializer.Serialize(responseObject, jsonOptions)));
@@ -54,7 +55,7 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
             return jsonOptions;
         }
 
-        protected async Task<string> GetRequestBodyJson()
+        protected async Task<string> GetRequestBody()
         {
             using var sr = new StreamReader(this.Request.Body);
             var body = await sr.ReadToEndAsync();

@@ -11,6 +11,7 @@ namespace BudgetApp.Backend.Dto.Filtering
         private int _currQuery = 0;
 
         public RequestReport Report { get; set; }
+        public IComparableItem Object => _object;
 
         public QueryBuilder(Type type)
         {
@@ -53,6 +54,10 @@ namespace BudgetApp.Backend.Dto.Filtering
         {
             if (_object is QueryGroup qg)
             {
+                if (qg.Queries == null)
+                {
+                    qg.Queries = new List<IComparableItem>();
+                }
                 qg.Queries.Add(new Query());
                 _currQuery++;
                 return this;
@@ -73,7 +78,7 @@ namespace BudgetApp.Backend.Dto.Filtering
                         return this;
                     }
                     query.FieldName = fieldName;
-                    queryGroup.Queries[_currQuery] = query;
+                    queryGroup.Queries[_currQuery -1] = query;
 
                     return this;
                 }
@@ -99,7 +104,7 @@ namespace BudgetApp.Backend.Dto.Filtering
 
                     query.FieldValue = new List<string>{fieldValue};
                     query.ComparisonType = FilterType.Equals;
-                    queryGroup.Queries[_currQuery] = query;
+                    queryGroup.Queries[_currQuery -1] = query;
                     return this;
                 }
                 case Query query:

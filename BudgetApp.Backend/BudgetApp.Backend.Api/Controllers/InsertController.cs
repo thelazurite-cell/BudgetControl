@@ -38,11 +38,11 @@ namespace BudgetApp.Backend.Api.Controllers
                 return await TypeNotAvailable(requestedType);
             }
 
-            var requestBody = await GetRequestBodyJson();
+            var requestBody = await GetRequestBody();
             if (string.IsNullOrWhiteSpace(requestBody))
             {
                 return await SerializedObjectResponse(
-                MongoReportGenerator.ErrorReadingDataReport(requestedType, requestBody));                
+                RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));                
             }
             var deserialize = GetJsonDeserializeForDto(dtoType);
             var deserializedObject = deserialize.Invoke(null, new object[] {requestBody, GetJsonSerializerOptions()});
@@ -53,7 +53,7 @@ namespace BudgetApp.Backend.Api.Controllers
             }
 
             return await SerializedObjectResponse(
-                MongoReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+                RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
         }
     }
 }

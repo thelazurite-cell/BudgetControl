@@ -7,7 +7,7 @@ using MongoDB.Driver;
 
 namespace BudgetApp.Backend.Api.Services
 {
-    public static class MongoReportGenerator
+    public static class RequestReportGenerator
     {
         public static RequestReport CreateDeleteReport(string requestedType, string query, DeleteResult? delete)
         {
@@ -53,25 +53,38 @@ namespace BudgetApp.Backend.Api.Services
 
         public static RequestReport ErrorReadingDataReport(string requestedType, string requestBody)
         {
-            return new()
+            var apiErrorCode = ApiErrorCode.UnableToReadDataProvided;
+            var messageText = "Unable to convert the provided data";
+            var parameters = new List<string>
+            {
+                requestedType,
+                requestBody
+            };
+            return CreateErrorReport(apiErrorCode, messageText, parameters);
+        }
+
+        public static RequestReport CreateErrorReport(ApiErrorCode apiErrorCode, string messageText, List<string> parameters = null!)
+        {
+            if (parameters == null!)
+            {
+                parameters = new List<string>();
+            }
+            return new RequestReport
             {
                 IsSuccess = false,
                 Messages = new List<Message>
                 {
                     new()
                     {
-                        ErrorCode = ApiErrorCode.UnableToReadDataProvided,
+                        ErrorCode = apiErrorCode,
                         Level = IncidentLevel.Error,
-                        MessageText = "Unable to convert the provided data",
-                        Parameters = new List<string>
-                        {
-                            requestedType,
-                            requestBody
-                        }
+                        MessageText = messageText,
+                        Parameters = parameters
                     }
                 }
             };
         }
+
         public static RequestReport CreateInsertReport(string requestedType, object dto, object insert)
         {
             throw new NotImplementedException();

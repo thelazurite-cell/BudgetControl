@@ -33,11 +33,11 @@ namespace BudgetApp.Backend.Api.Controllers
                 return await TypeNotAvailable(requestedType);
             }
 
-            var requestBody = await GetRequestBodyJson();
+            var requestBody = await GetRequestBody();
             if (string.IsNullOrWhiteSpace(requestBody))
             {
                 return await SerializedObjectResponse(
-                    MongoReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+                    RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
             }
 
             var deserialize = GetJsonDeserializeForDto(dtoType);
@@ -46,7 +46,7 @@ namespace BudgetApp.Backend.Api.Controllers
             if (!IsDtoType(dto))
             {
                 return await SerializedObjectResponse(
-                    MongoReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+                    RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
             }
 
             var parser = new MongoUpdateParser();

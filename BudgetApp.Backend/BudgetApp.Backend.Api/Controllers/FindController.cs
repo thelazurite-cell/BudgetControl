@@ -65,7 +65,7 @@ namespace BudgetApp.Backend.Api.Controllers
                 return await TypeNotAvailable(requestedType);
             }
 
-            var requestBody = await GetRequestBodyJson();
+            var requestBody = await GetRequestBody();
             var queryParser = new MongoFilterParser();
             if (!ParseQuerySuccessful(queryParser, dtoType, requestBody))
             {

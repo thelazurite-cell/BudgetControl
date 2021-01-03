@@ -5,13 +5,12 @@ namespace BudgetApp.Backend.Dto.Auth
 {
     public enum IncidentType
     {
-        [JsonPropertyName("unknown")] Unknown,
-
-        [JsonPropertyName("invalidCredentials")]
+        Unknown,
         InvalidCredentials,
-        [JsonPropertyName("expiredToken")] ExpiredToken,
-        [JsonPropertyName("invalidToken")] InvalidToken,
-        [JsonPropertyName("login")] Login,
-        [JsonPropertyName("lockedOut")] LockedOut
+        ExpiredToken,
+        InvalidToken,
+        Login,
+        LockedOut,
+        AttemptToLogInAsLockedOutUser
     }
 }

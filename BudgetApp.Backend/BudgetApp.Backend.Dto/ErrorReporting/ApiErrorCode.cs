@@ -15,6 +15,10 @@ namespace BudgetApp.Backend.Dto
         ItemCannotBeDeleted = 115,
         InvalidPropertyValue = 116,
         RequestCompleted = 200,
-        UnexpectedError = 500
+        UnexpectedError = 500,
+        UserNameAndPasswordRequired = 410,
+        UserNotFound = 411,
+        UserLockedOut = 412,
+        InvalidCredentials = 413
     }
 }
