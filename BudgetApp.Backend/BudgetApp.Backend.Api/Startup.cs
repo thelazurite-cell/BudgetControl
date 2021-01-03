@@ -17,11 +17,14 @@ namespace BudgetApp.Backend.Api
 {
     public class Startup
     {
+        private string _applicationUrl;
         public Startup(IHostEnvironment env)
         {
             var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             Configuration = builder.Build();
+            _applicationUrl = Configuration.GetSection("AppSettings").GetSection("General")["UserApplication"];
+
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +32,13 @@ namespace BudgetApp.Backend.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins(_applicationUrl);
+                });
+            });
             services.AddControllers();
             services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
         }
@@ -42,6 +52,10 @@ namespace BudgetApp.Backend.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader().AllowAnyMethod().WithOrigins(_applicationUrl);
+            });
 
             app.UseRouting();
 

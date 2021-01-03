@@ -44,11 +44,11 @@ export class DataTransferService {
     }
   }
 
-  private async performFetch(typeName: string, queryGrouping: QueryGroup): Promise<any>{
+  private async performFetch(typeName: string, queryGrouping: QueryGroup): Promise<any> {
     return new Promise(async (resolve, reject) => {
       let items: any[] = [];
 
-      const requestUrl = `${environment.backendHost}find/${typeName}`;
+      const requestUrl = `${environment.backendHost}${typeName}/find`;
       const req = this.http.post(requestUrl, queryGrouping, {headers: this.commonHeaders()});
       await req.subscribe((value: any[]) => {
         items = value;
@@ -67,7 +67,7 @@ export class DataTransferService {
 
   public async insertItem<T extends IDataTransferObject>(typeName, item: T): Promise<void> {
     console.log('callinsertitem');
-    const requestUrl = `${environment.backendHost}insert/${typeName}`;
+    const requestUrl = `${environment.backendHost}${typeName}/insert`;
 
     const req = this.http.put(requestUrl, item);
     await req.subscribe((value) => {
@@ -82,7 +82,7 @@ export class DataTransferService {
 
   public async insertManyItem(typeName, item: any[]): Promise<void> {
     console.log('callinsertManyitem');
-    const requestUrl = `${environment.backendHost}insertMany/${typeName}`;
+    const requestUrl = `${environment.backendHost}${typeName}/insertMany`;
 
     const req = this.http.put(requestUrl, item);
     await req.subscribe((value) => {
@@ -95,7 +95,7 @@ export class DataTransferService {
   }
 
   public async updateItems<T extends IDataTransferObject>(typeName, items: T): Promise<void> {
-    const requestUrl = `${environment.backendHost}update/${typeName}`;
+    const requestUrl = `${environment.backendHost}${typeName}/update/${items._id}`;
     const req = this.http.post(requestUrl, items, {headers: this.commonHeaders()});
     await req.subscribe((value) => {
       console.log('updateItems');
@@ -118,7 +118,7 @@ export class DataTransferService {
   }
 
   public async deleteItems<T extends IDataTransferObject>(typeName, items: Array<T>): Promise<void> {
-    const requestUrl = `${environment.backendHost}delete/${typeName}`;
+    const requestUrl = `${environment.backendHost}${typeName}/delete`;
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       if (item) {
@@ -148,11 +148,11 @@ export class DataTransferService {
       this.dropDowns = [];
       Promise.all([
         await this.createCacheFor('period', null),
-        await this.cacheExpenditureItems(),
+        await this.createCacheFor('category', null),
+        await this.createCacheFor('term', null),
         await this.createCacheFor('exception', null),
         await this.createCacheFor('outgoing', null),
-        await this.createCacheFor('term', null),
-        await this.createCacheFor('category', null)
+        await this.cacheExpenditureItems()
       ])
         .then(() => {
           console.log('complete all');
@@ -229,7 +229,7 @@ export class DataTransferService {
       const q = new Query();
       q.fieldName = 'periodId';
       q.comparisonType = FilterTypeEnum.equals;
-      q.fieldValue = this.stateService.selectedPeriod.value;
+      q.fieldValue = [this.stateService.selectedPeriod.value];
       qg.queries.push(q);
       return await this.createCacheFor('expenditure', qg);
     }

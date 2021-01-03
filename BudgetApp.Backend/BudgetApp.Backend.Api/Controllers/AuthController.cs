@@ -32,7 +32,8 @@ namespace BudgetApp.Backend.Api.Controllers
         public async Task<HttpResponse> DoLogin()
         {
             var requestBody = await GetRequestBody();
-            var decoded = Encoding.UTF8.GetString(Convert.FromBase64String(requestBody));
+            var authAttempt = JsonSerializer.Deserialize<AuthAttempt>(requestBody);
+            var decoded = Encoding.UTF8.GetString(Convert.FromBase64String(authAttempt.Attempt));
             var pair = decoded.Split(':').Select(itm => itm.Trim()).ToList();
             if (pair.Count != 2)
             {
@@ -125,6 +126,11 @@ namespace BudgetApp.Backend.Api.Controllers
         }
     }
 
+    public class AuthAttempt
+    {
+        [JsonPropertyName("attempt")]
+        public string Attempt { get; set; }
+    }
     public class AuthSuccessfulResult
     {
         [JsonPropertyName("success")] public bool Success { get; set; } = true;

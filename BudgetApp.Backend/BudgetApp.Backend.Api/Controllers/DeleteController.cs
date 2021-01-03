@@ -34,7 +34,7 @@ namespace BudgetApp.Backend.Api.Controllers
 
             var builder = new QueryBuilder(dtoType);
             var query = builder.ById(id).Build();
-            var res = _manager.Delete(requestedType, dtoType, query);
+            var res = _manager.Delete(dtoType.Name, dtoType, query);
             return await SerializedObjectResponse(res, res.IsSuccess ? 200 : 400);
         }
     }

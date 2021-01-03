@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using BudgetApp.Backend.Api.Configuration;
 using BudgetApp.Backend.Api.Controllers.BaseClasses;
 using BudgetApp.Backend.Api.Services;
+using BudgetApp.Backend.Dto;
 using BudgetApp.Backend.Dto.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +20,6 @@ namespace BudgetApp.Backend.Api.Controllers
     [ApiController]
     public class InsertController : DataController
     {
-
         private readonly ILogger<InsertController> _logger;
         private MongoManager _manager;
 
@@ -42,18 +43,75 @@ namespace BudgetApp.Backend.Api.Controllers
             if (string.IsNullOrWhiteSpace(requestBody))
             {
                 return await SerializedObjectResponse(
-                RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));                
+                    RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
             }
+
             var deserialize = GetJsonDeserializeForDto(dtoType);
             var deserializedObject = deserialize.Invoke(null, new object[] {requestBody, GetJsonSerializerOptions()});
             if (IsDtoType(deserializedObject))
             {
-                var res = Manager.Insert(requestedType, dtoType, deserializedObject);
+                var res = Manager.Insert(dtoType.Name, dtoType, deserializedObject);
                 return await SerializedObjectResponse(res);
             }
 
             return await SerializedObjectResponse(
                 RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+        }
+
+        [HttpPut]
+        [Route("{requestedType}/insertMany")]
+        public async Task<HttpResponse> InsertMany(string requestedType)
+        {
+            var dtoType = _manager.GetDtoType(requestedType);
+            if (dtoType == null)
+            {
+                return await TypeNotAvailable(requestedType);
+            }
+
+            var genericListType = typeof(List<>);
+            var listOfDto = genericListType.MakeGenericType(dtoType);
+            var requestBody = await GetRequestBody();
+            if (string.IsNullOrWhiteSpace(requestBody))
+            {
+                return await SerializedObjectResponse(
+                    RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+            }
+
+            var deserialize = GetJsonDeserializeForDto(listOfDto);
+            var deserializedObject = deserialize.Invoke(null, new object[] {requestBody, GetJsonSerializerOptions()});
+            RequestReport? report = null;
+            if (deserializedObject is IList list)
+            {
+                report = new RequestReport();
+                report.IsSuccess = true;
+                foreach (var itm in list)
+                {
+                    try
+                        {
+                        if (IsDtoType(itm))
+                        {
+                            var res = Manager.Insert(dtoType.Name, dtoType, itm);
+                            report.Messages.AddRange(res.Messages);
+                            if (!res.IsSuccess)
+                            {
+                                report.IsSuccess = false;
+                            }
+                        }
+                    }
+                    catch (System.Exception e)
+                    {
+                        var exceptionReport =
+                            RequestReportGenerator.ExceptionReport(dtoType.Name, "Error occurred During mass insert",
+                                e);
+                        report.IsSuccess = false;
+                        report.Messages.AddRange(exceptionReport.Messages);
+                    }
+                }
+            }
+
+            return await SerializedObjectResponse(report ??
+                                                  RequestReportGenerator.ErrorReadingDataReport(requestedType,
+                                                      requestBody));
         }
     }
 }

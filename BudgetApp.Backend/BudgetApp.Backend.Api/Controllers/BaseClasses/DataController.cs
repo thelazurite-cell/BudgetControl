@@ -42,16 +42,21 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
                 this.Response.StatusCode = statusCode;
             }
 
-            this.Response.Headers.Add("Access-Control-Allow-Origin", Options.Value.General.UserApplication);
+            //this.Response.Headers.Add("Access-Control-Allow-Origin", Options.Value.General.UserApplication);
             this.Response.ContentType = "application/json";
+            var serialize = JsonSerializer.Serialize(responseObject, jsonOptions);
+            this.Response.Headers.Add("Content-Length", serialize.Length.ToString());
             await this.Response.Body.WriteAsync(
-                Encoding.UTF8.GetBytes(JsonSerializer.Serialize(responseObject, jsonOptions)));
+                Encoding.UTF8.GetBytes(serialize));
             return this.Response;
         }
 
         protected virtual JsonSerializerOptions GetJsonSerializerOptions()
         {
             var jsonOptions = new JsonSerializerOptions {WriteIndented = true};
+            jsonOptions.Converters.Add(new DecimalConverter());
+            jsonOptions.Converters.Add(new FloatConverter());
+            jsonOptions.Converters.Add(new DoubleConverter());
             return jsonOptions;
         }
 
@@ -86,7 +91,8 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
 
         protected static bool IsDtoType(object? deserializedObject)
         {
-            return deserializedObject?.GetType().BaseType?.Name.Equals(nameof(DataTransferObject)) ?? false;
+            var baseType = deserializedObject?.GetType().BaseType ?? typeof(string);
+            return baseType.Name.Equals(nameof(DataTransferObject)) || baseType.Name.Equals(nameof(ExpenseDto));
         }
 
         protected static MethodInfo GetJsonDeserializeForDto(Type dtoType)

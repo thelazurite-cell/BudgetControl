@@ -52,7 +52,7 @@ namespace BudgetApp.Backend.Api.Controllers
             }
 
             const string fetchAll = "{}";
-            return await SerializedObjectResponse(_manager.Find(requestedType, dtoType, fetchAll));
+            return await SerializedObjectResponse(_manager.Find(dtoType.Name, dtoType, fetchAll));
         }
 
         [HttpPost]
@@ -72,7 +72,7 @@ namespace BudgetApp.Backend.Api.Controllers
                 return await SerializedObjectResponse(queryParser.Report, 400);
             }
 
-            var mongoFindResponse = _manager.Find(requestedType, dtoType, queryParser.Result);
+            var mongoFindResponse = _manager.Find(dtoType.Name, dtoType, queryParser.Result);
             if (mongoFindResponse is IList array)
             {
                 if (array.Count > 0)

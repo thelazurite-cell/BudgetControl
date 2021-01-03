@@ -37,29 +37,30 @@ namespace BudgetApp.Backend.Api.Controllers
             if (string.IsNullOrWhiteSpace(requestBody))
             {
                 return await SerializedObjectResponse(
-                    RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+                    RequestReportGenerator.ErrorReadingDataReport(dtoType.Name, requestBody));
             }
 
             var deserialize = GetJsonDeserializeForDto(dtoType);
             var dto = deserialize.Invoke(null, new object[] {requestBody, GetJsonSerializerOptions()});
-            
+
             if (!IsDtoType(dto))
             {
                 return await SerializedObjectResponse(
-                    RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+                    RequestReportGenerator.ErrorReadingDataReport(dtoType.Name, requestBody));
             }
 
+            dto.GetType().GetProperty("IsDirty").SetValue(dto, false);
             var parser = new MongoUpdateParser();
             if (parser.Parse(dto))
             {
-                var res = Manager.Update(requestedType, dtoType, new QueryBuilder(dtoType).ById(id).Build(), parser.Result);
+                var res = Manager.Update(dtoType.Name, dtoType, new QueryBuilder(dtoType).ById(id).Build(),
+                    parser.Result);
                 return await SerializedObjectResponse(res);
             }
             else
             {
                 return await SerializedObjectResponse(parser.Report);
             }
-
         }
     }
 }

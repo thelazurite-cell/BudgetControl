@@ -71,6 +71,7 @@ export class LoginService {
       } else {
         this.authToken = `${obj.result}`;
         const decoded: any = JSON.parse(atob(this.authToken));
+        console.log(decoded);
         const expires =  moment(decoded.accessTokenExpiresAt);
         document.cookie = 'token=' + this.authToken + ';' + new Date(expires.utc().date()).toUTCString() + ';path=/;';
         this.checkAuthenticationStatus();

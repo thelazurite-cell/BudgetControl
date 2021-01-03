@@ -3,7 +3,8 @@ import {IComparableItem} from './interfaces/comparable-item.interface';
 
 export class Query implements IComparableItem {
   public fieldName: string;
-  public fieldValue: string;
+  public fieldValue: Array<string> = [];
   public comparisonType: FilterTypeEnum;
+  typeDiscriminator: string = 'Query';
 }
 
