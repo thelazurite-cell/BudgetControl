@@ -9,11 +9,13 @@ using BudgetApp.Backend.Api.Configuration;
 using BudgetApp.Backend.Api.Controllers.BaseClasses;
 using BudgetApp.Backend.Api.Services;
 using BudgetApp.Backend.Dto;
+using BudgetApp.Backend.Dto.Auth;
 using BudgetApp.Backend.Dto.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Exception = System.Exception;
 
 namespace BudgetApp.Backend.Api.Controllers
 {
@@ -80,38 +82,70 @@ namespace BudgetApp.Backend.Api.Controllers
             var deserialize = GetJsonDeserializeForDto(listOfDto);
             var deserializedObject = deserialize.Invoke(null, new object[] {requestBody, GetJsonSerializerOptions()});
             RequestReport? report = null;
-            if (deserializedObject is IList list)
+            if (deserializedObject is not IList list)
+                return await SerializedObjectResponse(report ??
+                                                      RequestReportGenerator.ErrorReadingDataReport(requestedType,
+                                                          requestBody));
+            report = AttemptInsertArrayItems(list, dtoType);
+
+            return await SerializedObjectResponse(report);
+        }
+
+        private RequestReport AttemptInsertArrayItems(IList list, Type dtoType)
+        {
+            RequestReport report;
+            report = new RequestReport();
+            report.IsSuccess = true;
+            foreach (var itm in list)
             {
-                report = new RequestReport();
-                report.IsSuccess = true;
-                foreach (var itm in list)
+                try
                 {
-                    try
-                        {
-                        if (IsDtoType(itm))
-                        {
-                            var res = Manager.Insert(dtoType.Name, dtoType, itm);
-                            report.Messages.AddRange(res.Messages);
-                            if (!res.IsSuccess)
-                            {
-                                report.IsSuccess = false;
-                            }
-                        }
-                    }
-                    catch (System.Exception e)
-                    {
-                        var exceptionReport =
-                            RequestReportGenerator.ExceptionReport(dtoType.Name, "Error occurred During mass insert",
-                                e);
-                        report.IsSuccess = false;
-                        report.Messages.AddRange(exceptionReport.Messages);
-                    }
+                    if (ArrayItemIsNotDtoType(itm, report)) continue;
+                    AttemptToInsertArrayItem(dtoType, itm, report);
+                }
+                catch (System.Exception e)
+                {
+                    AddExceptionErrors(dtoType, e, report);
                 }
             }
 
-            return await SerializedObjectResponse(report ??
-                                                  RequestReportGenerator.ErrorReadingDataReport(requestedType,
-                                                      requestBody));
+            return report;
+        }
+
+        private static void AddExceptionErrors(Type dtoType, Exception e, RequestReport report)
+        {
+            var exceptionReport =
+                RequestReportGenerator.ExceptionReport(dtoType.Name, "Error occurred During mass insert",
+                    e);
+            report.IsSuccess = false;
+            report.Messages.AddRange(exceptionReport.Messages);
+        }
+
+        private void AttemptToInsertArrayItem(Type dtoType, object itm, RequestReport report)
+        {
+            var res = Manager.Insert(dtoType.Name, dtoType, itm);
+            report.Messages.AddRange(res.Messages);
+            if (!res.IsSuccess)
+            {
+                report.IsSuccess = false;
+            }
+        }
+
+        private static bool ArrayItemIsNotDtoType(object itm, RequestReport report)
+        {
+            if (IsDtoType(itm)) return false;
+            report.Messages.Add(new Message()
+            {
+                ErrorCode = ApiErrorCode.InvalidDataType,
+                Level = IncidentLevel.Error,
+                MessageText = "Was not an expected type",
+                Parameters = new List<string>()
+                {
+                    itm.GetType().Name
+                }
+            });
+            return true;
+
         }
     }
 }
