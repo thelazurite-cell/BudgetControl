@@ -4,14 +4,14 @@ import {LoginModule} from './login/login.module';
 import {LoginComponent} from './login/login/login.component';
 import {LandingContainerComponent} from './landing/landing-container/landing-container.component';
 import {Location} from '@angular/common';
-import {ExpendituresComponent} from './expenditures/expenditures/expenditures.component';
+import {TransactionsComponent} from './expenditures/transactions/transactions.component';
 import {SetupBudgetsComponent} from './setup-budgets/setup-budgets/setup-budgets.component';
 import {ScenariosComponent} from './scenario-tester/scenarios/scenarios.component';
 
 const routes: Routes = [
   {path: 'scenarios', component: ScenariosComponent},
   {path: 'setup', component: SetupBudgetsComponent},
-  {path: 'expenditures', component: ExpendituresComponent},
+  {path: 'transactions', component: TransactionsComponent},
   {path: 'login', component: LoginComponent},
   {path: '', component: LandingContainerComponent}
 ];

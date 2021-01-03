@@ -158,7 +158,7 @@ export class DataTransferService {
           console.log('complete all');
         });
       // await this.createCacheFor('threshold').then(() =>{});
-      // await this.createCacheFor('expenditures').then(()=>{});
+      // await this.createCacheFor('transactions').then(()=>{});
     } else {
       this.cache = new Map<string, any>();
     }

@@ -24,10 +24,10 @@ import {DialogService} from '../../services/dialog.service';
 
 @Component({
   selector: 'app-expenditures',
-  templateUrl: './expenditures.component.html',
-  styleUrls: ['./expenditures.component.scss']
+  templateUrl: './transactions.component.html',
+  styleUrls: ['./transactions.component.scss']
 })
-export class ExpendituresComponent extends BaseTableComponent implements AfterViewInit {
+export class TransactionsComponent extends BaseTableComponent implements AfterViewInit {
 
   public get expectedTotal(): number{
     const itms = this.items;
@@ -80,8 +80,8 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
             }).build()
         ], ['outgoingId', 'periodId', 'paid']
       ));
-    if (ExpendituresComponent.isSubscribed == null) {
-      ExpendituresComponent.isSubscribed = false;
+    if (TransactionsComponent.isSubscribed == null) {
+      TransactionsComponent.isSubscribed = false;
     }
     this.stateService.selectedPeriod.subscribe((value) => {
       this.selectedPeriod = value;
@@ -89,11 +89,11 @@ export class ExpendituresComponent extends BaseTableComponent implements AfterVi
   }
 
   get isAddRecordSubscribed(): boolean {
-    return ExpendituresComponent.isSubscribed;
+    return TransactionsComponent.isSubscribed;
   }
 
   set isAddRecordSubscribed(value: boolean) {
-    ExpendituresComponent.isSubscribed = true;
+    TransactionsComponent.isSubscribed = true;
   }
 
   public get isLoading(): boolean {

@@ -15,7 +15,7 @@ import {NavigationBarModule} from './navigation-bar/navigation-bar.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatOptionModule} from '@angular/material/core';
 import {SidenavService} from './navigation-bar/sidenav.service';
-import {ExpendituresModule} from './expenditures/expenditures.module';
+import {TransactionsModule} from './expenditures/transactions.module';
 import {SetupBudgetsModule} from './setup-budgets/setup-budgets.module';
 import {ScenarioTesterModule} from './scenario-tester/scenario-tester.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -46,7 +46,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     LoginModule,
     LandingModule,
     NavigationBarModule,
-    ExpendituresModule,
+    TransactionsModule,
     SetupBudgetsModule,
     ScenarioTesterModule,
     MatButtonModule,

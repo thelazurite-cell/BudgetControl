@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import {CommonModule, Location} from '@angular/common';
-import { ExpendituresComponent } from './expenditures/expenditures.component';
+import { TransactionsComponent } from './transactions/transactions.component';
 import {AuthenticationManagerModule} from '../authentication-manager/authentication-manager.module';
 import {ProtectedDirective} from '../authentication-manager/protected.directive';
 import {MatTableModule} from '@angular/material/table';
@@ -23,7 +23,7 @@ import {SpinnerModule} from '../spinner/spinner.module';
 
 
 @NgModule({
-  declarations: [ExpendituresComponent, AddPeriodComponent, AddExpenditureComponent, PayOutgoingComponent],
+  declarations: [TransactionsComponent, AddPeriodComponent, AddExpenditureComponent, PayOutgoingComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -45,4 +45,4 @@ import {SpinnerModule} from '../spinner/spinner.module';
   ],
   bootstrap: [Location, ProtectedDirective]
 })
-export class ExpendituresModule { }
+export class TransactionsModule { }
