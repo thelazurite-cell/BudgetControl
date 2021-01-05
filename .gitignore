@@ -109,3 +109,4 @@ dist
 **/.vscode/**/*
 */.idea/**/*
 .idea/**/*
+./BudgetApp.Backend/BudgetApp.Backend.Api/appsettings*.json
