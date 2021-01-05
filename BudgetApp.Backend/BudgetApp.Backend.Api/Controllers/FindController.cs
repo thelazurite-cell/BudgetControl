@@ -20,20 +20,28 @@ using Exception = System.Exception;
 namespace BudgetApp.Backend.Api.Controllers
 {
     /// <summary>
-    /// The <see cref="FindController"/>. Responsible for performing 'find' / select operations from the data store. 
+    /// The <see cref="FindController"/> class. Responsible for performing 'find' / select operations from the data store. 
     /// </summary>
     [ApiController]
     public class FindController : DataController
     {
         private readonly ILogger<FindController> _logger;
-        private MongoManager _manager;
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="FindController"/> class.
+        /// </summary>
+        /// <param name="logger">the application logger</param>
+        /// <param name="options">the application settings</param>
         public FindController(ILogger<FindController> logger, IOptions<ApplicationSettings> options) : base(options)
         {
             _logger = logger;
-            _manager = new MongoManager(Options);
         }
 
+        /// <summary>
+        /// Overrides the base implementation of the <see cref="GetJsonSerializerOptions"/> to include the custom converter
+        /// for comparable items.
+        /// </summary>
+        /// <returns>The <see cref="JsonSerializerOptions"/> for converting a json request into a class.</returns>
         protected override JsonSerializerOptions GetJsonSerializerOptions()
         {
             var jsonOptions = base.GetJsonSerializerOptions();
@@ -41,25 +49,37 @@ namespace BudgetApp.Backend.Api.Controllers
             return jsonOptions;
         }
 
-        [HttpGet()]
+        /// <summary>
+        /// Finds all items available for a requested document type
+        /// </summary>
+        /// <param name="requestedType">the type of document being searched for</param>
+        /// <returns>A <see cref="HttpResponse"/> indicating whether the operation was successful, if it was then the
+        /// documents are returned.</returns>
+        [HttpGet]
         [Route("{requestedType}/findAll")]
         public async Task<HttpResponse> FindAll(string requestedType)
         {
-            var dtoType = _manager.GetDtoType(requestedType);
+            var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
                 return await TypeNotAvailable(requestedType);
             }
 
             const string fetchAll = "{}";
-            return await SerializedObjectResponse(_manager.Find(dtoType.Name, dtoType, fetchAll));
+            return await SerializedObjectResponse(Manager.Find(dtoType.Name, dtoType, fetchAll));
         }
 
+        /// <summary>
+        /// The Find endpoint, finds items belonging to a type based on a query provided within the request body
+        /// </summary>
+        /// <param name="requestedType">the type of document being searched for</param>
+        /// <returns>A <see cref="HttpResponse"/> indicating whether the operation was successful, if it was then the
+        /// documents are returned.</returns>
         [HttpPost]
         [Route("{requestedType}/find")]
         public async Task<HttpResponse> Find(string requestedType)
         {
-            var dtoType = _manager.GetDtoType(requestedType);
+            var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
                 return await TypeNotAvailable(requestedType);
@@ -72,7 +92,7 @@ namespace BudgetApp.Backend.Api.Controllers
                 return await SerializedObjectResponse(queryParser.Report, 400);
             }
 
-            var mongoFindResponse = _manager.Find(dtoType.Name, dtoType, queryParser.Result);
+            var mongoFindResponse = Manager.Find(dtoType.Name, dtoType, queryParser.Result);
             if (mongoFindResponse is IList array)
             {
                 if (array.Count > 0)
@@ -88,6 +108,13 @@ namespace BudgetApp.Backend.Api.Controllers
             return await NoFindDataFound(requestedType, queryParser);
         }
 
+        /// <summary>
+        /// Returns a <see cref="HttpResponse"/> with a <see cref="RequestReport"/> containing a result stating that
+        /// no data was found for the provided object or query.
+        /// </summary>
+        /// <param name="requestedType">the type being searched against</param>
+        /// <param name="filterParser">the query parser</param>
+        /// <returns>A <see cref="HttpResponse"/> stating that no data can be found</returns>
         private async Task<HttpResponse> NoFindDataFound(string requestedType, MongoFilterParser filterParser)
         {
             filterParser.Report.Messages.Add(new Message
@@ -100,6 +127,13 @@ namespace BudgetApp.Backend.Api.Controllers
             return await SerializedObjectResponse(filterParser.Report);
         }
 
+        /// <summary>
+        /// Attempts to parse a query
+        /// </summary>
+        /// <param name="filterParser">the filter parser, responsible for converting the request body into a query</param>
+        /// <param name="dtoType">the class for the document type we are searching against</param>
+        /// <param name="requestBody">the body containing the unparsed query</param>
+        /// <returns></returns>
         private bool ParseQuerySuccessful(MongoFilterParser filterParser, Type dtoType, string requestBody)
         {
             IComparableItem? comparableItem;

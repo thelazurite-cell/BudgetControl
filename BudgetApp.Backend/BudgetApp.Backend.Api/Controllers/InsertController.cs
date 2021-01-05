@@ -19,23 +19,34 @@ using Exception = System.Exception;
 
 namespace BudgetApp.Backend.Api.Controllers
 {
+    /// <summary>
+    /// The <see cref="InsertController"/>. Responsible for inserting documents into collections.
+    /// </summary>
     [ApiController]
     public class InsertController : DataController
     {
         private readonly ILogger<InsertController> _logger;
-        private MongoManager _manager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InsertController"/> class.
+        /// </summary>
+        /// <param name="logger">the controller's logger</param>
+        /// <param name="options">the application settings</param>
         public InsertController(ILogger<InsertController> logger, IOptions<ApplicationSettings> options) : base(options)
         {
             _logger = logger;
-            _manager = new MongoManager(options);
         }
 
+        /// <summary>
+        /// Inserts a single item, with the request body containing information on what to insert.
+        /// </summary>
+        /// <param name="requestedType">the type/collection to insert into</param>
+        /// <returns>a <see cref="HttpResponse"/> denoting whether the operation was successful</returns>
         [HttpPut]
         [Route("{requestedType}/insert")]
         public async Task<HttpResponse> Insert(string requestedType)
         {
-            var dtoType = _manager.GetDtoType(requestedType);
+            var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
                 return await TypeNotAvailable(requestedType);
@@ -60,11 +71,16 @@ namespace BudgetApp.Backend.Api.Controllers
                 RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
         }
 
+        /// <summary>
+        /// Inserts multiple items into the given collection. the items to insert are contained within the request body.
+        /// </summary>
+        /// <param name="requestedType">the type of item/collection to insert</param>
+        /// <returns>a <see cref="HttpResponse"/> denoting whether the operation was successful</returns>
         [HttpPut]
         [Route("{requestedType}/insertMany")]
         public async Task<HttpResponse> InsertMany(string requestedType)
         {
-            var dtoType = _manager.GetDtoType(requestedType);
+            var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
                 return await TypeNotAvailable(requestedType);
