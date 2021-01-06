@@ -38,43 +38,48 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <returns>A <see cref="HttpResponse"/> indicating whether the operation was successful or not</returns>
         [HttpPost]
         [Route("auth/login")]
-        public async Task<HttpResponse> DoLogin()
+        public async Task DoLogin()
         {
             var pair = await ParseAuthorizationDetails();
             if (pair.Count != 2)
             {
-                return await SerializedObjectResponse(
+                await SerializedObjectResponse(
                     CreateErrorReport(ApiErrorCode.UserNameAndPasswordRequired,
                         "Username and password required."), 400);
+                return;
             }
 
             var userQuery = GetUserQuery(pair[0]);
             var responseObject = Manager.Find(nameof(Dto.Auth.User), typeof(User), userQuery);
             if (responseObject is not List<User> users || users.FirstOrDefault() == null)
             {
-                return await SerializedObjectResponse(MergeReportsIfRequired(pair, responseObject));
+                await SerializedObjectResponse(MergeReportsIfRequired(pair, responseObject));
+                return;
             }
 
             var user = users.FirstOrDefault();
             if (user.LockedOut)
             {
-                return await ReportAttemptedAccessToLockedUser(user, pair);
+                await ReportAttemptedAccessToLockedUser(user, pair);
+                return;
             }
 
             var authManager = new AuthenticationManager();
             if (CredentialsMatched(authManager, pair, user))
             {
-                return await AcceptUserAccessRequest(user, authManager);
+                await AcceptUserAccessRequest(user, authManager);
+                return;
             }
 
             CreateIncident(IncidentLevel.High, IncidentType.InvalidCredentials, user);
             user.LoginAttempts++;
             if (user.LoginAttempts >= Options.Value.General.MaxGuesses)
             {
-                return await TooManyLoginAttempts(user, pair);
+               await TooManyLoginAttempts(user, pair);
+               return;
             }
 
-            return await IncorrectCredentialsProvided(user, pair);
+            await IncorrectCredentialsProvided(user, pair);
         }
 
         /// <summary>
@@ -99,12 +104,12 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <param name="expectedUser">the affected user</param>
         /// <param name="pair">the credentials sent through as part of the request</param>
         /// <returns></returns>
-        private async Task<HttpResponse> TooManyLoginAttempts(User expectedUser, IReadOnlyList<string> pair)
+        private async Task TooManyLoginAttempts(User expectedUser, IReadOnlyList<string> pair)
         {
             expectedUser.LockedOut = true;
             UpdateDto(expectedUser);
             CreateIncident(IncidentLevel.Critical, IncidentType.LockedOut, expectedUser);
-            return await SerializedObjectResponse(CreateErrorReport(ApiErrorCode.UserLockedOut,
+            await SerializedObjectResponse(CreateErrorReport(ApiErrorCode.UserLockedOut,
                 "Too many login attempts, your account has been locked.", new List<string>() {pair[0]}));
         }
 
@@ -114,11 +119,11 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <param name="dto">the affected dto (user)</param>
         /// <param name="pair">the credentials sent to the endpoint</param>
         /// <returns></returns>
-        private async Task<HttpResponse> IncorrectCredentialsProvided(IDto dto, IReadOnlyList<string> pair)
+        private async Task IncorrectCredentialsProvided(IDto dto, IReadOnlyList<string> pair)
         {
             UpdateDto(dto);
             CreateIncident(IncidentLevel.High, IncidentType.InvalidCredentials, dto);
-            return await SerializedObjectResponse(CreateErrorReport(ApiErrorCode.InvalidCredentials,
+            await SerializedObjectResponse(CreateErrorReport(ApiErrorCode.InvalidCredentials,
                 "Your username or password is incorrect. Please try again.", new List<string>() {pair[0]}), 403);
         }
 
@@ -129,12 +134,12 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <param name="dto">the affected dto (user)</param>
         /// <param name="pair">the credentials sent to the endpoint</param>
         /// <returns>The HTTP response</returns>
-        private async Task<HttpResponse> ReportAttemptedAccessToLockedUser(IDto dto, IReadOnlyList<string> pair)
+        private async Task ReportAttemptedAccessToLockedUser(IDto dto, IReadOnlyList<string> pair)
         {
             var type = IncidentType.AttemptToLogInAsLockedOutUser;
             var level = IncidentLevel.High;
             CreateIncident(level, type, dto);
-            return await SerializedObjectResponse(CreateErrorReport(ApiErrorCode.UserLockedOut,
+            await SerializedObjectResponse(CreateErrorReport(ApiErrorCode.UserLockedOut,
                 "Your account is locked out, please reset your password", new List<string> {pair[0]}), 403);
         }
 
@@ -177,14 +182,14 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <param name="expectedUser">The user logging in</param>
         /// <param name="authManager">Responsible for dealing with authentication tasks</param>
         /// <returns></returns>
-        private async Task<HttpResponse> AcceptUserAccessRequest(User expectedUser, AuthenticationManager authManager)
+        private async Task AcceptUserAccessRequest(User expectedUser, AuthenticationManager authManager)
         {
             expectedUser.LoginAttempts = 0;
             CreateIncident(IncidentLevel.Low, IncidentType.Login, expectedUser);
             var token = CreateAuthorizationToken(expectedUser, authManager);
             Manager.Insert(token.GetType().Name, token.GetType(), token);
             UpdateDto(expectedUser);
-            return await SerializedObjectResponse(new AuthSuccessfulResult(token));
+            await SerializedObjectResponse(new AuthSuccessfulResult(token));
         }
 
         /// <summary>

@@ -51,22 +51,24 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
         /// <param name="responseObject">The object that will be serialized and used as the response body</param>
         /// <param name="statusCode">The response status code to be returned to the user.</param>
         /// <returns>The <see cref="HttpResponse"/> denoting the result of an operation</returns>
-        protected async Task<HttpResponse> SerializedObjectResponse(object responseObject, int statusCode = 200)
+        protected async Task SerializedObjectResponse(object responseObject, int statusCode = 200)
         {
-            var jsonOptions = GetJsonSerializerOptions();
+            // IActionResult statusCodeResult;
             if (responseObject is RequestReport report)
             {
-                this.Response.StatusCode = report.IsInternalError ? 500 : statusCode;
+                this.Request.HttpContext.Response.StatusCode =
+                    report.IsInternalError ? 500 : !report.IsSuccess ? 400 : statusCode;
             }
             else
             {
-                this.Response.StatusCode = statusCode;
+                this.Request.HttpContext.Response.StatusCode = statusCode;
             }
 
+            var jsonOptions = GetJsonSerializerOptions();
             var serialize = SerializeAndAddHeaders(responseObject, jsonOptions);
-            await this.Response.Body.WriteAsync(
+            await this.Request.HttpContext.Response.Body.WriteAsync(
                 Encoding.UTF8.GetBytes(serialize));
-            return this.Response;
+            await this.Request.HttpContext.Response.CompleteAsync();
         }
 
         /// <summary>
@@ -99,14 +101,13 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
         /// </summary>
         /// <param name="type">The type that failed</param>
         /// <returns>The <see cref="HttpResponse"/> denoting failure.</returns>
-        protected async Task<HttpResponse> TypeNotAvailable(string type)
+        protected async Task TypeNotAvailable(string type)
         {
-            this.Response.StatusCode = 400;
-            this.Response.ContentType = "application/json";
+            this.Request.HttpContext.Response.StatusCode = 400;
+            this.Request.HttpContext.Response.ContentType = "application/json";
             await this.Response.BodyWriter.WriteAsync(
                 Encoding.UTF8.GetBytes(JsonSerializer.Serialize(GenerateInvalidTypeReport(type))));
-            return this.Response;
-        }
+           }
 
         /// <summary>
         /// Checks whether the type is a <see cref="DataTransferObject"/> or a <see cref="ExpenseDto"/>
@@ -167,9 +168,9 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
         /// <returns>The serialized object.</returns>
         private string SerializeAndAddHeaders(object responseObject, JsonSerializerOptions jsonOptions)
         {
-            this.Response.ContentType = "application/json";
+            this.Request.HttpContext.Response.ContentType = "application/json";
             var serialize = JsonSerializer.Serialize(responseObject, jsonOptions);
-            this.Response.Headers.Add("Content-Length", serialize.Length.ToString());
+            this.Request.HttpContext.Response.Headers.Add("Content-Length", serialize.Length.ToString());
             return serialize;
         }
     }

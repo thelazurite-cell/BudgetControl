@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Authentication;
 using System.Text.Json.Serialization;
 using System.Threading;
 using BudgetApp.Backend.Api.Configuration;
@@ -28,8 +29,10 @@ namespace BudgetApp.Backend.Api.Services
         {
             try
             {
-                var client = new MongoClient(_options.Value.Database.Host);
-                var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
+                var db = _options.Value.Database;
+
+                var client = new MongoClient(UseDatabaseConnectionSettings(db));
+                var collection = GetCollection(requestedType, client.GetDatabase(db.DatabaseName),
                     dtoType);
                 var mongoResponse =
                     ConvertResponseToList(dtoType, MongoFindContext.PerformFindRequest(collection, dtoType, query));
@@ -40,6 +43,26 @@ namespace BudgetApp.Backend.Api.Services
                 return RequestReportGenerator.ExceptionReport(requestedType,
                     "A problem occurred while trying to find records", e);
             }
+        }
+
+        private static MongoClientSettings UseDatabaseConnectionSettings(DatabaseSettings db)
+        {
+            var internalIdentity =
+                new MongoInternalIdentity(db.AuthenticationDatabaseName, db.UserName);
+            var passwordEvidence = new PasswordEvidence(db.Password);
+            var settings = new MongoClientSettings()
+            {
+                Server = new MongoServerAddress(db.Host, db.Port),
+                UseTls = db.UseTls,
+                AllowInsecureTls = db.AllowInsecureTls
+            };
+            if (db.UsesAuthentication)
+            {
+                settings.Credential = new MongoCredential(db.AuthenticationType,
+                    internalIdentity, passwordEvidence);
+            }
+
+            return settings;
         }
 
         public RequestReport Insert(string requestedType, Type dtoType, object query)
@@ -59,7 +82,8 @@ namespace BudgetApp.Backend.Api.Services
 
         private object GetCollection(string requestedType, Type dtoType)
         {
-            var client = new MongoClient(_options.Value.Database.Host);
+            var db = _options.Value.Database;
+            var client = new MongoClient(UseDatabaseConnectionSettings(db));
             var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
                 dtoType);
             return collection;
@@ -117,8 +141,8 @@ namespace BudgetApp.Backend.Api.Services
             var assembly = Assembly.LoadFile(assemblyLocation);
             var dtoType = assembly?.GetTypes()?
                 .FirstOrDefault(itm => itm.Name.ToLower().Equals(type.ToLower()));
-            var customAttribute = dtoType.GetCustomAttributesData()
-                .Any(itm => itm.AttributeType.Name == nameof(TransferableDataTypeAttribute));
+            var customAttribute = dtoType?.GetCustomAttributesData()
+                .Any(itm => itm.AttributeType.Name == nameof(TransferableDataTypeAttribute)) ?? false;
             return customAttribute == false ? null : dtoType;
         }
 

@@ -44,19 +44,21 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <returns>a <see cref="HttpResponse"/> denoting whether the operation was successful</returns>
         [HttpPut]
         [Route("{requestedType}/insert")]
-        public async Task<HttpResponse> Insert(string requestedType)
+        public async Task Insert(string requestedType)
         {
             var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
-                return await TypeNotAvailable(requestedType);
+                await TypeNotAvailable(requestedType);
+                return;
             }
 
             var requestBody = await GetRequestBody();
             if (string.IsNullOrWhiteSpace(requestBody))
             {
-                return await SerializedObjectResponse(
+                await SerializedObjectResponse(
                     RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+                return;
             }
 
             var deserialize = GetJsonDeserializeForDto(dtoType);
@@ -64,10 +66,11 @@ namespace BudgetApp.Backend.Api.Controllers
             if (IsDtoType(deserializedObject))
             {
                 var res = Manager.Insert(dtoType.Name, dtoType, deserializedObject);
-                return await SerializedObjectResponse(res);
+                await SerializedObjectResponse(res);
+                return;
             }
 
-            return await SerializedObjectResponse(
+            await SerializedObjectResponse(
                 RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
         }
 
@@ -78,12 +81,13 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <returns>a <see cref="HttpResponse"/> denoting whether the operation was successful</returns>
         [HttpPut]
         [Route("{requestedType}/insertMany")]
-        public async Task<HttpResponse> InsertMany(string requestedType)
+        public async Task InsertMany(string requestedType)
         {
             var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
-                return await TypeNotAvailable(requestedType);
+                await TypeNotAvailable(requestedType);
+                return;
             }
 
             var genericListType = typeof(List<>);
@@ -91,20 +95,25 @@ namespace BudgetApp.Backend.Api.Controllers
             var requestBody = await GetRequestBody();
             if (string.IsNullOrWhiteSpace(requestBody))
             {
-                return await SerializedObjectResponse(
+                await SerializedObjectResponse(
                     RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+                return;
             }
 
             var deserialize = GetJsonDeserializeForDto(listOfDto);
             var deserializedObject = deserialize.Invoke(null, new object[] {requestBody, GetJsonSerializerOptions()});
             RequestReport? report = null;
             if (deserializedObject is not IList list)
-                return await SerializedObjectResponse(report ??
-                                                      RequestReportGenerator.ErrorReadingDataReport(requestedType,
-                                                          requestBody));
+            {
+                await SerializedObjectResponse(report ??
+                                               RequestReportGenerator.ErrorReadingDataReport(requestedType,
+                                                   requestBody));
+                return;
+            }
+
             report = AttemptInsertArrayItems(list, dtoType);
 
-            return await SerializedObjectResponse(report);
+            await SerializedObjectResponse(report);
         }
 
         private RequestReport AttemptInsertArrayItems(IList list, Type dtoType)
@@ -112,12 +121,14 @@ namespace BudgetApp.Backend.Api.Controllers
             RequestReport report;
             report = new RequestReport();
             report.IsSuccess = true;
+            report.RowsAffected = 0;
             foreach (var itm in list)
             {
                 try
                 {
                     if (ArrayItemIsNotDtoType(itm, report)) continue;
                     AttemptToInsertArrayItem(dtoType, itm, report);
+                    report.RowsAffected++;
                 }
                 catch (System.Exception e)
                 {

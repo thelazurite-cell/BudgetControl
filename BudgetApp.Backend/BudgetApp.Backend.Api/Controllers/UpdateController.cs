@@ -37,19 +37,21 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <returns>A <see cref="HttpResponse"/> denoting whether the operation was successful or not</returns>
         [HttpPost]
         [Route("{requestedType}/update/{id}")]
-        public async Task<HttpResponse> Update(string requestedType, string id)
+        public async Task Update(string requestedType, string id)
         {
             var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
-                return await TypeNotAvailable(requestedType);
+                 await TypeNotAvailable(requestedType);
+                 return;
             }
 
             var requestBody = await GetRequestBody();
             if (string.IsNullOrWhiteSpace(requestBody))
             {
-                return await SerializedObjectResponse(
+                await SerializedObjectResponse(
                     RequestReportGenerator.ErrorReadingDataReport(dtoType.Name, requestBody));
+                return;
             }
 
             var deserialize = GetJsonDeserializeForDto(dtoType);
@@ -57,8 +59,9 @@ namespace BudgetApp.Backend.Api.Controllers
 
             if (!IsDtoType(dto))
             {
-                return await SerializedObjectResponse(
+                await SerializedObjectResponse(
                     RequestReportGenerator.ErrorReadingDataReport(dtoType.Name, requestBody));
+                return;
             }
 
             dto.GetType().GetProperty("IsDirty").SetValue(dto, false);
@@ -67,11 +70,11 @@ namespace BudgetApp.Backend.Api.Controllers
             {
                 var res = Manager.Update(dtoType.Name, dtoType, new QueryBuilder(dtoType).ById(id).Build(),
                     parser.Result);
-                return await SerializedObjectResponse(res);
+                await SerializedObjectResponse(res);
             }
             else
             {
-                return await SerializedObjectResponse(parser.Report);
+                await SerializedObjectResponse(parser.Report);
             }
         }
     }

@@ -57,16 +57,17 @@ namespace BudgetApp.Backend.Api.Controllers
         /// documents are returned.</returns>
         [HttpGet]
         [Route("{requestedType}/findAll")]
-        public async Task<HttpResponse> FindAll(string requestedType)
+        public async Task FindAll(string requestedType)
         {
             var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
-                return await TypeNotAvailable(requestedType);
+                 await TypeNotAvailable(requestedType);
+                 return;
             }
 
             const string fetchAll = "{}";
-            return await SerializedObjectResponse(Manager.Find(dtoType.Name, dtoType, fetchAll));
+            await SerializedObjectResponse(Manager.Find(dtoType.Name, dtoType, fetchAll));
         }
 
         /// <summary>
@@ -77,19 +78,21 @@ namespace BudgetApp.Backend.Api.Controllers
         /// documents are returned.</returns>
         [HttpPost]
         [Route("{requestedType}/find")]
-        public async Task<HttpResponse> Find(string requestedType)
+        public async Task Find(string requestedType)
         {
             var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
-                return await TypeNotAvailable(requestedType);
+                await TypeNotAvailable(requestedType);
+                return;
             }
 
             var requestBody = await GetRequestBody();
             var queryParser = new MongoFilterParser();
             if (!ParseQuerySuccessful(queryParser, dtoType, requestBody))
             {
-                return await SerializedObjectResponse(queryParser.Report, 400);
+                await SerializedObjectResponse(queryParser.Report, 400);
+                return;
             }
 
             var mongoFindResponse = Manager.Find(dtoType.Name, dtoType, queryParser.Result);
@@ -97,15 +100,17 @@ namespace BudgetApp.Backend.Api.Controllers
             {
                 if (array.Count > 0)
                 {
-                    return await SerializedObjectResponse(mongoFindResponse);
+                    await SerializedObjectResponse(mongoFindResponse);
+                    return;
                 }
             }
             else if (mongoFindResponse is RequestReport report)
             {
-                return await SerializedObjectResponse(report);
+                await SerializedObjectResponse(report);
+                return;
             }
 
-            return await NoFindDataFound(requestedType, queryParser);
+            await NoFindDataFound(requestedType, queryParser);
         }
 
         /// <summary>
@@ -115,7 +120,7 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <param name="requestedType">the type being searched against</param>
         /// <param name="filterParser">the query parser</param>
         /// <returns>A <see cref="HttpResponse"/> stating that no data can be found</returns>
-        private async Task<HttpResponse> NoFindDataFound(string requestedType, MongoFilterParser filterParser)
+        private async Task NoFindDataFound(string requestedType, MongoFilterParser filterParser)
         {
             filterParser.Report.Messages.Add(new Message
             {
@@ -124,7 +129,7 @@ namespace BudgetApp.Backend.Api.Controllers
                 MessageText = $"No results found for {requestedType} with the given query",
                 Parameters = {filterParser.Result}
             });
-            return await SerializedObjectResponse(filterParser.Report);
+            await SerializedObjectResponse(filterParser.Report);
         }
 
         /// <summary>

@@ -36,18 +36,19 @@ namespace BudgetApp.Backend.Api.Controllers
         /// <returns>A <see cref="HttpResponse"/> indicating whether the operation was successful or not.</returns>
         [HttpDelete]
         [Route("{requestedType}/delete/{id}")]
-        public async Task<HttpResponse> DeleteAsync(string requestedType, string id)
+        public async Task DeleteAsync(string requestedType, string id)
         {
             var dtoType = Manager.GetDtoType(requestedType);
             if (dtoType == null)
             {
-                return await TypeNotAvailable(requestedType);
+                await TypeNotAvailable(requestedType);
+                return;
             }
 
             var builder = new QueryBuilder(dtoType);
             var query = builder.ById(id).Build();
             var res = Manager.Delete(dtoType.Name, dtoType, query);
-            return await SerializedObjectResponse(res, res.IsSuccess ? 200 : 400);
+            await SerializedObjectResponse(res, res.IsSuccess ? 200 : 400);
         }
     }
 }
