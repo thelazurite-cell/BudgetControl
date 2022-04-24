@@ -1,0 +1,60 @@
+{
+  "cucumberProvider": "@cucumber/cucumber",
+  "browsers": [
+    { "name": "firefox", "command": "", "headlessCommand": "" },
+    {
+      "name": "chrome",
+      "command": " --allow-insecure-localhost --allow-running-insecure-content --start-maximized --enable-automation --disable-backgrounding-occluded-windows --disable-background-timer-throttling",
+      "headlessCommand": " --disable-web-security --allow-insecure-localhost --allow-running-insecure-content --enable-automation"
+    },
+    {
+      "name": "edge",
+      "command": " --allow-insecure-localhost --allow-running-insecure-content --start-maximized --enable-automation --disable-backgrounding-occluded-windows --disable-background-timer-throttling",
+      "headlessCommand": " --disable-web-security --allow-insecure-localhost --allow-running-insecure-content --enable-automation"
+    }
+  ],
+  "reporting": {
+    "outputFolder": "../Reports",
+    "defaultExtension": "txt",
+    "defaultFileNamePattern": "report.[product].[environment].[reportType]",
+    "types": [
+      { "name": "xunit", "extension": "xml" },
+      { "name": "junit", "extension": "xml" },
+      { "name": "jest", "extension": "xml" },
+      { "name": "cucumber-json", "extension": "xml" }
+    ]
+  },
+  "products": [
+    {
+      "productName": "budgetapp",
+      "containerName": "BudgetappContainer",
+      "tagConfigName": "BudgetappTags",
+      "testAreaName": "BudgetappTestArea",
+      "containerConfig": "src\\products\\budgetapp\\business-logic\\budgetapp.config.ts",
+      "tagConfig": "src\\products\\budgetapp\\business-logic\\budgetapp-tags.config.ts",
+      "testAreaConfig": "src\\products\\budgetapp\\business-logic\\budgetapp-test-area.config.ts",
+      "baseLogicFolder": "src\\products\\budgetapp\\business-logic",
+      "basePageObjectFolder": "src\\products\\budgetapp\\page-object-models",
+      "baseSpecFolder": "src\\products\\budgetapp\\specs",
+      "apiSpecFolder": "src\\products\\budgetapp\\specs\\api",
+      "browserSpecFolder": "src\\products\\budgetapp\\specs\\browser",
+      "baseStepFolder": "src\\products\\budgetapp\\steps",
+      "apiStepFolder": "src\\products\\budgetapp\\steps\\api",
+      "browserStepFolder": "src\\products\\budgetapp\\steps\\browser",
+      "testAreas": [],
+      "logicModels": [],
+      "variants": [],
+      "fallbackVariant": "budgetapp",
+      "environments": ["dev"],
+      "appConfigFiles": ["config\\budgetapp\\appConfig.budgetapp.dev.json"],
+      "featureConfigFiles": [
+        "config\\budgetapp\\featureTestConfig.budgetapp.json"
+      ],
+      "baseConfigPath": "config\\budgetapp",
+      "mockApiRequests": [],
+      "newmanCollectionPath": "src\\products\\budgetapp\\newman-collections"
+    }
+  ],
+  "usesCertificates": true,
+  "ignoresRegistry": false
+}

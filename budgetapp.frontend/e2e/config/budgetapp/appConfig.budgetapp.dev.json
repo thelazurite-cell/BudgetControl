@@ -1,0 +1,38 @@
+{
+  "ssl": false,
+  "testHost": "localhost:3000",
+  "applicationRoot": "",
+  "details": {},
+  "dataConnections": {},
+  "frameworkConfig": {
+    "pageLoadTimeoutMs": 60000,
+    "pageRequestTimeout": 60000,
+    "ajaxTimeoutMs": 60000,
+    "defaultElementTimeoutMs": 5000,
+    "assertionTimeoutMs": 10000,
+    "mochaReporters": "spec",
+    "testcafeReporters": "spec",
+    "defaultBrowser": "chrome",
+    "parallelThreads": 1,
+    "testSpeed": 1,
+    "maxTestAttempts": 1,
+    "sources": [
+      {
+        "locations": [
+          "dist\\products\\budgetapp\\specs\\api\\**\\*.spec.feature",
+          "dist\\products\\budgetapp\\steps\\api\\**\\*.steps.js"
+        ],
+        "type": "api",
+        "useGherkin": true
+      },
+      {
+        "locations": [
+          "dist\\products\\budgetapp\\specs\\browser\\**\\*.spec.feature",
+          "dist\\products\\budgetapp\\steps\\browser\\**\\*.steps.js"
+        ],
+        "type": "browser",
+        "useGherkin": true
+      }
+    ]
+  }
+}
