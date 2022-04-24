@@ -7,30 +7,52 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto
 {
+
     [TransferableDataType]
+    [DataSchema]
+    [DataSchemaExpandable]
     public class Term : DataTransferObject
     {
         [BsonElement("name")]
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        [DataType(DataTypeEnum.String)]
+        [DataMaxLength(300)]
+        [DataRequired]
+        [DataFriendlyName("Name")]
+        [DataRelationshipView]
+        public string? Name { get; set; }
 
         [BsonElement("startDay")]
         [JsonPropertyName("startDay")]
+        [DataFriendlyName("Start Day")]
+        [DataType(DataTypeEnum.Number)]
+        [DataRequired]
+        [DataWholeNumber]
         public int StartDay { get; set; }
 
         [BsonElement("endDay")]
         [JsonPropertyName("endDay")]
+        [DataFriendlyName("End Day")]
+        [DataType(DataTypeEnum.Number)]
+        [DataRequired]
+        [DataWholeNumber]
         public int EndDay { get; set; }
 
         [BsonElement("startFrom")]
         [JsonPropertyName("startFrom")]
+        [DataFriendlyName("Start From")]
+        [DataType(DataTypeEnum.DateTime)]
+        [DataRequired]
         public DateTime StartFrom { get; set; }
 
-        [BsonElement("expiryDate")] [JsonIgnore]
-        private string _expiryDate;
+        [BsonElement("expiryDate")]
+        [JsonIgnore]
+        private string? _expiryDate;
 
-        [JsonPropertyName("expiryDate")]
         [BsonIgnore]
+        [JsonPropertyName("expiryDate")]
+        [DataFriendlyName("Expiry Date")]
+        [DataType(DataTypeEnum.DateTime)]
         public DateTime? ExpiryDate
         {
             get
@@ -47,7 +69,29 @@ namespace BudgetApp.Backend.Dto
 
         [BsonElement("baseIncome")]
         [JsonPropertyName("baseIncome")]
+        [DataFriendlyName("Base Income")]
+        [DataType(DataTypeEnum.Number)]
+        [DataRequired]
+        [DataSensitive]
         public decimal BaseIncome { get; set; }
+
+        [BsonElement("header")]
+        [JsonPropertyName("header")]
+        [DataFriendlyName("Header")]
+        [DataType(DataTypeEnum.String)]
+        [DataHidden]
+        [DataRequired]
+        [DataExpandableHeader]
+        public string Header { get; set; }
+
+        [BsonElement("description")]
+        [JsonPropertyName("description")]
+        [DataFriendlyName("Description")]
+        [DataType(DataTypeEnum.String)]
+        [DataHidden]
+        [DataRequired]
+        [DataExpandableDescription]
+        public string Description { get; set; }
 
         public override bool ValidateInsert(params string[] args)
         {

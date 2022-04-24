@@ -57,8 +57,15 @@ export class DataTransferService {
         resolve(items);
       }, (err) => {
         console.error('couldn\'t fetch: ');
-        console.error(JSON.stringify(err));
-        reject(err);
+        const noResults = err.error.messages.filter(message => message.errorCode === 102)
+        if(noResults.length > 0){
+          this.js.emit({name: 'find', type: typeName, value: []});
+          resolve([]);
+        }
+        else {
+                console.error(JSON.stringify(err));
+                reject(err);
+        }
       }, () => {
         console.log('fetch complete');
       });
@@ -68,6 +75,7 @@ export class DataTransferService {
   public async insertItem<T extends IDataTransferObject>(typeName, item: T): Promise<void> {
     console.log('callinsertitem');
     const requestUrl = `${environment.backendHost}${typeName}/insert`;
+    item.sanitize();
 
     const req = this.http.put(requestUrl, item);
     await req.subscribe((value) => {
@@ -83,8 +91,16 @@ export class DataTransferService {
   public async insertManyItem(typeName, item: any[]): Promise<void> {
     console.log('callinsertManyitem');
     const requestUrl = `${environment.backendHost}${typeName}/insertMany`;
+    const temp = [];
 
-    const req = this.http.put(requestUrl, item);
+    for(let i of item)  {
+        if(i.sanitize) {
+          i.sanitize();
+        }
+        temp.push(i);
+    }
+
+    const req = this.http.put(requestUrl, temp);
     await req.subscribe((value) => {
       return Promise.resolve();
     }, (err) => {
@@ -96,6 +112,7 @@ export class DataTransferService {
 
   public async updateItems<T extends IDataTransferObject>(typeName, items: T): Promise<void> {
     const requestUrl = `${environment.backendHost}${typeName}/update/${items._id}`;
+
     const req = this.http.post(requestUrl, items, {headers: this.commonHeaders()});
     await req.subscribe((value) => {
       console.log('updateItems');
@@ -199,12 +216,17 @@ export class DataTransferService {
       const promises = [];
       for (let x = 0; x < itemsHavingIdentifier.length; x++) {
         console.log(`onsave-${x}`);
-        const item = items[x] as IDataTransferObject;
+        const temp = items[x];
+        if(temp.sanitize){
+          temp.sanitize();
+        }
+        const item = temp  as IDataTransferObject;
         if (item.isDeleted && DtoHelper.hasIdentifier(item)) {
           console.log(`onsave-del`);
           promises.push(await this.deleteItems(type, [item]).then(() => {
           }));
-        } else if (item.isDirty && DtoHelper.hasIdentifier(item)) {
+        }
+         else if (item.isDirty && DtoHelper.hasIdentifier(item)) {
           console.log(`onsave-mod`);
           promises.push(await this.updateItems(type, item).then(() => {
           }));

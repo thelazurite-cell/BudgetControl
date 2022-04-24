@@ -1,6 +1,12 @@
 import {IExpenseDto} from './interfaces/expense-dto.interface';
 
 export class Expenditure implements IExpenseDto {
+  sanitize(): void {
+    this.quantity = +this.quantity;
+    this.cost = +this.cost;
+    this.amountSpent  = +this.amountSpent;
+  }
+
   public categoryId: string = '';
   public _id: string = '';
   public name: string = '';

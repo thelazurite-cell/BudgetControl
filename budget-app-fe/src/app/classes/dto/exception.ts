@@ -1,6 +1,9 @@
 import {IDataTransferObject} from './interfaces/data-transfer-object.interface';
 
 export class Exception implements IDataTransferObject {
+  sanitize(): void {
+    this.costAmount = +this.costAmount;
+  }
   public _id: string;
   public outgoingId: string;
   public costModifier: boolean;

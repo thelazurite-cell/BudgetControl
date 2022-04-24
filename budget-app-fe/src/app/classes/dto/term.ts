@@ -11,5 +11,11 @@ export class Term implements IDataTransferObject {
   removable: boolean = true;
   isDirty: boolean = false;
   isDeleted: boolean = false;
+
+  public sanitize() { 
+    this.startDay = +this.startDay;
+    this.endDay = +this.endDay;
+    this.baseIncome = +this.baseIncome;
+  }
 }
 

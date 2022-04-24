@@ -1,15 +1,15 @@
 {
   /* database config */
   "database": {
-    "host": "mongodb://127.0.0.1:27017",
-    "database": "budget-app-dev_prod",
+    "host": "mongodb://localhost:27017",
+    "database": "crm-dev",
     "userName": "",
     "password": ""
   },
   /* general settings */
   // instance specific details
   "general": {
-    "userApplication": "http://192.168.0.16:4200",
+    "userApplication": "http://192.168.0.15:4200",
     // incidents will be reported to:
     "adminEmail": "dylane@localhost.localdomain",
     // max password guesses:

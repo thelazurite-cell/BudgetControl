@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetApp.Backend.Api", "BudgetApp.Backend.Api\BudgetApp.Backend.Api.csproj", "{B83D76AA-FB10-44DA-AF71-711EC112D6E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetApp.Backend.Api.Test", "BudgetApp.Backend.Api.Test\BudgetApp.Backend.Api.Test.csproj", "{0D98C78E-10C3-4BD6-86DF-6C2A5C708586}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetApp.Backend.Dto", "BudgetApp.Backend.Dto\BudgetApp.Backend.Dto.csproj", "{D9EF24F3-CE1E-432F-9B7E-2CBC7CC072FD}"
 EndProject
 Global

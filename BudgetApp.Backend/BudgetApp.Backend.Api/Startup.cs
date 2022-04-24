@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BudgetApp.Backend.Api.Configuration;
+using BudgetApp.Backend.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
 
 namespace BudgetApp.Backend.Api
 {
@@ -38,9 +31,11 @@ namespace BudgetApp.Backend.Api
                 {
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins(_applicationUrl);
                 });
-            });
+            })
+            .Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"))
+            .ConfigureSchematics<ApplicationSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddControllers();
-            services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

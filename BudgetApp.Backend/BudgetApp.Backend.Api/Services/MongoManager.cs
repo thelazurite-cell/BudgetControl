@@ -47,17 +47,20 @@ namespace BudgetApp.Backend.Api.Services
 
         private static MongoClientSettings UseDatabaseConnectionSettings(DatabaseSettings db)
         {
-            var internalIdentity =
-                new MongoInternalIdentity(db.AuthenticationDatabaseName, db.UserName);
-            var passwordEvidence = new PasswordEvidence(db.Password);
             var settings = new MongoClientSettings()
             {
                 Server = new MongoServerAddress(db.Host, db.Port),
                 UseTls = db.UseTls,
                 AllowInsecureTls = db.AllowInsecureTls
             };
+
             if (db.UsesAuthentication)
             {
+                var internalIdentity =
+                    new MongoInternalIdentity(db.AuthenticationDatabaseName, db.UserName);
+
+                var passwordEvidence = new PasswordEvidence(db.Password);
+
                 settings.Credential = new MongoCredential(db.AuthenticationType,
                     internalIdentity, passwordEvidence);
             }
@@ -98,7 +101,8 @@ namespace BudgetApp.Backend.Api.Services
         {
             try
             {
-                var client = new MongoClient(_options.Value.Database.Host);
+                var db = _options.Value.Database;
+                var client = new MongoClient(UseDatabaseConnectionSettings(db));
                 var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
                     dtoType);
                 var update = MongoUpdateContext.PerformUpdateOneResult(collection, dtoType, filterQuery, updateQuery);
@@ -116,7 +120,8 @@ namespace BudgetApp.Backend.Api.Services
         {
             try
             {
-                var client = new MongoClient(_options.Value.Database.Host);
+                var db = _options.Value.Database;
+                var client = new MongoClient(UseDatabaseConnectionSettings(db));
                 var collection = GetCollection(requestedType, client.GetDatabase(_options.Value.Database.DatabaseName),
                     dtoType);
                 var delete = MongoDeleteContext.PerformDeleteRequest(collection, dtoType, query);
@@ -146,11 +151,28 @@ namespace BudgetApp.Backend.Api.Services
             return customAttribute == false ? null : dtoType;
         }
 
+        public List<Type> Schemas
+        {
+            get
+            {
+                var assemblyLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    this._options.Value.General.DtoDllName);
+                var assembly = Assembly.LoadFile(assemblyLocation);
+
+                return assembly?.GetTypes()?
+                    .Where(itm => itm?.GetCustomAttributesData()?.Any(
+                        attrib => attrib.AttributeType.Name == nameof(DataSchema)
+                        ) ?? false
+                    )?.ToList() ?? new List<Type>();
+
+            }
+        }
+
         private static object ConvertResponseToList(Type dtoType, object result)
         {
             MethodInfo toListMethod = typeof(IAsyncCursorExtensions).GetMethod("ToList");
             var constructedToList = toListMethod.MakeGenericMethod(dtoType);
-            var enumerable = constructedToList.Invoke(null, new[] {result, default(CancellationToken)});
+            var enumerable = constructedToList.Invoke(null, new[] { result, default(CancellationToken) });
             return enumerable!;
         }
 
@@ -158,7 +180,7 @@ namespace BudgetApp.Backend.Api.Services
         {
             var info = db.GetType().GetMethod(nameof(db.GetCollection));
             var generic = info.MakeGenericMethod(dtoType);
-            var collection = generic.Invoke(db, new object[] {type, new MongoCollectionSettings()});
+            var collection = generic.Invoke(db, new object[] { type, new MongoCollectionSettings() });
             return collection;
         }
     }

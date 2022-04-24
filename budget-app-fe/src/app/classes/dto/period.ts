@@ -2,6 +2,9 @@ import {IDataTransferObject} from './interfaces/data-transfer-object.interface';
 import {INamedDto} from './interfaces/expense-dto.interface';
 
 export class Period implements INamedDto {
+  sanitize(): void {
+    this.income = +this.income;
+  }
   public _id: string = '';
   public name: string = '';
   public termId: string = '';

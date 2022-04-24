@@ -8,60 +8,55 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto.Interfaces
 {
-    public abstract class DataTransferObject:IDto
+    public abstract class DataTransferObject : IDto
     {
         [BsonId()]
         [JsonIgnore]
+        [DataHidden]
         public ObjectId Id { get; set; }
-        
+
         [BsonIgnore]
-        [JsonPropertyName("_id")]
-        public  string Identifier
+        [JsonPropertyName("id")]
+        [DataHidden]
+        [DataSystemField]
+        [DataType(DataTypeEnum.Id)]
+        public string Identifier
         {
             get => Id.ToString();
         }
-        
+
         [BsonElement("removable")]
-        [JsonPropertyName( "removable")]
+        [JsonPropertyName("removable")]
+        [DataSystemField]
+        [DataHidden]
         public bool Removable { get; set; }
-        
-        [BsonElement("isDeleted")]
+
+        // [BsonElement("isDeleted")]
+        [BsonIgnore]
         [JsonPropertyName("isDeleted")]
+        [DataSystemField]
+        [DataHidden]
         public bool IsDeleted { get; set; }
-        [BsonElement("isDirty")]
+
+
+        // [BsonElement("isDirty")]
+        [BsonIgnore]
         [JsonPropertyName("isDirty")]
+        [DataSystemField]
+        [DataHidden]
         public bool IsDirty { get; set; }
 
         [BsonIgnore][JsonIgnore] public RequestReport ValidationErrors { get; set; } = new();
-        
+
+        [BsonIgnore]
+        [JsonExtensionData]
+        [DataSystemField]
+        [JsonPropertyName("additionalData")]
+        [DataHidden]
+        public Dictionary<string, object> AdditionalData { get; set; } = new();
+
         public abstract bool ValidateInsert(params string[] args);
         public abstract bool ValidateUpdate(params string[] args);
         public abstract bool ValidateDelete(params string[] args);
-    }
-
-    public interface IDto
-    {
-        [BsonId()]
-        [JsonIgnore]
-        public ObjectId Id { get; set; }
-        
-        [BsonIgnore]
-        [JsonPropertyName("_id")]
-        public  string Identifier
-        {
-            get => Id.ToString();
-        }
-        
-        [BsonElement("removable")]
-        [JsonPropertyName( "removable")]
-        public bool Removable { get; set; }
-        
-        [BsonElement("isDeleted")]
-        [JsonPropertyName("isDeleted")]
-        public bool IsDeleted { get; set; }
-        [BsonElement("isDirty")]
-        [JsonPropertyName("isDirty")]
-        public bool IsDirty { get; set; }
-
     }
 }

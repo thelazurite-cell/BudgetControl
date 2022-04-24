@@ -11,6 +11,9 @@ export interface IColorDto extends INamedDto, IColor {
 }
 
 export class Category implements IColorDto {
+  sanitize(): void {
+    this.threshold = +this.threshold;
+  }
   public _id: string;
   public name: string = '';
   public color: string = '#d6d2d2';

@@ -1,0 +1,23 @@
+.settings-header {
+  padding: 0;
+  margin: 0;
+  position: unset;
+  display: block;
+  background-color: #ebebeb;
+  border: none;
+}
+.action-button {
+  width: 0%;
+  display: block;
+}
+.action-button-label {
+  text-align: center;
+  width: 50px;
+  display: block;
+}
+.tabs-control {
+  width: 100%;
+}
+.bx--tab-content {
+  padding: 0;
+}

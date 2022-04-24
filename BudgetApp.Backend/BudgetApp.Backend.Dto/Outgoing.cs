@@ -7,12 +7,18 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace BudgetApp.Backend.Dto
 {
     [TransferableDataType]
-    public class Outgoing:ExpenseDto
+    [DataSchema]
+
+    public class Outgoing : ExpenseDto
     {
         [BsonElement("payOnDay")]
         [JsonPropertyName("payOnDay")]
+        [DataFriendlyName("Pay On Day")]
+        [DataType(DataTypeEnum.Number)]
+        [DataRequired]
+        [DataWholeNumber]
         public int PayOnDay { get; set; }
-        
+
         public override bool ValidateInsert(params string[] args)
         {
             throw new NotImplementedException();

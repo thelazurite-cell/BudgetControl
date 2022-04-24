@@ -6,7 +6,7 @@ import {DataTransferService} from '../../services/data-transfer.service';
 import {QueryGroup} from '../../classes/dto/filtering/query-group';
 import {FilterTypeEnum} from '../../classes/dto/filtering/filter-type.enum';
 import {Query} from '../../classes/dto/filtering/query';
-import {User} from '../../classes/dto/interfaces/data-transfer-object.interface';
+import { User } from "../../classes/dto/interfaces/User";
 
 @Component({
   selector: 'app-navigation-bar',
