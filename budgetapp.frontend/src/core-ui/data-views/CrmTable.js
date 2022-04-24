@@ -1,10 +1,10 @@
-import ReactDOM from "react-dom";
 import React, { useState, useEffect } from "react";
 import {
-  TrashCan32 as Delete,
-  Save32 as Save,
-  Download32 as Download,
-  Information32 as Information,
+  TrashCan as Delete,
+  Save,
+  Download,
+  Information,
+  Eyedropper,
 } from "@carbon/icons-react";
 import { useAuth } from "../../auth/Auth";
 import {
@@ -40,14 +40,14 @@ import {
   FlexGrid,
   Row,
   Column,
-} from "carbon-components-react";
+} from "@carbon/react";
 import { ChromePicker, BlockPicker } from "react-color";
 import "../css/CrmTable.css";
 import { DataService } from "../service/DataService";
 import { useSensitiveData } from "../../SensitiveData";
 
 const sizes = {
-  Compact: "compact",
+  Compact: "xs",
   Short: "short",
   Medium: "medium",
   Default: null,
@@ -126,6 +126,48 @@ export const dataType = {
   color: 6,
 };
 
+export const ColorPicker = (props) => {
+  const [pickerVisible, setPickerVisible] = useState(false);
+  const [background, setBackground] = useState({ hex: "#ffffff" });
+  return (
+    <>
+      <div className="color-picker--grid">
+        <div className="color-picker--spread">
+          <TextInput
+            data-modal-primary-focus
+            key={`modal:input:${props.itm.fieldName}`}
+            id={`modal:input:${props.itm.fieldName}`}
+            labelText={props.itm.fieldFriendlyName}
+            placeholder="#fff"
+            readOnly={true}
+            value={background.hex}
+            style={{
+              marginBottom: "1rem",
+              backgroundColor: background.hex ? background.hex : "unset",
+              color: isDarkColor(background.hex || "#fff") ? "#fff" : "unset",
+            }}
+          />
+        </div>
+        <div className="color-picker--action">
+          <Button
+            className="color-picker--action--button"
+            onClick={() => setPickerVisible(!pickerVisible)}
+          >
+            <Eyedropper /> <label>Pick</label>
+          </Button>
+        </div>
+      </div>
+      {pickerVisible ? (
+        <ChromePicker
+          key={`modal:picker:${props.itm.fieldName}`}
+          color={background}
+          onChangeComplete={(color) => setBackground(color)}
+        />
+      ) : null}
+    </>
+  );
+};
+
 export const DataManager = (props) => {
   console.log(props.dataType);
   return (
@@ -183,29 +225,7 @@ export const DataManager = (props) => {
               </Select>
             );
           } else if (itm.fieldType === dataType.color) {
-            return (
-              <>
-                <FlexGrid>
-                  <Row>
-                    <Column lg={10}>
-                      <TextInput
-                        data-modal-primary-focus
-                        key={`modal:input:${itm.fieldName}`}
-                        id={`modal:input:${itm.fieldName}`}
-                        labelText={itm.fieldFriendlyName}
-                        placeholder="#fff"
-                        style={{ marginBottom: "1rem" }}
-                        readOnly={true}
-                      />
-                    </Column>
-                    <Column lg={2}>
-                      <Button />
-                    </Column>
-                  </Row>
-                </FlexGrid>
-                <ChromePicker key={`modal:picker:${itm.fieldName}`} />
-              </>
-            );
+            return <ColorPicker itm={itm} />;
           } else {
             return (
               <>
@@ -214,7 +234,7 @@ export const DataManager = (props) => {
                   key={`modal:input:${itm.fieldName}`}
                   id={`modal:input:${itm.fieldName}`}
                   labelText={itm.fieldFriendlyName}
-                  placeholder="e.g. github.com"
+                  placeholder={itm.fieldPlaceholder}
                   style={{ marginBottom: "1rem" }}
                 />
               </>

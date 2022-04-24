@@ -6,4 +6,6 @@ namespace BudgetApp.Backend.Dto
         {
         }
     }
+
+
 }

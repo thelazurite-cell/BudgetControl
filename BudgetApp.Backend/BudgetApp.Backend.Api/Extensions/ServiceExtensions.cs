@@ -142,6 +142,9 @@ namespace BudgetApp.Backend.Api.Extensions
                 case "DataRelatesToAttribute":
                     field.FieldRelatesTo = ReadAttributeValue(attribute).ToString();
                     break;
+                case "DataPlaceholderAttribute":
+                    field.FieldPlaceholder = ReadAttributeValue(attribute).ToString();
+                    break;
                 case "DataSensitiveAttribute":
                     field.FieldSensitive = bool.Parse(ReadAttributeValue(attribute).ToString());
                     break;

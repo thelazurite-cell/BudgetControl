@@ -6,9 +6,12 @@ import {
   InlineLoading,
   Loading,
   Tabs,
+  TabList,
+  TabPanels,
+  TabPanel,
   Tab,
-} from "carbon-components-react";
-import { Save20, IncompleteCancel20 } from "@carbon/icons-react";
+} from "@carbon/react";
+import { Save, IncompleteCancel } from "@carbon/icons-react";
 import { NotificationService } from "../core-ui/service/NotificationService";
 import { NotificationProps } from "../core-ui/data/NotificationProps";
 import { randstring } from "../api/String.helpers";
@@ -86,7 +89,7 @@ export default function Settings() {
                 disabled={isSubmitting || success}
               >
                 <label className="action-button-label">
-                  <IncompleteCancel20 />
+                  <IncompleteCancel />
                 </label>
               </Button>
               {isSubmitting || success ? (
@@ -103,7 +106,7 @@ export default function Settings() {
                   onClick={() => handleSubmit(fetchData)}
                 >
                   <label className="action-button-label">
-                    <Save20 />
+                    <Save />
                   </label>
                 </Button>
               )}
@@ -115,20 +118,72 @@ export default function Settings() {
         <Loading />
       ) : (
         <Tabs className="tabs-control">
-          <Tab id="terms-tab" label="Terms">
-            <CrmTable schemaName="Term"></CrmTable>
-          </Tab>
-          <Tab id="categories-tab" label="Categories">
-            <CrmTable schemaName="Category"></CrmTable>
-          </Tab>
-          <Tab id="expenditures-tab" label="Outgoings">
-            <CrmTable schemaName="Outgoing"></CrmTable>
-          </Tab>
-          <Tab id="exceptions-tab" label="Exceptions">
-            <CrmTable schemaName="Exception"></CrmTable>
-          </Tab>
+          <TabList>
+            <Tab id="terms-tab" className="settings-tab" label="Terms">
+              Terms
+            </Tab>
+            <Tab
+              id="categories-tab"
+              className="settings-tab"
+              label="Categories"
+            >
+              Categories
+            </Tab>
+            <Tab
+              id="expenditures-tab"
+              className="settings-tab"
+              label="Outgoings"
+            >
+              Outgoings
+            </Tab>
+            <Tab
+              id="exceptions-tab"
+              className="settings-tab"
+              label="Exceptions"
+            >
+              Exceptions
+            </Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <CrmTable schemaName="Term"></CrmTable>
+            </TabPanel>
+            <TabPanel>
+              <CrmTable schemaName="Category"></CrmTable>
+            </TabPanel>
+            <TabPanel>
+              <CrmTable schemaName="Outgoing"></CrmTable>
+            </TabPanel>
+            <TabPanel>
+              <CrmTable schemaName="Exception"></CrmTable>
+            </TabPanel>
+          </TabPanels>
         </Tabs>
       )}
     </div>
   );
 }
+// $(document).ready(function(){
+
+//   // Select and loop the container element of the elements you want to equalise
+//   $('.container').each(function(){
+
+//     // Cache the highest
+//     var highestBox = 0;
+
+//     // Select and loop the elements you want to equalise
+//     $('.column', this).each(function(){
+
+//       // If this box is higher than the cached highest then store it
+//       if($(this).height() > highestBox) {
+//         highestBox = $(this).height();
+//       }
+
+//     });
+
+//     // Set the height of all those children to whichever was highest
+//     $('.column',this).height(highestBox);
+
+//   });
+
+// });

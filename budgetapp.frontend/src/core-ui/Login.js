@@ -1,10 +1,9 @@
-import "carbon-components/scss/globals/scss/styles.scss";
 import "./css/Login.css";
 import axios from "axios";
 import React, { useEffect } from "react";
-import { Form } from "carbon-components-react";
-import { Button } from "carbon-components-react";
-import { TextInput } from "carbon-components-react";
+import { Form } from "@carbon/react";
+import { Button } from "@carbon/react";
+import { TextInput } from "@carbon/react";
 import { AuthCookie } from "../auth/AuthCookie";
 import { useHistory, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/Auth";

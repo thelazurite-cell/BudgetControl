@@ -68,5 +68,9 @@ namespace BudgetApp.Backend.Dto
         [BsonElement("systemField")]
         [JsonPropertyName("systemField")]
         public bool SystemField { get; set; } = false;
+
+        [BsonElement("fieldPlaceholder")]
+        [JsonPropertyName("fieldPlaceholder")]
+        public string FieldPlaceholder { get; set; } = "";
     }
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ToastNotification, Button, Content } from "carbon-components-react";
+import { ToastNotification, Button, Content } from "@carbon/react";
 
 import "./css/NotificationManager.css";
 import { NotificationService } from "./service/NotificationService";

@@ -1,12 +1,12 @@
 import "./css/Nav.css";
 
 import {
-  Notification20,
-  Menu20,
-  Logout20,
-  Settings20,
-  View20,
-  ViewOff20,
+  Notification,
+  Menu,
+  Logout,
+  Settings,
+  View,
+  ViewOff,
 } from "@carbon/icons-react";
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { useAuth } from "../auth/Auth";
@@ -21,7 +21,9 @@ import {
   SwitcherItem,
   SwitcherDivider,
   Tag,
-} from "carbon-components-react";
+  useTheme,
+  Theme,
+} from "@carbon/react";
 import { FilterTypeEnum } from "../api/data-query/filter-type.enum";
 import { Query } from "../api/data-query/query";
 import { QueryGroup } from "../api/data-query/query-group";
@@ -32,6 +34,7 @@ import { NavService } from "./service/NavService";
 import { useSensitiveData } from "../SensitiveData";
 
 export default function Nav() {
+  const { theme } = useTheme();
   let [actionsVisible, setActionsVisible] = useState(false);
   let [notificationsVisible, setNotificationsVisible] = useState(false);
   let [actionsExpanded, setActionsExpanded] = useState(false);
@@ -99,6 +102,7 @@ export default function Nav() {
   }
 
   return (
+    // <Theme theme={theme}>
     <Header aria-label="CRM">
       <HeaderName href="#" prefix="CRM">
         [Platform]
@@ -126,9 +130,9 @@ export default function Nav() {
               onClick={() => sensitive.toggleSensitiveData()}
             >
               {sensitive.showSensitiveData ? (
-                <View20 id="sensitive-data-on" />
+                <View id="sensitive-data-on" />
               ) : (
-                <ViewOff20 id="sensitive-data-off" />
+                <ViewOff id="sensitive-data-off" />
               )}
             </HeaderGlobalAction>
           </>
@@ -146,7 +150,7 @@ export default function Nav() {
                 {notificationCount >= 99 ? "99+" : notificationCount}
               </Tag>
             ) : (
-              <Notification20 />
+              <Notification />
             )}
           </HeaderGlobalAction>
         ) : null}
@@ -160,7 +164,7 @@ export default function Nav() {
             }}
             tooltipAlignment="end"
           >
-            <Menu20 />
+            <Menu />
           </HeaderGlobalAction>
         ) : null}
       </HeaderGlobalBar>
@@ -171,12 +175,12 @@ export default function Nav() {
             aria-label="Log out"
             onClick={() => signout()}
           >
-            <Logout20 /> Log Out
+            <Logout /> Log Out
           </SwitcherItem>
           <SwitcherDivider />
           <li className="route-link">
             <Link to="/settings">
-              <Settings20 /> Settings
+              <Settings /> Settings
             </Link>
           </li>
           <SwitcherDivider />
@@ -195,5 +199,6 @@ export default function Nav() {
         </div>
       </HeaderPanel>
     </Header>
+    // </Theme>
   );
 }

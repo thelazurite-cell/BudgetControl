@@ -15,8 +15,8 @@
   height: 22px;
 }
 
-.hidden-data { 
-  background:rgba(41, 41, 41, 0.07);
+.hidden-data {
+  background: rgba(41, 41, 41, 0.07);
   width: auto;
   font-style: italic;
   height: 100%;
@@ -24,10 +24,9 @@
   border-bottom: 1px dotted;
 }
 
- .hidden-data--tooltip  span { 
+.hidden-data--tooltip span {
   padding: 0 5px;
   vertical-align: top;
-  
 }
 
 .hidden-data--tooltip {
@@ -43,7 +42,7 @@
   position: absolute;
   z-index: 1;
   /* /* margin-left: -2vw; */
-  margin-top: 4vh; 
+  margin-top: 4vh;
   z-index: 6000;
   width: max-content;
   min-width: 1.5rem;
@@ -75,11 +74,29 @@
   border-width: 5px;
   border-style: solid;
   border-color: transparent transparent black transparent;
-
 }
 
 .hidden-data--tooltip:hover .hidden-data--tooltip--text {
   visibility: visible;
+}
+
+.color-picker--action {
+  height: 2.5rem;
+}
+.color-picker--action--button {
+  margin: 1.5rem 0 0 0.5em;
+  min-height: 0 !important;
+  height: 2.5rem;
+}
+.color-picker--grid {
+  display: flex;
+  flex-direction: row;
+}
+.color-picker--spread {
+  flex: 1 1 auto;
+}
+.color-picker--35perc {
+  width: 35%;
 }
 
 @media (max-width: 631px) {
@@ -118,4 +135,99 @@
     min-height: 32px;
     height: 100%;
   }
+}
+
+.chrome-picker {
+  border-radius: none !important;
+  box-shadow: none !important;
+  border: 1px rgb(22, 22, 22) solid;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  width: 35% !important;
+  margin-bottom: 16px;
+}
+
+div.flexbox-fix:nth-child(2) > div > div > div > label {
+  color: rgb(82, 82, 82) !important;
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif !important;
+  font-size: 12px !important;
+  font-size-adjust: none;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-alternates: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-variant-position: normal;
+  font-variation-settings: normal;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+}
+
+.chrome-picker > div:nth-child(1) {
+  border-radius: 0px !important;
+}
+
+div.flexbox-fix:nth-child(2) > div > div > div > input:focus {
+  outline-color: rgba(15, 98, 254, 0.573);
+  outline-offset: -2px;
+  outline-style: solid;
+  outline-width: 2px;
+  border: none !important;
+}
+div.flexbox-fix:nth-child(2) > div > div > div > input {
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgb(255, 255, 255);
+  background-image: none;
+  background-origin: padding-box;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-repeat: repeat;
+  background-size: auto;
+  border-left-style: none;
+  border-right-style: none;
+  border-top-style: none;
+  box-sizing: border-box;
+  color: rgb(22, 22, 22);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  font-feature-settings: normal;
+  font-kerning: auto;
+  font-language-override: normal;
+  font-optical-sizing: auto;
+  font-size: 14px;
+  font-size-adjust: none;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-alternates: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-variant-position: normal;
+  font-variation-settings: normal;
+  font-weight: 400;
+  height: 40px;
+  letter-spacing: 0.16px;
+  line-height: 19px;
+  margin-bottom: 16px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  text-rendering: optimizelegibility;
+  transition-delay: 0s, 0s;
+  transition-duration: 0.07s, 0.07s;
+  transition-property: background-color, outline;
+  transition-timing-function: cubic-bezier(0.2, 0, 0.38, 0.9),
+    cubic-bezier(0.2, 0, 0.38, 0.9);
+  visibility: visible;
+  border-bottom: 1px rgb(22, 22, 22) solid !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
 }

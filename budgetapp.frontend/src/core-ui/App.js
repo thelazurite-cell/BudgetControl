@@ -9,41 +9,44 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ProvideAuth } from "../auth/Auth.js";
 import { PrivateRoute } from "../auth/PrivateRoute";
 import { ProvideSensitiveData } from "../SensitiveData";
-import { Content } from "carbon-components-react";
+import { Content } from "@carbon/react";
+import { GlobalTheme } from "@carbon/react";
 
 function App() {
   return (
-    <ProvideAuth>
-      <ProvideSensitiveData>
-        <Router>
-          <div>
-            <Nav />
-            {/* <div className="App">
+    <GlobalTheme theme="g100">
+      <ProvideAuth>
+        <ProvideSensitiveData>
+          <Router>
+            <div>
+              <Nav />
+              {/* <div className="App">
             <div className="main-container">
               <div className="main-content"> */}
-            <Content id="main-content">
-              <Switch>
-                <Route path="/login">
-                  <Login />
-                </Route>
-                <PrivateRoute path="/settings/">
-                  <Settings />
-                </PrivateRoute>
-                <PrivateRoute path="/transactions">
-                  <Transactions />
-                </PrivateRoute>
-                <PrivateRoute index path="/">
-                  <Landing />
-                </PrivateRoute>
-              </Switch>
-            </Content>
-            {/* </div>
+              <Content id="main-content">
+                <Switch>
+                  <Route path="/login">
+                    <Login />
+                  </Route>
+                  <PrivateRoute path="/settings/">
+                    <Settings />
+                  </PrivateRoute>
+                  <PrivateRoute path="/transactions">
+                    <Transactions />
+                  </PrivateRoute>
+                  <PrivateRoute index path="/">
+                    <Landing />
+                  </PrivateRoute>
+                </Switch>
+              </Content>
+              {/* </div>
             </div>
           </div> */}
-          </div>
-        </Router>
-      </ProvideSensitiveData>
-    </ProvideAuth>
+            </div>
+          </Router>
+        </ProvideSensitiveData>
+      </ProvideAuth>
+    </GlobalTheme>
   );
 }
 
