@@ -22,7 +22,7 @@ namespace BudgetApp.Backend.Dto
         [BsonElement("termId")]
         [JsonPropertyName("termId")]
         [DataFriendlyName("Name")]
-        [DataType(DataTypeEnum.RelatedId)]
+        [DataType(DataTypeEnum.Id)]
         [DataHidden]
         [DataRequired]
         [DataRelatesTo("Term")]

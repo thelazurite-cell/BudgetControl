@@ -20,3 +20,6 @@
   width: auto;
   padding: 0.25rem;
 }
+header {
+  z-index: 999999999 !important;
+}

@@ -3,7 +3,7 @@ export class Service {
   static onServiceEvent = undefined;
   static listeners = [];
 
-  static _init = (function () {})();
+  static _init = (function (...args) {})();
 
   static init = function (object) {
     if (object.serviceName) {

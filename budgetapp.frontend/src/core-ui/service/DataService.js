@@ -17,6 +17,18 @@ export class DataService extends Service {
     this.authToken = authToken;
   }
 
+  static getInsertCacheName(schema) {
+    return `${schema}_temp_insert`;
+  }
+
+  static getUpdateCacheName(schema) {
+    return `${schema}_temp_update`;
+  }
+
+  static getDeleteCacheName(schema) {
+    return `${schema}_temp_delete`;
+  }
+
   static fetchSchema(schemaName) {
     if (!this.schemaCache[schemaName]) {
       const schemaQueryGroup = new QueryGroup();
@@ -32,10 +44,24 @@ export class DataService extends Service {
         schemaQueryGroup,
         (res) => {
           const schema = res.data.pop();
+          const insertCache = JSON.parse(
+            localStorage.getItem(DataService.getInsertCacheName(schemaName))
+          );
+          const updateCache = JSON.parse(
+            localStorage.getItem(DataService.getUpdateCacheName(schemaName))
+          );
+          const deleteCache = JSON.parse(
+            localStorage.getItem(DataService.getDeleteCacheName(schemaName))
+          );
           this.schemaCache[schemaName] = {
             schema: undefined,
             headers: undefined,
             data: undefined,
+            pendingCommits: {
+              insert: insertCache ? insertCache : [],
+              update: updateCache ? updateCache : [],
+              delete: deleteCache ? deleteCache : [],
+            },
           };
           this.schemaCache[schemaName].schema = schema;
           this.schemaCache[schemaName].headers = schema.fields

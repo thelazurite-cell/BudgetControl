@@ -12,7 +12,7 @@ namespace BudgetApp.Backend.Dto
     {
         [BsonElement("outgoingId")]
         [JsonPropertyName("outgoingId")]
-        [DataType(DataTypeEnum.RelatedId)]
+        [DataType(DataTypeEnum.Id)]
         [DataFriendlyName("Outgoing")]
         [DataRelatesTo("Outgoing")]
         public string OutgoingId { get; set; }
