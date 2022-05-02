@@ -100,4 +100,8 @@ export class DataService extends Service {
       );
     }
   }
+
+  static refresh() {
+    document.dispatchEvent(DataService.onServiceEvent);
+  }
 }

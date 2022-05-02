@@ -376,3 +376,7 @@ div.flexbox-fix:nth-child(2) > div > div > div > input {
 #changes-preview > div > div > h3 {
   text-transform: capitalize;
 }
+
+.pending-delete {
+  text-decoration: line-through;
+}
