@@ -69,6 +69,19 @@ namespace BudgetApp.Backend.Api.Extensions
                 schema.SchemaName = type.Name;
                 schema.CodeFirst = true;
                 schema.Expandable = Attribute.GetCustomAttributes(type).Any(attribute => attribute.GetType().Name == "DataSchemaExpandableAttribute");
+
+                var viewTypeAttribute = Attribute.GetCustomAttributes(type)
+                        .ToList()
+                        .FirstOrDefault(attribute => attribute.GetType().Name == "ViewTypeAttribute");
+
+
+                if (viewTypeAttribute != null)
+                {
+                    schema.ViewType = Enum.Parse<ViewTypeEnum>(
+                        ReadAttributeValue(viewTypeAttribute).ToString()
+                    );
+                }
+
                 Console.WriteLine($"\n\t <tbl> {type.Name} - Expandable: ${schema.Expandable} </tbl>");
 
                 foreach (var property in type.GetProperties())
@@ -166,7 +179,15 @@ namespace BudgetApp.Backend.Api.Extensions
                 case "DataSystemFieldAttribute":
                     field.SystemField = bool.Parse(ReadAttributeValue(attribute).ToString());
                     break;
-
+                case "CollectionFilterAttribute":
+                    field.CollectionFilter = bool.Parse(ReadAttributeValue(attribute).ToString());
+                    break;
+                case "CollectionCloneAttribute":
+                    field.CollectionClone = bool.Parse(ReadAttributeValue(attribute).ToString());
+                    break;
+                case "CollectionDefaultsFromAttribute":
+                    field.CollectionDefaultsFrom = ReadAttributeValue(attribute).ToString();
+                    break;
             }
         }
 

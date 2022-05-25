@@ -6,7 +6,8 @@ import { isDarkColor } from "./functions/isDarkColor";
 
 export function ColorPicker(props) {
   const [pickerVisible, setPickerVisible] = useState(false);
-  const [background, setBackground] = useState({ hex: "#ffffff" });
+  const value = props.value ? props.value : "#ffffff";
+  const [background, setBackground] = useState({ hex: value });
   return (
     <>
       <div className="color-picker--grid">

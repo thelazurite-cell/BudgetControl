@@ -48,9 +48,33 @@ namespace BudgetApp.Backend.Dto.Filtering
             var attrib = GetJsonAttribute(property);
             if (!HasValidAttribute(attrib)) return false;
             var requiresQuoteWrap = RequiresQuoteWrap(property);
+            var isDateType = IsDateType(property);
             var value = property.GetValue(dto);
             if (!BooleanCheckSuccessful(property, ref value)) return false;
             var propValue = requiresQuoteWrap ? $"\"{value}\"" : value;
+
+            if (isDateType)
+            {
+                var stringVal = value.ToString();
+
+                try
+                {
+                    var date = DateTime.Parse(stringVal).ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss") + "Z";
+                    propValue = $"new ISODate(\"{date}\")";
+                }
+                catch (System.Exception e)
+                {
+                    Report.IsSuccess = false;
+                    Report.Messages.Add(new Message()
+                    {
+                        ErrorCode = ApiErrorCode.DataParsingError,
+                        Level = IncidentLevel.Error,
+                        MessageText = "Could not parse Date",
+                        Parameters = new() { property.Name }
+                    });
+                    return false;
+                }
+            }
 
             temp.Add($"\"{attrib.Name}\":{propValue}");
             return true;
@@ -63,7 +87,7 @@ namespace BudgetApp.Backend.Dto.Filtering
                 if (value.ToString().ToLower() != "true" && value.ToString().ToLower() != "false")
                 {
                     AddError(ApiErrorCode.InvalidPropertyValue, "Value must be true or false for a boolean",
-                        new List<string> {property.Name, value.ToString()});
+                        new List<string> { property.Name, value.ToString() });
                     return false;
                 }
 

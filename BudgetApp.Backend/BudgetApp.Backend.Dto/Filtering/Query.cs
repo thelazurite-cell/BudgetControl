@@ -5,16 +5,16 @@ using BudgetApp.Backend.Dto.Interfaces;
 
 namespace BudgetApp.Backend.Dto.Filtering
 {
-    public class Query: IComparableItem
+    public class Query : IComparableItem
     {
         [JsonPropertyName("comparisonType")]
         public FilterType? ComparisonType { get; set; }
 
         [JsonPropertyName("typeDiscriminator")]
-        public  string TypeDiscriminator => nameof(Query);
+        public string TypeDiscriminator => nameof(Query);
         [JsonPropertyName("fieldName")]
-        public string FieldName { get; set; }
+        public string FieldName { get; set; } = "";
         [JsonPropertyName("fieldValue")]
-        public List<string> FieldValue { get; set; }
+        public List<string> FieldValue { get; set; } = new List<string>();
     }
 }

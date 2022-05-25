@@ -21,7 +21,7 @@ namespace BudgetApp.Backend.Dto
 
         [BsonElement("termId")]
         [JsonPropertyName("termId")]
-        [DataFriendlyName("Name")]
+        [DataFriendlyName("Term Name")]
         [DataType(DataTypeEnum.Id)]
         [DataHidden]
         [DataRequired]

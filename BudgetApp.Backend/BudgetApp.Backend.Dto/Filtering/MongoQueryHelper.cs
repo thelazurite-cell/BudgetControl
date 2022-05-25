@@ -13,12 +13,22 @@ namespace BudgetApp.Backend.Dto.Filtering
         {
             typeof(string),
             typeof(decimal),
-            typeof(float)
+            typeof(float),
+        };
+
+        private static List<Type> DateTimeTypes { get; } = new()
+        {
+            typeof(DateTime)
         };
 
         public static bool RequiresQuoteWrap(PropertyInfo property)
         {
             return WrappedInQuoteTypes.Any(itm => itm == property.PropertyType);
+        }
+
+        public static bool IsDateType(PropertyInfo property)
+        {
+            return DateTimeTypes.Any(itm => itm == property.PropertyType);
         }
 
         public static string ToComparisonType(this FilterType queryGroupComparisonType)
@@ -28,7 +38,7 @@ namespace BudgetApp.Backend.Dto.Filtering
             var enumValueMemberInfo = memberInfos.FirstOrDefault(m => m.DeclaringType == enumType);
             var valueAttributes =
                 enumValueMemberInfo.GetCustomAttributes(typeof(EnumMemberAttribute), false);
-            return ((EnumMemberAttribute) valueAttributes[0]).Value;
+            return ((EnumMemberAttribute)valueAttributes[0]).Value;
         }
 
         public static JsonPropertyNameAttribute? GetJsonAttribute(PropertyInfo property)

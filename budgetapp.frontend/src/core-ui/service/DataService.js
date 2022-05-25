@@ -3,6 +3,7 @@ import { DataTransfer } from "../../api/DataTransfer";
 import { Query } from "../../api/data-query/query";
 import { QueryGroup } from "../../api/data-query/query-group";
 import { FilterTypeEnum } from "../../api/data-query/filter-type.enum";
+import { DataLoadingService } from "./DataViewService";
 
 export class DataService extends Service {
   static schemaCache = [];
@@ -29,8 +30,12 @@ export class DataService extends Service {
     return `${schema}_temp_delete`;
   }
 
-  static fetchSchema(schemaName) {
-    if (!this.schemaCache[schemaName]) {
+  static fetchSchema(schemaName, force = false) {
+    if (force) {
+      document.dispatchEvent(DataService.onServiceEvent);
+    }
+
+    if (!this.schemaCache[schemaName] || force) {
       const schemaQueryGroup = new QueryGroup();
       const schemaQuery = new Query();
       schemaQuery.fieldName = "schemaName";
@@ -62,6 +67,7 @@ export class DataService extends Service {
               update: updateCache ? updateCache : [],
               delete: deleteCache ? deleteCache : [],
             },
+            filter: undefined,
           };
           this.schemaCache[schemaName].schema = schema;
           this.schemaCache[schemaName].headers = schema.fields
@@ -80,6 +86,45 @@ export class DataService extends Service {
         },
         (err) => {
           console.log(err);
+        }
+      );
+    }
+  }
+
+  static updateFilter(schemaName, filter) {
+    this.schemaCache[schemaName].filter = filter;
+
+    let group = new QueryGroup();
+    // group.comparisonType = FilterTypeEnum.equals;
+    let query = new Query();
+    query.fieldName = filter.fieldName;
+    query.fieldValue = [filter.fieldValue];
+    query.comparisonType = FilterTypeEnum.equals;
+    group.queries.push(query);
+    console.log(group);
+    DataService.fetchBy(schemaName, group);
+  }
+
+  static fetchBy(schemaName, query) {
+    DataLoadingService.pushEvent();
+    if (this.schemaCache[schemaName]) {
+      const api = new DataTransfer(this.authToken);
+      api.find(
+        schemaName,
+        query,
+        (res) => {
+          console.log(res);
+          this.schemaCache[schemaName].data = res.data;
+          setTimeout(() => {
+            DataService.refresh();
+          }, 1000);
+        },
+        (err) => {
+          console.log(err);
+          this.schemaCache[schemaName].data = [];
+          setTimeout(() => {
+            DataService.refresh();
+          }, 1000);
         }
       );
     }

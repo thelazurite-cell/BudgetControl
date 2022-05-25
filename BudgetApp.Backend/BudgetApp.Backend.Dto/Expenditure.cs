@@ -6,6 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto
 {
+    [ViewType(ViewTypeEnum.TableWithCollectionFilter)]
     [TransferableDataType]
     [DataSchema]
 
@@ -16,6 +17,7 @@ namespace BudgetApp.Backend.Dto
         [DataFriendlyName("Date")]
         [DataType(DataTypeEnum.DateTime)]
         [DataRequired]
+        [CollectionDefaultsFrom("startsFrom")]
         public DateTime Date { get; set; }
 
         [BsonElement("amountSpent")]
@@ -31,6 +33,8 @@ namespace BudgetApp.Backend.Dto
         [DataFriendlyName("Outgoing")]
         [DataRelatesTo("Outgoing")]
         [DataType(DataTypeEnum.Id)]
+        [DataHidden]
+        [CollectionClone]
         [DataRequired]
         public string OutgoingId { get; set; }
 
@@ -39,6 +43,8 @@ namespace BudgetApp.Backend.Dto
         [DataFriendlyName("Period")]
         [DataRelatesTo("Period")]
         [DataType(DataTypeEnum.Id)]
+        [DataHidden]
+        [CollectionFilter]
         [DataRequired]
         public string PeriodId { get; set; }
 
@@ -53,6 +59,7 @@ namespace BudgetApp.Backend.Dto
         [JsonPropertyName("dueDate")]
         [DataFriendlyName("Due Date")]
         [DataType(DataTypeEnum.DateTime)]
+        [CollectionDefaultsFrom("endsOn")]
         [DataRequired]
         public DateTime DueDate { get; set; }
 

@@ -25,6 +25,11 @@ namespace BudgetApp.Backend.Dto
         [JsonPropertyName("isExpandable")]
         public bool Expandable { get; set; } = false;
 
+        [BsonElement("viewType")]
+        [JsonPropertyName("viewType")]
+        public ViewTypeEnum ViewType { get; set; } = ViewTypeEnum.Table;
+
+
         public override bool ValidateDelete(params string[] args)
         {
             throw new NotImplementedException();

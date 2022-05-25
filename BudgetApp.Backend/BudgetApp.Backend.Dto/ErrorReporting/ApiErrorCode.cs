@@ -16,6 +16,7 @@ namespace BudgetApp.Backend.Dto
         InvalidPropertyValue = 116,
         RequestCompleted = 200,
         UnexpectedError = 500,
+        DataParsingError = 501,
         UserNameAndPasswordRequired = 410,
         UserNotFound = 411,
         UserLockedOut = 412,

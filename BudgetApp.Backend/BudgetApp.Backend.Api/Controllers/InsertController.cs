@@ -62,7 +62,7 @@ namespace BudgetApp.Backend.Api.Controllers
             }
 
             var deserialize = GetJsonDeserializeForDto(dtoType);
-            var deserializedObject = deserialize.Invoke(null, new object[] {requestBody, GetJsonSerializerOptions()});
+            var deserializedObject = deserialize.Invoke(null, new object[] { requestBody, GetJsonSerializerOptions() });
             if (IsDtoType(deserializedObject))
             {
                 var res = Manager.Insert(dtoType.Name, dtoType, deserializedObject);
@@ -101,19 +101,26 @@ namespace BudgetApp.Backend.Api.Controllers
             }
 
             var deserialize = GetJsonDeserializeForDto(listOfDto);
-            var deserializedObject = deserialize.Invoke(null, new object[] {requestBody, GetJsonSerializerOptions()});
-            RequestReport? report = null;
-            if (deserializedObject is not IList list)
+            try
             {
-                await SerializedObjectResponse(report ??
-                                               RequestReportGenerator.ErrorReadingDataReport(requestedType,
-                                                   requestBody));
-                return;
+                var deserializedObject = deserialize.Invoke(null, new object[] { requestBody, GetJsonSerializerOptions() });
+
+                RequestReport? report = null;
+                if (deserializedObject is not IList list)
+                {
+                    await SerializedObjectResponse(report ??
+                                                RequestReportGenerator.ErrorReadingDataReport(requestedType,
+                                                    requestBody));
+                    return;
+                }
+                report = AttemptInsertArrayItems(list, dtoType);
+
+                await SerializedObjectResponse(report);
             }
-
-            report = AttemptInsertArrayItems(list, dtoType);
-
-            await SerializedObjectResponse(report);
+            catch (Exception e)
+            {
+                await SerializedObjectResponse(RequestReportGenerator.ExceptionReport(requestedType, "Error Performing Request", e));
+            }
         }
 
         private RequestReport AttemptInsertArrayItems(IList list, Type dtoType)
@@ -152,6 +159,7 @@ namespace BudgetApp.Backend.Api.Controllers
         {
             var res = Manager.Insert(dtoType.Name, dtoType, itm);
             report.Messages.AddRange(res.Messages);
+            report.Results.Add(itm);
             if (!res.IsSuccess)
             {
                 report.IsSuccess = false;

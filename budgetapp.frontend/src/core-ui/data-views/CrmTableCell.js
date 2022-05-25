@@ -45,9 +45,16 @@ export function CrmTableCell(props) {
       (itm) => itm.relationshipViewColor
     );
 
-    const relatedRecord = props.schemaCache[cellInfo.fieldRelatesTo].data
-      .filter((itm) => itm.id === props.cell.value)
-      .pop();
+    let relatedRecord = null;
+
+    if (
+      props.schemaCache[cellInfo.fieldRelatesTo] &&
+      props.schemaCache[cellInfo.fieldRelatesTo].data
+    ) {
+      relatedRecord = props.schemaCache[cellInfo.fieldRelatesTo].data
+        .filter((itm) => itm.id === props.cell.value)
+        .pop();
+    }
 
     if (displayValueFields.length > 0) {
       const displayValueField = (displayValueFields || []).pop();

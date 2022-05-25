@@ -23,15 +23,16 @@ namespace BudgetApp.Backend.Api.Services
                 {
                     dto, new InsertOneOptions() {BypassDocumentValidation = false}, default(CancellationToken)
                 });
-            return SuccessfulInsert(requestedType);
+            return SuccessfulInsert(requestedType, dto);
         }
 
-        private static RequestReport SuccessfulInsert(string requestedType)
+        private static RequestReport SuccessfulInsert(string requestedType, object dto)
         {
             return new()
             {
                 IsSuccess = true,
                 RowsAffected = 1,
+                Results = new() { dto },
                 Messages = new()
                 {
                     new()

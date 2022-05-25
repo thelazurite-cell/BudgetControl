@@ -44,24 +44,25 @@ export default function NotificationManager() {
               }
 
               return (
-                <ToastNotification
-                  key={key}
-                  className="notification-ui-item"
-                  {...notification.props}
-                  onClick={(e) => onClose(e)}
-                >
+                <>
+                  <ToastNotification
+                    key={key}
+                    className="notification-ui-item"
+                    {...notification.props}
+                    onClick={(e) => onClose(e)}
+                  ></ToastNotification>
                   {(notification.buttons || []).map((button, index) => {
                     return (
                       <Button
                         key={index}
                         className="notification-ui-item--button"
-                        onClose={() => notification.onButtonClick(button.text)}
+                        onClick={() => notification.onButtonClick(button.text)}
                       >
                         {button.text}
                       </Button>
                     );
                   })}
-                </ToastNotification>
+                </>
               );
             })}
           </Content>

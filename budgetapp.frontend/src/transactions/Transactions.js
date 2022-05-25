@@ -1,7 +1,9 @@
+import { DataViewManager } from "../core-ui/data-views/DataViewManager";
+
 export default function Transactions() {
   return (
     <div>
-      <p>Transactions</p>
+      <DataViewManager schemaName="Expenditure" />
     </div>
   );
 }

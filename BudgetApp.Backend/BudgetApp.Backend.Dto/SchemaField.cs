@@ -72,5 +72,17 @@ namespace BudgetApp.Backend.Dto
         [BsonElement("fieldPlaceholder")]
         [JsonPropertyName("fieldPlaceholder")]
         public string FieldPlaceholder { get; set; } = "";
+
+        [BsonElement("collectionFilter")]
+        [JsonPropertyName("collectionFilter")]
+        public bool CollectionFilter { get; set; }
+
+        [BsonElement("collectionDefaultsFrom")]
+        [JsonPropertyName("collectionDefaultsFrom")]
+        public string CollectionDefaultsFrom { get; set; } = "";
+
+        [BsonElement("collectionClone")]
+        [JsonPropertyName("collectionClone")]
+        public bool CollectionClone { get; set; }
     }
 }

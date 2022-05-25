@@ -11,39 +11,10 @@ import {
 import { DataService } from "../service/DataService";
 import { isDarkColor } from "./functions/isDarkColor";
 import { ColorPicker } from "./ColorPicker";
+import { DraggableModal } from "./DraggableModal";
 
-export function DataManager(props) {
-  function createRecordTemplate(modifiableFields) {
-    const recordTemplate = { id: "" };
-    modifiableFields.map((itm) => {
-      switch (itm.fieldType) {
-        case dataType.color: {
-          recordTemplate[itm.fieldName] = "#ffffff";
-          break;
-        }
-        case dataType.number: {
-          recordTemplate[itm.fieldName] = 0;
-          break;
-        }
-        case dataType.boolean: {
-          recordTemplate[itm.fieldName] = false;
-          break;
-        }
-        default: {
-          recordTemplate[itm.fieldName] = "";
-          break;
-        }
-      }
-    });
-    return recordTemplate;
-  }
-  console.log(props.dataType);
-  const modifiableFields = props.dataType.schema.fields.filter(
-    (itm) => !itm.systemField
-  );
-
-  let recordTemplate = createRecordTemplate(modifiableFields);
-
+export function createRecordTemplate(modifiableFields) {
+  const recordTemplate = { id: "" };
   modifiableFields.map((itm) => {
     switch (itm.fieldType) {
       case dataType.color: {
@@ -64,23 +35,71 @@ export function DataManager(props) {
       }
     }
   });
+  return recordTemplate;
+}
+
+export function DataManager(props) {
+  const modifiableFields = props.dataType.schema.fields.filter(
+    (itm) => !itm.systemField
+  );
+
+  let recordTemplate = {};
+
+  if (props.existingId) {
+    const val = props.dataType.data.filter(
+      (itm) => itm.id === props.existingId
+    );
+
+    recordTemplate = createRecordTemplate(modifiableFields);
+
+    if (val && val.length > 0) {
+      recordTemplate = JSON.parse(JSON.stringify(val[0]));
+    }
+  } else {
+    recordTemplate = createRecordTemplate(modifiableFields);
+
+    modifiableFields.map((itm) => {
+      switch (itm.fieldType) {
+        case dataType.color: {
+          recordTemplate[itm.fieldName] = "#ffffff";
+          break;
+        }
+        case dataType.number: {
+          recordTemplate[itm.fieldName] = 0;
+          break;
+        }
+        case dataType.boolean: {
+          recordTemplate[itm.fieldName] = false;
+          break;
+        }
+        default: {
+          recordTemplate[itm.fieldName] = "";
+          break;
+        }
+      }
+    });
+  }
 
   console.log(recordTemplate);
 
   const [record, setRecord] = useState(recordTemplate);
 
   return (
-    <Modal
-      modalHeading={`Add ${props.schemaName}`}
-      modalLabel="Insert Data"
-      primaryButtonText="Add"
+    <DraggableModal
+      className="inserts-view-modal"
+      modalHeading={`${props.existingId ? "Update" : "Add"} ${
+        props.schemaName
+      }`}
+      modalLabel={`${props.existingId ? "Update" : "Add"} Data`}
+      primaryButtonText={`${props.existingId ? "Update" : "Add"}`}
       secondaryButtonText="Cancel"
       open={true}
       onRequestClose={() => props.onRequestClose()}
       onRequestSubmit={() => {
-        props.onNewRecord(recordTemplate);
+        props.onNewRecord(JSON.parse(JSON.stringify(record)), props.existingId);
 
-        if (document.getElementById("create-another").checked) {
+        const createAnother = document.getElementById("create-another");
+        if (createAnother && createAnother.checked) {
         } else {
           props.onRequestClose();
         }
@@ -107,19 +126,18 @@ export function DataManager(props) {
             <Select
               key={id}
               id={id}
-              defaultValue={recordTemplate[itm.fieldName]}
+              defaultValue={record[itm.fieldName]}
               // value={record[itm.fieldName]}
               labelText={itm.fieldFriendlyName}
               onChange={(e) => {
                 console.log(e);
-                recordTemplate[itm.fieldName] =
-                  e.target.selectedOptions[0].value;
-                setRecord(recordTemplate);
+                record[itm.fieldName] = e.target.selectedOptions[0].value;
+                setRecord(JSON.parse(JSON.stringify(record)));
               }}
             >
               {related.data.map((selectItem) => {
-                if (recordTemplate[itm.fieldName] === "") {
-                  recordTemplate[itm.fieldName] = selectItem.id;
+                if (record[itm.fieldName] === "") {
+                  record[itm.fieldName] = selectItem.id;
                 }
 
                 const displayColor = displayColorField
@@ -149,10 +167,11 @@ export function DataManager(props) {
             <ColorPicker
               key={id}
               itm={itm}
-              color={recordTemplate[itm.fieldName]}
+              color={record[itm.fieldName].toString()}
+              value={record[itm.fieldName].toString()}
               onChange={(value) => {
-                recordTemplate[itm.fieldName] = value.hex;
-                setRecord(recordTemplate);
+                record[itm.fieldName] = value.hex;
+                setRecord(JSON.parse(JSON.stringify(record)));
               }}
             />
           );
@@ -171,17 +190,17 @@ export function DataManager(props) {
               helperText=""
               invalidText="Number is not valid"
               onClick={(e) => {
-                recordTemplate[itm.fieldName] = +document
+                record[itm.fieldName] = +document
                   .getElementById(id)
                   .getAttribute("value");
-                setRecord(recordTemplate);
+                setRecord(JSON.parse(JSON.stringify(record)));
                 e.preventDefault();
                 e.cancelBubble = true;
               }}
               onChange={(e) => {
                 if (!isNaN(e.target.value) && e.target.value) {
-                  recordTemplate[itm.fieldName] = +e.target.value;
-                  setRecord(recordTemplate);
+                  record[itm.fieldName] = +e.target.value;
+                  setRecord(JSON.parse(JSON.stringify(record)));
                 }
               }}
             />
@@ -200,8 +219,8 @@ export function DataManager(props) {
                 aria-label={itm.fieldFriendlyName}
                 checked={record[itm.fieldName]}
                 onChange={(e) => {
-                  recordTemplate[itm.fieldName] = e.target.checked;
-                  setRecord(recordTemplate);
+                  record[itm.fieldName] = e.target.checked;
+                  setRecord(JSON.parse(JSON.stringify(record)));
                 }}
               />
             </fieldset>
@@ -217,21 +236,25 @@ export function DataManager(props) {
                 labelText={itm.fieldFriendlyName}
                 placeholder={itm.fieldPlaceholder}
                 style={{ marginBottom: "1rem" }}
-                value={record[itm.value]}
+                value={record[itm.fieldName]}
                 onChange={(e) => {
-                  recordTemplate[itm.fieldName] = e.target.value;
-                  setRecord(recordTemplate);
+                  if (e.target.value || e.target.value === "") {
+                    record[itm.fieldName] = e.target.value;
+                    setRecord(JSON.parse(JSON.stringify(record)));
+                  }
                 }}
               />
             </>
           );
         }
       })}
-      <Checkbox
-        labelText="Create Another"
-        aria-label="create another record"
-        id="create-another"
-      />
-    </Modal>
+      {!props.existingId ? (
+        <Checkbox
+          labelText="Create Another"
+          aria-label="create another record"
+          id="create-another"
+        />
+      ) : null}
+    </DraggableModal>
   );
 }

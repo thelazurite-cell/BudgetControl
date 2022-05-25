@@ -5,6 +5,7 @@ import { Modal, Button } from "@carbon/react";
 import { DataService } from "../service/DataService";
 import { useSensitiveData } from "../../SensitiveData";
 import { ModalService } from "../service/ModalService";
+import { DraggableModal } from "./DraggableModal";
 
 export function ChangesPreview(props) {
   const sensitiveData = useSensitiveData();
@@ -120,10 +121,6 @@ export function ChangesPreview(props) {
           (itm) => itm.name === props.modalName
         );
         if (thisModal.length === 0 || !thisModal.pop().set) {
-          var mousePosition = { x: 0, y: 0 };
-          var offset = { x: 0, y: 0 };
-          var dwn = false;
-
           switch (props.operationType) {
             case operationType.insert: {
               setData({
@@ -176,34 +173,20 @@ export function ChangesPreview(props) {
             }
           }
 
-          modalTitle.addEventListener("mousedown", (e) => {
-            dwn = true;
-            offset = {
-              x: modal.offsetLeft - e.clientX + 10,
-              y: modal.offsetTop - e.clientY + 10,
-            };
-          });
-          modalTitle.addEventListener("mouseup", (e) => {
-            dwn = false;
-          });
-          modalTitle.addEventListener("mousemove", (e) => {
-            e.preventDefault();
-            if (dwn) {
-              mousePosition = {
-                x: e.clientX,
-                y: e.clientY,
-              };
-              modal.style.left = mousePosition.x + offset.x + "px";
-              modal.style.top = mousePosition.y + offset.y + "px";
-            }
-          });
-          ModalService.eventsSet.push({ name: props.modalName, set: true });
+          // ModalService.eventsSet.push({ name: props.modalName, set: true });
         }
       }
     }
   }, [modalHeader, props.modalName, props.operationType, props.schemaName]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     ModalService.eventsSet.push({ name: props.modalName, set: false});
+  //   };
+  // }, []);
+
   return (
-    <Modal
+    <DraggableModal
       id={props.modalName}
       className="inserts-view-modal"
       open={props.showModal}
@@ -271,6 +254,6 @@ export function ChangesPreview(props) {
           );
         })}
       </div>
-    </Modal>
+    </DraggableModal>
   );
 }

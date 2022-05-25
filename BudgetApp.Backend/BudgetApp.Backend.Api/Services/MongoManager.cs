@@ -73,7 +73,6 @@ namespace BudgetApp.Backend.Api.Services
             try
             {
                 var collection = GetCollection(requestedType, dtoType);
-                ;
                 return MongoInsertContext.PerformInsertRequest(collection, requestedType, query);
             }
             catch (System.Exception e)

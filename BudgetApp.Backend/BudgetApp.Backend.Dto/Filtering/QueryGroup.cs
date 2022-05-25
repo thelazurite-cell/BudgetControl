@@ -14,6 +14,6 @@ namespace BudgetApp.Backend.Dto.Filtering
         public string TypeDiscriminator => nameof(QueryGroup);
 
         [JsonPropertyName("queries")]
-        public List<IComparableItem> Queries { get; set; }
+        public List<IComparableItem> Queries { get; set; } = new();
     }
 }
