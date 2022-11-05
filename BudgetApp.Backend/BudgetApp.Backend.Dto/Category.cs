@@ -6,17 +6,19 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto
 {
+    [ViewFriendlyName("Categories")]
+    [ViewShown(true)]
     [TransferableDataType]
     [DataSchema]
+    [ViewForceReload(true)]
     public class Category : DataTransferObject
     {
-        //[BsonElement("id")] [JsonIgnore] private string id;
         [BsonElement("name")]
         [JsonPropertyName("name")]
         [DataFriendlyName("Name")]
         [DataPlaceholder("e.g. General")]
         [DataType(DataTypeEnum.String)]
-        [DataRelationshipView]
+        [DataRelationshipView(true)]
         [DataRequired]
         public string Name { get; set; }
 
@@ -24,7 +26,7 @@ namespace BudgetApp.Backend.Dto
         [JsonPropertyName("color")]
         [DataFriendlyName("Color")]
         [DataType(DataTypeEnum.Color)]
-        [DataRelationshipViewColor]
+        [DataRelationshipViewColor(true)]
         [DataRequired]
         public string Color { get; set; }
 

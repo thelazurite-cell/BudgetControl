@@ -6,8 +6,11 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto
 {
+    [ViewFriendlyName("Exceptions")]
+    [ViewShown(true)]
     [TransferableDataType]
     [DataSchema]
+    [ViewForceReload(true)]
     public class Exception : DataTransferObject
     {
         [BsonElement("outgoingId")]

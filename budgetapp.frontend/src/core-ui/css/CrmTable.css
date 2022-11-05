@@ -380,3 +380,10 @@ div.flexbox-fix:nth-child(2) > div > div > div > input {
 .pending-delete {
   text-decoration: line-through;
 }
+#no-data {
+  padding-bottom: 24px;
+  padding-left: 16px;
+  padding-right: 0px;
+  padding-top: 16px;
+  background-color: #f4f4f4;
+}

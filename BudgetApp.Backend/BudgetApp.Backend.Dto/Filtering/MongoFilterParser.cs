@@ -54,7 +54,6 @@ namespace BudgetApp.Backend.Dto.Filtering
         {
             if (!AttemptToFindProperty(transferObjectType, query, out var isString)) return false;
             return GenerateQueryType(query, isString);
-            ;
         }
 
         private bool GenerateQueryType(Query query, bool requiresQuoteWrap)
@@ -132,7 +131,7 @@ namespace BudgetApp.Backend.Dto.Filtering
             if (query.FieldValue[0].ToLower() == "true" || query.FieldValue[0].ToLower() == "false")
                 return true;
             AddError(ApiErrorCode.InvalidPropertyValue, "Value must be true or false for a boolean",
-                new List<string> {query.FieldName, string.Join(",", query.FieldValue)});
+                new List<string> { query.FieldName, string.Join(",", query.FieldValue) });
             return false;
         }
 
@@ -159,7 +158,7 @@ namespace BudgetApp.Backend.Dto.Filtering
                 ErrorCode = ApiErrorCode.InvalidQueryStructure,
                 Level = IncidentLevel.Error,
                 MessageText = "Cannot attempt to set a value during a filter",
-                Parameters = {queryGroup.TypeDiscriminator}
+                Parameters = { queryGroup.TypeDiscriminator }
             });
             return false;
         }
@@ -215,7 +214,7 @@ namespace BudgetApp.Backend.Dto.Filtering
             }
 
             Result =
-                $"{{{FilterType.ById.ToComparisonType()}: ObjectId(\"{((Query) queryGroup.Queries[0]).FieldValue[0]}\")}}";
+                $"{{{FilterType.ById.ToComparisonType()}: ObjectId(\"{((Query)queryGroup.Queries[0]).FieldValue[0]}\")}}";
             return true;
         }
 

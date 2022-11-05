@@ -8,7 +8,8 @@ import "../css/TableWithCollectionFilter.css";
 import { DraggableModal } from "./DraggableModal";
 import { DataManager, createRecordTemplate } from "./DataManager";
 import { DataTransfer } from "../../api/DataTransfer";
-import { DataLoadingService } from "../service/DataViewService";
+import { DataLoadingService } from "../service/DataLoadingService";
+import { WarningMessage } from "./WarningMessage";
 
 export function TableWithCollectionFilter(props) {
   const auth = useAuth();
@@ -42,10 +43,23 @@ export function TableWithCollectionFilter(props) {
         if (dependency.collectionFilter) {
           console.log("filter");
           tableFilter.fieldName = dependency.fieldName;
+          if (
+            DataService.schemaCache[props.schemaName] &&
+            DataService.schemaCache[props.schemaName].filter
+          ) {
+            tableFilter.fieldValue =
+              DataService.schemaCache[props.schemaName].filter.fieldValue;
+          }
           setTableFilter(tableFilter);
           setCollectionFilter(
             DataService.schemaCache[dependency.fieldRelatesTo]
           );
+          setTimeout(() => {
+            if (!tableFilter.fieldValue) {
+              tableFilter.fieldValue = collectionFilter[0].id;
+              setTableFilter(tableFilter);
+            }
+          }, 150);
           fetchAllDependencies(
             DataService.schemaCache[dependency.fieldRelatesTo],
             false
@@ -69,7 +83,12 @@ export function TableWithCollectionFilter(props) {
     console.log(def);
     if (!dependenciesLoaded && def) {
       fetchAllDependencies(def, true);
-      setTimeout(() => setDependenciesLoaded(true), 1000);
+      setTimeout(() => {
+        setDependenciesLoaded(true);
+        setTimeout(() => {
+          DataService.updateFilter(props.schemaName, tableFilter);
+        }, 500);
+      }, 1000);
     }
   };
 
@@ -151,11 +170,11 @@ export function TableWithCollectionFilter(props) {
                       DataService.fetchAll(props.schemaName);
                       setCollectionFilter(DataService.schemaCache[schemaName]);
                       setTimeout(() => {
+                        DataLoadingService.pushEvent();
                         setDependenciesLoaded(true);
                         tableFilter.fieldValue = createdFilter.id;
                         setTableFilter(tableFilter);
                         DataService.updateFilter(props.schemaName, tableFilter);
-                        DataLoadingService.pushEvent();
                       }, 500);
                     },
                     (error) => {
@@ -188,16 +207,11 @@ export function TableWithCollectionFilter(props) {
             primaryButtonText="Delete"
             secondaryButtonText="Cancel"
           >
-            <div className="warning-message-container">
-              <div class="warning-message-icon">
-                <WarningAlt />
-              </div>
-              <p className="warning-message-text">
-                If you delete this {collectionFilter.schema.schemaName}, then
-                all related {props.schemaName} records will also be deleted.
-                This action cannot be undone.
-              </p>
-            </div>
+            <WarningMessage
+              message={`If you delete this ${collectionFilter.schema.schemaName}, then
+                all related ${props.schemaName} records will also be deleted.
+                This action cannot be undone.`}
+            />
           </DraggableModal>
         ) : null}
       </>
@@ -212,15 +226,17 @@ export function TableWithCollectionFilter(props) {
                 id="default"
                 labelText=" "
                 label="Dropdown menu options"
+                aria-label="Dropdown menu options"
                 items={items}
+                value={tableFilter.fieldValue}
                 onChange={(e) => {
                   console.log(e);
                   tableFilter.fieldValue = e.target.selectedOptions[0].value;
+                  DataLoadingService.pushEvent();
+                  setTableFilter(JSON.parse(JSON.stringify(tableFilter)));
+
                   setTimeout(() => {
-                    setTableFilter(tableFilter);
-                    setTimeout(() => {
-                      DataService.updateFilter(props.schemaName, tableFilter);
-                    }, 500);
+                    DataService.updateFilter(props.schemaName, tableFilter);
                   }, 500);
                 }}
                 itemToString={(item) => (item ? item.text : "")}

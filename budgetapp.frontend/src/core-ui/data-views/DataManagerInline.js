@@ -38,7 +38,7 @@ export function createRecordTemplate(modifiableFields) {
   return recordTemplate;
 }
 
-export function DataManager(props) {
+export function DataManagerInline(props) {
   const modifiableFields = props.dataType.schema.fields.filter(
     (itm) => !itm.systemField
   );
@@ -85,26 +85,7 @@ export function DataManager(props) {
   const [record, setRecord] = useState(recordTemplate);
 
   return (
-    <DraggableModal
-      className="inserts-view-modal"
-      modalHeading={`${props.existingId ? "Update" : "Add"} ${
-        props.schemaName
-      }`}
-      modalLabel={`${props.existingId ? "Update" : "Add"} Data`}
-      primaryButtonText={`${props.existingId ? "Update" : "Add"}`}
-      secondaryButtonText="Cancel"
-      open={true}
-      onRequestClose={() => props.onRequestClose()}
-      onRequestSubmit={() => {
-        props.onNewRecord(JSON.parse(JSON.stringify(record)), props.existingId);
-
-        const createAnother = document.getElementById("create-another");
-        if (createAnother && createAnother.checked) {
-        } else {
-          props.onRequestClose();
-        }
-      }}
-    >
+    <>
       {modifiableFields.map((itm) => {
         // return <p key={`modal:${itm.fieldName}`}>{itm.fieldFriendlyName}</p>;
         if (itm.fieldType === dataType.id) {
@@ -255,6 +236,6 @@ export function DataManager(props) {
           id="create-another"
         />
       ) : null}
-    </DraggableModal>
+    </>
   );
 }

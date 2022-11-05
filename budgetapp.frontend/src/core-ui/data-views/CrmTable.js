@@ -48,7 +48,8 @@ import { CrmTableCell } from "./CrmTableCell";
 import { FilterTypeEnum } from "../../api/data-query/filter-type.enum";
 import { Query } from "../../api/data-query/query";
 import { QueryGroup } from "../../api/data-query/query-group";
-import { DataLoadingService } from "../service/DataViewService";
+import { DataLoadingService } from "../service/DataLoadingService";
+import { WarningMessage } from "./WarningMessage";
 
 export const CrmTable = (props) => {
   const [headers, setHeaders] = useState({ headers: [] });
@@ -101,10 +102,11 @@ export const CrmTable = (props) => {
     }
     DataService.setAuthToken(auth.token);
     DataService.createListener(`${props.schemaName}`, dataUpdate);
-    DataLoadingService.createListener(`${props.schemaName}_load`, () => {
+    const forceLoad = () => {
       setLoadingHeaders(true);
       setLoadingData(true);
-    });
+    };
+    DataLoadingService.createListener(`${props.schemaName}_load`, forceLoad);
 
     if (!DataService.schemaCache[props.schemaName] || force) {
       DataService.fetchSchema(props.schemaName);
@@ -131,6 +133,11 @@ export const CrmTable = (props) => {
         dataUpdate();
       }, 1500);
     }
+
+    return () => {
+      DataService.removeListener(`${props.schemaName}`, dataUpdate);
+      DataLoadingService.removeListener(`${props.schemaName}_load`, forceLoad);
+    };
   }, [
     props.schemaName,
     auth.token,
@@ -540,7 +547,9 @@ export const CrmTable = (props) => {
                           </>
                         </TableBatchActions>
                         <TableToolbarContent>
-                          <TableToolbarSearch onChange={onInputChange} />
+                          {this.state.rows && this.state.rows.length > 0 ? (
+                            <TableToolbarSearch onChange={onInputChange} />
+                          ) : null}
                           <TableToolbarMenu>
                             <TableToolbarAction
                               onClick={() => {
@@ -558,162 +567,178 @@ export const CrmTable = (props) => {
                           </TableToolbarMenu>
                         </TableToolbarContent>
                       </TableToolbar>
-                      <Table {...getTableProps()} {...sizeProp}>
-                        <TableHead>
-                          <TableRow>
-                            {expandable ? <TableExpandHeader /> : null}
-                            <TableSelectAll {...getSelectionProps()} />
-                            {headers.map((header, i) => (
-                              <TableHeader
-                                key={i}
-                                {...getHeaderProps({ header })}
-                              >
-                                {header.header}
-                              </TableHeader>
-                            ))}
-                            {canUpdate ? (
-                              <TableHeader>Actions</TableHeader>
-                            ) : null}
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map((row) => {
-                            if (loadingData) {
-                              return null;
-                            }
-                            let color;
-                            const colorCell = row.cells.filter(
-                              (cell) => cell.info.header === "color"
-                            );
-                            if (colorCell.length > 0) {
-                              color = colorCell.pop().value || "#fff";
-                            }
-
-                            const id = row.id;
-                            const fullData = data.data
-                              .filter((r) => r.id === id)
-                              .pop();
-
-                            const currentSchema =
-                              DataService.schemaCache[schemaName].schema;
-
-                            const descriptionCell = currentSchema.fields
-                              .filter(
-                                (itm) => itm.expandableDescription === true
-                              )
-                              .pop();
-
-                            const headerCell = currentSchema.fields
-                              .filter((itm) => itm.expandableHeader === true)
-                              .pop();
-
-                            return (
-                              <React.Fragment key={row.id}>
-                                {expandable ? (
-                                  <>
-                                    <TableExpandRow
-                                      id={`${schemaName}:${row.id}`}
-                                      {...getRowProps({ row })}
-                                    >
-                                      <TableSelectRow
-                                        onChange={(e) =>
-                                          batchActionClick(e, row.id)
-                                        }
-                                        {...getSelectionProps({ row })}
-                                      />
-                                      {row.cells.map((cell) => (
-                                        <CrmTableCell
-                                          key={`${id}:${cell.id}:CrmTableCell`}
-                                          color={color}
-                                          schemaName={schemaName}
-                                          currentSchema={currentSchema}
-                                          schemaCache={DataService.schemaCache}
-                                          cell={cell}
-                                          rowId={id}
-                                        />
-                                      ))}
-                                      {canUpdate ? (
-                                        <TableCell>
-                                          <Button
-                                            className="table-action-button"
-                                            onClick={() => {
-                                              setUpdateId(id);
-                                              setModalOpen(true);
-                                            }}
-                                          >
-                                            <Edit />
-                                          </Button>
-                                        </TableCell>
-                                      ) : null}
-                                    </TableExpandRow>
-                                    <TableExpandedRow
-                                      colSpan={headers.length + 3}
-                                      className="demo-expanded-td"
-                                    >
-                                      <>
-                                        <h6>
-                                          {fullData
-                                            ? fullData[headerCell.fieldName]
-                                            : null || "No Header Provided"}
-                                        </h6>
-                                        <div>
-                                          {fullData
-                                            ? fullData[
-                                                descriptionCell.fieldName
-                                              ]
-                                            : null || "No Description Provided"}
-                                        </div>
-                                      </>
-                                    </TableExpandedRow>
-                                  </>
-                                ) : (
-                                  <TableRow
-                                    id={`${schemaName}:${row.id}`}
-                                    {...getRowProps({ row })}
+                      {this.state.rows && this.state.rows.length > 0 ? (
+                        <>
+                          <Table {...getTableProps()} {...sizeProp}>
+                            <TableHead>
+                              <TableRow>
+                                {expandable ? <TableExpandHeader /> : null}
+                                <TableSelectAll {...getSelectionProps()} />
+                                {headers.map((header, i) => (
+                                  <TableHeader
+                                    key={i}
+                                    {...getHeaderProps({ header })}
                                   >
-                                    <TableSelectRow
-                                      onChange={(e) =>
-                                        batchActionClick(e, row.id)
-                                      }
-                                      {...getSelectionProps({ row })}
-                                    />
-                                    {row.cells.map((cell) => (
-                                      <CrmTableCell
-                                        key={`${id}:${cell.id}:CrmTableCell`}
-                                        color={color}
-                                        currentSchema={currentSchema}
-                                        schemaName={schemaName}
-                                        schemaCache={DataService.schemaCache}
-                                        cell={cell}
-                                        rowId={id}
-                                      />
-                                    ))}
-                                    {canUpdate ? (
-                                      <TableCell>
-                                        <>
-                                          <Button
-                                            className="table-action-button"
-                                            onClick={() => {
-                                              setUpdateId(id);
-                                              setModalOpen(true);
-                                            }}
-                                          >
-                                            <Edit />
-                                          </Button>
-                                          <Button className="table-action-button">
-                                            <Edit />
-                                          </Button>
-                                        </>
-                                      </TableCell>
-                                    ) : null}
-                                  </TableRow>
-                                )}
-                              </React.Fragment>
-                            );
-                          })}
-                        </TableBody>
-                      </Table>
-                      <WithPagination></WithPagination>
+                                    {header.header}
+                                  </TableHeader>
+                                ))}
+                                {canUpdate ? (
+                                  <TableHeader>Actions</TableHeader>
+                                ) : null}
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {rows.map((row) => {
+                                if (loadingData) {
+                                  return null;
+                                }
+                                let color;
+                                const colorCell = row.cells.filter(
+                                  (cell) => cell.info.header === "color"
+                                );
+                                if (colorCell.length > 0) {
+                                  color = colorCell.pop().value || "#fff";
+                                }
+
+                                const id = row.id;
+                                const fullData = data.data
+                                  .filter((r) => r.id === id)
+                                  .pop();
+
+                                const currentSchema =
+                                  DataService.schemaCache[schemaName].schema;
+
+                                const descriptionCell = currentSchema.fields
+                                  .filter(
+                                    (itm) => itm.expandableDescription === true
+                                  )
+                                  .pop();
+
+                                const headerCell = currentSchema.fields
+                                  .filter(
+                                    (itm) => itm.expandableHeader === true
+                                  )
+                                  .pop();
+
+                                return (
+                                  <React.Fragment key={row.id}>
+                                    {expandable ? (
+                                      <>
+                                        <TableExpandRow
+                                          id={`${schemaName}:${row.id}`}
+                                          {...getRowProps({ row })}
+                                        >
+                                          <TableSelectRow
+                                            onChange={(e) =>
+                                              batchActionClick(e, row.id)
+                                            }
+                                            {...getSelectionProps({ row })}
+                                          />
+                                          {row.cells.map((cell) => (
+                                            <CrmTableCell
+                                              key={`${id}:${cell.id}:CrmTableCell`}
+                                              color={color}
+                                              schemaName={schemaName}
+                                              currentSchema={currentSchema}
+                                              schemaCache={
+                                                DataService.schemaCache
+                                              }
+                                              cell={cell}
+                                              rowId={id}
+                                            />
+                                          ))}
+                                          {canUpdate ? (
+                                            <TableCell>
+                                              <Button
+                                                className="table-action-button"
+                                                onClick={() => {
+                                                  setUpdateId(id);
+                                                  setModalOpen(true);
+                                                }}
+                                              >
+                                                <Edit />
+                                              </Button>
+                                            </TableCell>
+                                          ) : null}
+                                        </TableExpandRow>
+                                        <TableExpandedRow
+                                          colSpan={headers.length + 3}
+                                          className="demo-expanded-td"
+                                        >
+                                          <>
+                                            <h6>
+                                              {fullData
+                                                ? fullData[headerCell.fieldName]
+                                                : null || "No Header Provided"}
+                                            </h6>
+                                            <div>
+                                              {fullData
+                                                ? fullData[
+                                                    descriptionCell.fieldName
+                                                  ]
+                                                : null ||
+                                                  "No Description Provided"}
+                                            </div>
+                                          </>
+                                        </TableExpandedRow>
+                                      </>
+                                    ) : (
+                                      <TableRow
+                                        id={`${schemaName}:${row.id}`}
+                                        {...getRowProps({ row })}
+                                      >
+                                        <TableSelectRow
+                                          onChange={(e) =>
+                                            batchActionClick(e, row.id)
+                                          }
+                                          {...getSelectionProps({ row })}
+                                        />
+                                        {row.cells.map((cell) => (
+                                          <CrmTableCell
+                                            key={`${id}:${cell.id}:CrmTableCell`}
+                                            color={color}
+                                            currentSchema={currentSchema}
+                                            schemaName={schemaName}
+                                            schemaCache={
+                                              DataService.schemaCache
+                                            }
+                                            cell={cell}
+                                            rowId={id}
+                                          />
+                                        ))}
+                                        {canUpdate ? (
+                                          <TableCell>
+                                            <>
+                                              <Button
+                                                className="table-action-button"
+                                                onClick={() => {
+                                                  setUpdateId(id);
+                                                  setModalOpen(true);
+                                                }}
+                                              >
+                                                <Edit />
+                                              </Button>
+                                              <Button className="table-action-button">
+                                                <Edit />
+                                              </Button>
+                                            </>
+                                          </TableCell>
+                                        ) : null}
+                                      </TableRow>
+                                    )}
+                                  </React.Fragment>
+                                );
+                              })}
+                            </TableBody>
+                          </Table>
+                          <WithPagination></WithPagination>
+                        </>
+                      ) : (
+                        <WarningMessage
+                          id="no-data"
+                          message={`No data found for ${schemaName}, please try a different filter or inserting a new record.`}
+                        />
+                      )}
                     </TableContainer>
                   )}
                 />

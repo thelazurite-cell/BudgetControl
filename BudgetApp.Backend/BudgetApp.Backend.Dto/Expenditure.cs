@@ -6,6 +6,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto
 {
+    [ViewFriendlyName("Transactions")]
+    [ViewShown(true)]
     [ViewType(ViewTypeEnum.TableWithCollectionFilter)]
     [TransferableDataType]
     [DataSchema]

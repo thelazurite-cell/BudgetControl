@@ -7,10 +7,12 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto
 {
-
+    [ViewFriendlyName("Terms")]
+    [ViewShown(true)]
     [TransferableDataType]
     [DataSchema]
     [DataSchemaExpandable]
+    [ViewForceReload(true)]
     public class Term : DataTransferObject
     {
         [BsonElement("name")]

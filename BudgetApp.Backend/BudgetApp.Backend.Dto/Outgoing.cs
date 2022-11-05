@@ -6,9 +6,11 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetApp.Backend.Dto
 {
+    [ViewFriendlyName("Outgoings")]
+    [ViewShown(true)]
     [TransferableDataType]
     [DataSchema]
-
+    [ViewForceReload(true)]
     public class Outgoing : ExpenseDto
     {
         [BsonElement("payOnDay")]

@@ -7,11 +7,29 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace BudgetApp.Backend.Dto
 {
     [TransferableDataType]
+    [DataSchema]
+
     public class Schema : DataTransferObject
     {
         [BsonElement("schemaName")]
         [JsonPropertyName("schemaName")]
-        public string SchemaName { get; set; }
+        public string SchemaName { get; set; } = "";
+
+        [BsonElement("viewType")]
+        [JsonPropertyName("viewType")]
+        public ViewTypeEnum ViewType { get; set; } = ViewTypeEnum.Table;
+
+        [BsonElement("viewFriendlyName")]
+        [JsonPropertyName("viewFriendlyName")]
+        public string ViewFriendlyName { get; set; } = "";
+
+        [BsonElement("viewShown")]
+        [JsonPropertyName("viewShown")]
+        public bool ViewShown { get; set; } = false;
+
+        [BsonElement("viewForceReload")]
+        [JsonPropertyName("viewForceReload")]
+        public bool ViewForceReload { get; set; }
 
         [BsonElement("fields")]
         [JsonPropertyName("fields")]
@@ -24,11 +42,6 @@ namespace BudgetApp.Backend.Dto
         [BsonElement("isExpandable")]
         [JsonPropertyName("isExpandable")]
         public bool Expandable { get; set; } = false;
-
-        [BsonElement("viewType")]
-        [JsonPropertyName("viewType")]
-        public ViewTypeEnum ViewType { get; set; } = ViewTypeEnum.Table;
-
 
         public override bool ValidateDelete(params string[] args)
         {

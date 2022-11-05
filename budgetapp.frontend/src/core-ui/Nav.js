@@ -1,13 +1,6 @@
-import "./css/Nav.css";
+import "./css/Nav.scss";
 
-import {
-  Notification,
-  Menu,
-  Logout,
-  Settings,
-  View,
-  ViewOff,
-} from "@carbon/icons-react";
+import { Notification, Menu, Logout, View, ViewOff } from "@carbon/icons-react";
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { useAuth } from "../auth/Auth";
 import { useHistory, Link } from "react-router-dom";
@@ -23,6 +16,7 @@ import {
   Tag,
   useTheme,
   Theme,
+  SkeletonText,
 } from "@carbon/react";
 import { FilterTypeEnum } from "../api/data-query/filter-type.enum";
 import { Query } from "../api/data-query/query";
@@ -32,6 +26,9 @@ import { NotificationService } from "./service/NotificationService";
 import NotificationManager from "./NotificationManager";
 import { NavService } from "./service/NavService";
 import { useSensitiveData } from "../SensitiveData";
+import { WorkspaceTabService } from "../dashboard/service/WorkspaceTabService";
+import { DataViewManager } from "./data-views/DataViewManager";
+import Settings from "../settings/Settings";
 
 export default function Nav() {
   const { theme } = useTheme();
@@ -39,6 +36,8 @@ export default function Nav() {
   let [notificationsVisible, setNotificationsVisible] = useState(false);
   let [actionsExpanded, setActionsExpanded] = useState(false);
   let [notificationsExpanded, setNotificationsExpanded] = useState(false);
+  let [navItemsLoaded, setNavItemsLoaded] = useState(false);
+  let [navItems, setNavItems] = useState({ data: [] });
   let [username, setUsername] = useState("");
   let [notificationCount, setNotificationCount] = useState(0);
 
@@ -86,8 +85,29 @@ export default function Nav() {
           console.error(error);
         }
       );
+
+      let navGroup = new QueryGroup();
+      group.comparisonType = FilterTypeEnum.equals;
+      let navQuery = new Query();
+      navQuery.fieldValue = ["true"];
+      navQuery.fieldName = "viewShown";
+      navQuery.comparisonType = FilterTypeEnum.equals;
+      navGroup.queries.push(navQuery);
+
+      api.find(
+        "Schema",
+        navGroup,
+        (response) => {
+          navItems.data = response.data;
+          setNavItems(navItems);
+          setNavItemsLoaded(true);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     }
-  }, [auth]);
+  }, [auth, navItems]);
 
   function signout() {
     auth.signout();
@@ -118,15 +138,35 @@ export default function Nav() {
         {username.length > 0 ? (
           <>
             <HeaderGlobalAction
-              className="username"
-              aria-label="username"
-              label="Login"
+              className="user-btn"
+              label="User Preferences"
+              aria-label={`User Preferences for ${username}`}
+              onClick={() => {
+                const id = new Date().valueOf();
+                WorkspaceTabService.insertTab({
+                  id: id,
+                  tab: "Preferences",
+                  component: (
+                    <div>
+                      <p>Preferences</p>
+                    </div>
+                  ),
+                  closeable: true,
+                });
+              }}
             >
-              <label>{username}</label>
+              <HeaderName
+                prefix=""
+                className="username"
+                aria-label="username"
+                label="Login"
+              >
+                {username}
+              </HeaderName>
             </HeaderGlobalAction>
             <HeaderGlobalAction
               aria-label="Toggle Privacy Mode"
-              label="ToggleSensitiveData"
+              label="Toggle Privacy Mode"
               onClick={() => sensitive.toggleSensitiveData()}
             >
               {sensitive.showSensitiveData ? (
@@ -172,24 +212,74 @@ export default function Nav() {
         <Switcher aria-label="Switcher Container">
           <SwitcherItem
             id="log-out"
-            aria-label="Log out"
+            aria-label="Logout"
             onClick={() => signout()}
           >
             <Logout /> Log Out
           </SwitcherItem>
           <SwitcherDivider />
-          <li className="route-link">
-            <Link to="/settings">
-              <Settings /> Settings
-            </Link>
-          </li>
+          <SwitcherItem
+            aria-label="Settings"
+            key={() => new Date().valueOf()}
+            onClick={() => {
+              const id = new Date().valueOf();
+              WorkspaceTabService.insertTab({
+                id: id,
+                tab: "Settings",
+                component: (
+                  <div>
+                    <Settings />
+                  </div>
+                ),
+                closeable: true,
+              });
+            }}
+          >
+            Settings
+          </SwitcherItem>
           <SwitcherDivider />
-          <li className="route-link">
-            <Link to="/">Dashboard</Link>
-          </li>
-          <li className="route-link">
-            <Link to="/transactions">Transactions</Link>
-          </li>
+          {navItemsLoaded ? (
+            <>
+              {navItems.data.map((itm) => {
+                const nitm = JSON.parse(JSON.stringify(itm));
+                return (
+                  <SwitcherItem
+                    key={`link-${
+                      nitm.viewFriendlyName
+                    }-${new Date().valueOf()}`}
+                    aria-label={itm.fieldFriendlyName}
+                    onClick={() => {
+                      const id = `nitm-${
+                        nitm.viewFriendlyName
+                      }-${new Date().valueOf()}`;
+                      WorkspaceTabService.insertTab({
+                        id: id,
+                        tab: nitm.viewFriendlyName,
+                        forceReload: nitm.viewForceReload,
+                        component: (
+                          <>
+                            <div id={`${id}-component-div`}>
+                              <DataViewManager
+                                id={`${id}-component`}
+                                schemaName={nitm.schemaName}
+                              />
+                            </div>
+                          </>
+                        ),
+                        closeable: true,
+                      });
+                    }}
+                  >
+                    {nitm.viewFriendlyName}
+                  </SwitcherItem>
+                );
+              })}
+            </>
+          ) : (
+            <SwitcherItem>
+              <SkeletonText />
+            </SwitcherItem>
+          )}
         </Switcher>
       </HeaderPanel>
       <HeaderPanel aria-label="Header Panel" expanded={notificationsExpanded}>

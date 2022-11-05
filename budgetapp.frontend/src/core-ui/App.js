@@ -2,7 +2,7 @@ import "./css/App.css";
 import Login from "./Login.js";
 import Nav from "./Nav.js";
 import Settings from "../settings/Settings.js";
-import Landing from "../dashboard/Landing.js";
+import Workspace from "../dashboard/Workspace.js";
 import Transactions from "../transactions/Transactions.js";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -22,7 +22,7 @@ function App() {
               <Nav />
               {/* <div className="App">
             <div className="main-container">
-              <div className="main-content"> */}
+          <div className="main-content"> */}
               <Content id="main-content">
                 <Switch>
                   <Route path="/login">
@@ -35,7 +35,7 @@ function App() {
                     <Transactions />
                   </PrivateRoute>
                   <PrivateRoute index path="/">
-                    <Landing />
+                    <Workspace />
                   </PrivateRoute>
                 </Switch>
               </Content>

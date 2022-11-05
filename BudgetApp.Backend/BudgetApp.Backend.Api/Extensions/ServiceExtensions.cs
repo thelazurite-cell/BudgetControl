@@ -82,6 +82,24 @@ namespace BudgetApp.Backend.Api.Extensions
                     );
                 }
 
+                var viewFriendlyNameAttribute = Attribute.GetCustomAttributes(type).ToList().FirstOrDefault(attribute => attribute.GetType().Name == "ViewFriendlyNameAttribute");
+
+                if(viewFriendlyNameAttribute != null) {
+                    schema.ViewFriendlyName = ReadAttributeValue(viewFriendlyNameAttribute).ToString();
+                }
+
+                var viewShownAttribute = Attribute.GetCustomAttributes(type).ToList().FirstOrDefault(attribute => attribute.GetType().Name == "ViewShownAttribute");
+
+                if(viewShownAttribute != null) {
+                    schema.ViewShown = bool.Parse(ReadAttributeValue(viewShownAttribute).ToString());
+                }
+
+                var viewForceReloadAttribute = Attribute.GetCustomAttributes(type).ToList().FirstOrDefault(attribute => attribute.GetType().Name == "ViewForceReloadAttribute");
+
+                if(viewForceReloadAttribute != null) {
+                    schema.ViewForceReload = bool.Parse(ReadAttributeValue(viewForceReloadAttribute).ToString());
+                }
+
                 Console.WriteLine($"\n\t <tbl> {type.Name} - Expandable: ${schema.Expandable} </tbl>");
 
                 foreach (var property in type.GetProperties())

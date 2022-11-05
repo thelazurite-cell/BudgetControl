@@ -22,4 +22,13 @@ export class Service {
       document.addEventListener(this.serviceName, callback);
     }
   }
+
+  static removeListener(listenerName, callback) {
+    this.listeners.splice(
+      this.listeners.indexOf(
+        this.listeners.filter((itm) => itm === listenerName)
+      )
+    );
+    document.removeEventListener(this.serviceName, callback);
+  }
 }

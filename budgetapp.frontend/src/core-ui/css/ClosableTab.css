@@ -1,0 +1,25 @@
+.cds--tab--close-btn {
+  min-height: 100%;
+  min-width: 48px;
+  width: 10px;
+  padding: 0;
+  background-clip: border-box;
+  border-image-outset: 0;
+  border-image-repeat: stretch;
+  border-image-slice: 100%;
+  border-image-source: none;
+  border-image-width: 1;
+  border-left-color: rgb(22, 22, 22);
+  border-left-style: none;
+  border-left-width: 0px;
+  border-right-color: rgb(22, 22, 22);
+  border-right-style: none;
+  border-right-width: 0px;
+  border-top-color: rgb(22, 22, 22);
+  border-top-style: none;
+  border-top-width: 0px;
+  box-sizing: border-box;
+  background: none;
+  border-bottom: rgb(224, 224, 224) 2px solid;
+  margin-right: 1px;
+}

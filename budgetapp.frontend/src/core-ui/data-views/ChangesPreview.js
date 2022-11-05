@@ -206,7 +206,10 @@ export function ChangesPreview(props) {
               props.schemaName
             ].pendingCommits.insert.indexOf(itm) + 1;
           return (
-            <div className="inserts-view-modal--view">
+            <div
+              key={`inserts-view-${itemNo}`}
+              className="inserts-view-modal--view"
+            >
               <div className="inserts-view-modal--heading">
                 <h4 className="cdp--label inserts-view-modal--heading--header">
                   <AddAlt /> #{itemNo}

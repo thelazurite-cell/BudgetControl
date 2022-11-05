@@ -3,7 +3,7 @@ import { DataTransfer } from "../../api/DataTransfer";
 import { Query } from "../../api/data-query/query";
 import { QueryGroup } from "../../api/data-query/query-group";
 import { FilterTypeEnum } from "../../api/data-query/filter-type.enum";
-import { DataLoadingService } from "./DataViewService";
+import { DataLoadingService } from "./DataLoadingService";
 
 export class DataService extends Service {
   static schemaCache = [];
@@ -106,7 +106,6 @@ export class DataService extends Service {
   }
 
   static fetchBy(schemaName, query) {
-    DataLoadingService.pushEvent();
     if (this.schemaCache[schemaName]) {
       const api = new DataTransfer(this.authToken);
       api.find(
