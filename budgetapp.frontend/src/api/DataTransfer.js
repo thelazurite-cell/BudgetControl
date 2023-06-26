@@ -10,7 +10,7 @@ export class DataTransfer {
   token = "";
 
   instance = {};
-  apiUrl = "https://192.168.0.15:5001/";
+  apiUrl = "https://192.168.0.14:5001/";
 
   /**
    * Creates an instance of the DataTransfer class.

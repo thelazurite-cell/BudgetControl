@@ -11,7 +11,6 @@
     "axios": "^0.26.1",
     "carbon-icons": "^7.0.7",
     "moment": "^2.29.3",
-    "node-sass": "^7.0.1",
     "react": "^18.2.0",
     "react-closeable-tabs": "^1.1.5",
     "react-color": "^2.19.3",
@@ -24,7 +23,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true&&set REACT_APP_AXIOS_URL=192.168.0.14:3000&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -48,6 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {}
+  }
 }

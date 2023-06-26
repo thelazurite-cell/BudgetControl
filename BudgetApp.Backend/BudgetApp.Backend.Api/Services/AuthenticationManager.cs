@@ -9,7 +9,7 @@ namespace BudgetApp.Backend.Api.Services
         private int msl = 24;
         private int maxIterations = 100000;
         private int maxHashSize = 256;
-        private Regex passwordCriteria = new Regex(@"/(?=(.*[A-z]{2,}))(?=(.*?[^ \w]{2,}))(?=(.*?\d){2,})+^(.){12,}$/");
+        private readonly Regex passwordCriteria = new(@"/(?=(.*[A-z]{2,}))(?=(.*?[^ \w]{2,}))(?=(.*?\d){2,})+^(.){12,}$/");
 
         public bool MatchesCriteria(string password)
         {

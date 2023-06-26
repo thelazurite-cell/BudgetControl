@@ -27,9 +27,9 @@ namespace BudgetApp.Backend.Api
         {
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(policy =>
+                options.AddPolicy("corsapp",policy =>
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins(_applicationUrl);
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("*");
                 });
             })
             .Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"))
@@ -47,15 +47,9 @@ namespace BudgetApp.Backend.Api
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyHeader().AllowAnyMethod().WithOrigins(_applicationUrl);
-            });
-
             app.UseRouting();
-
+            app.UseCors("corsapp");
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
