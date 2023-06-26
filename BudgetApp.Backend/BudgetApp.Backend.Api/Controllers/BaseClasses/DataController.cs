@@ -81,6 +81,7 @@ namespace BudgetApp.Backend.Api.Controllers.BaseClasses
             jsonOptions.Converters.Add(new DecimalConverter());
             jsonOptions.Converters.Add(new FloatConverter());
             jsonOptions.Converters.Add(new DoubleConverter());
+            jsonOptions.Converters.Add(new DateTimeConverter());
             return jsonOptions;
         }
 
