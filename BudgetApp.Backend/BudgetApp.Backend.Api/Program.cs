@@ -1,60 +1,47 @@
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.Extensions.Configuration;
-//using Microsoft.Extensions.Hosting;
-//using Microsoft.Extensions.Logging;
-//using MongoDB.Driver;
-
-//namespace BudgetApp.Backend.Api
-//{
-//    public class Program
-//    {
-//        public static void Main(string[] args)
-//        {
-//            CreateHostBuilder(args).Build().Run();
-//        }
-
-//        public static IHostBuilder CreateHostBuilder(string[] args) =>
-//            Host.CreateDefaultBuilder(args)
-//                .ConfigureWebHostDefaults(webBuilder =>
-//                {
-//                    webBuilder.UseStartup<Startup>();
-//                });
-//    }
-//}
-
+using System.Security.Cryptography.X509Certificates;
 using BudgetApp.Backend.Api.Configuration;
-using Microsoft.Extensions.Configuration;
 
 var BudgetAllowOrigins = "_budgetAllowOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddCors(options =>
+builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    options.AddPolicy(name: BudgetAllowOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("https://192.168.0.14:3000",
-                                              "https://localhost:3000")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                      });
+    var config = builder.Configuration.GetSection("AppSettings").Get<ApplicationSettings>();
+
+    if (config == null)
+    {
+        throw new InvalidOperationException($"{nameof(config)} - AppSettings section is not configured");
+    }
+
+    var certPem = File.ReadAllText(new FileInfo(config.PemCertificate.Path).FullName);
+    var keyPem = File.ReadAllText(new FileInfo(config.PemCertificate.KeyPath).FullName);
+
+    serverOptions.ConfigureHttpsDefaults(listenOptions =>
+    {
+        listenOptions.ServerCertificate = X509Certificate2.CreateFromPem(certPem, keyPem);
+    });
 });
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: BudgetAllowOrigins,
+        policy =>
+        {
+            policy.WithOrigins("https://0.0.0.0:3000",
+                                "https://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("AppSettings"));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -65,15 +52,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+// Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
-
 app.UseRouting();
 app.UseCors(BudgetAllowOrigins);
 app.UseAuthorization();
-
-//app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-
 app.MapControllers();
-
 app.Run();
 

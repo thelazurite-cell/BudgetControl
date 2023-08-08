@@ -1,17 +1,12 @@
-using System;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using BudgetApp.Backend.Api.Configuration;
 using BudgetApp.Backend.Api.Services;
 using BudgetApp.Backend.Dto;
 using BudgetApp.Backend.Dto.Auth;
 using BudgetApp.Backend.Dto.Converters;
 using BudgetApp.Backend.Dto.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

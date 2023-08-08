@@ -56,9 +56,16 @@ namespace BudgetApp.Backend.Api.Controllers
             var requestBody = await GetRequestBody();
             if (string.IsNullOrWhiteSpace(requestBody))
             {
-                await SerializedObjectResponse(
-                    RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
-                return;
+                try
+                {
+                    await SerializedObjectResponse(
+                        RequestReportGenerator.ErrorReadingDataReport(requestedType, requestBody));
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    await SerializedObjectResponse(RequestReportGenerator.ExceptionReport(requestedType, requestBody, ex));
+                }
             }
 
             var deserialize = GetJsonDeserializeForDto(dtoType);
