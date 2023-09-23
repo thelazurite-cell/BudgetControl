@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mettle.Dms.Backend.Api", "Mettle.Dms.Backend.Api\Mettle.Dms.Backend.Api.csproj", "{B83D76AA-FB10-44DA-AF71-711EC112D6E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mettle.Dms.Backend.Dto", "Mettle.Dms.Backend.Dto\Mettle.Dms.Backend.Dto.csproj", "{D9EF24F3-CE1E-432F-9B7E-2CBC7CC072FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B83D76AA-FB10-44DA-AF71-711EC112D6E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B83D76AA-FB10-44DA-AF71-711EC112D6E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B83D76AA-FB10-44DA-AF71-711EC112D6E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B83D76AA-FB10-44DA-AF71-711EC112D6E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D98C78E-10C3-4BD6-86DF-6C2A5C708586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D98C78E-10C3-4BD6-86DF-6C2A5C708586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D98C78E-10C3-4BD6-86DF-6C2A5C708586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D98C78E-10C3-4BD6-86DF-6C2A5C708586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9EF24F3-CE1E-432F-9B7E-2CBC7CC072FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9EF24F3-CE1E-432F-9B7E-2CBC7CC072FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9EF24F3-CE1E-432F-9B7E-2CBC7CC072FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9EF24F3-CE1E-432F-9B7E-2CBC7CC072FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,19 @@
+/* .login-form {
+  background-color: #282c34;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  min-height: 100vh;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}*/
+.btn {
+  margin-top: 1.25rem;
+  text-align: center;
+  display: block;
+  min-width: 100%;
+}
+/*div.bx--form-item > label:nth-child(1) {
+  color: white;
+  font-weight: bold;
+} */

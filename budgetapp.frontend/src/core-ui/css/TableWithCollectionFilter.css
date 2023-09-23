@@ -1,0 +1,22 @@
+.filter-toolbar {
+  display: flex;
+}
+.filter-toolbar--dropdown {
+  flex: 1 1 auto;
+}
+.cds--dropdown__wrapper.cds--list-box__wrapper {
+  width: 100%;
+}
+.filter-toolbar > .table-action-button {
+  margin-right: 0;
+  width: 48px;
+  align-items: center;
+  justify-content: center;
+  /* padding-left: 0.7rem; */
+}
+.filter-toolbar
+  > .filter-toolbar--dropdown
+  > div:nth-child(1)
+  > label:nth-child(1) {
+  display: none;
+}

@@ -9,13 +9,39 @@ services:
       context: .
       dockerfile: BudgetApp.Backend/BudgetApp.Backend.Api/Dockerfile
       args: 
-        - PASSWORD_ENV_SEEDED=${PASSWORD_ENV_SEEDED}
+        - PASSWORD_ENV_SEEDED=DgYsVtw4Gnl06aQI77dmYQZt76x7VJmqgsGWtBAFzie693hkue3KraciIW9R42fU
     restart: unless-stopped
     ports:
-      - 5001:5001
+        - 5000:5000
+        - 5001:5001
     environment:
-      - PASSWORD_ENV_SEEDED=some.long.password.fllkwefiwejf23049uwlekjf.sEFWEFGR98^&$
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=${PASSWORD_ENV_SEEDED}
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      - ASPNETCORE_URLS=https://+:5001
-      - ASPNETCORE_ENVIRONMENT=Development
+      ASPNETCORE_URLS: https://+:5001;http://+:5000
+      PASSWORD_ENV_SEEDED: DgYsVtw4Gnl06aQI77dmYQZt76x7VJmqgsGWtBAFzie693hkue3KraciIW9R42fU
+      ASPNETCORE_ENVIRONMENT: Development
+      # - ASPNETCORE_Kestrel__Certificates__Default__Password=DgYsVtw4Gnl06aQI77dmYQZt76x7VJmqgsGWtBAFzie693hkue3KraciIW9R42fU
+      # - ASPNETCORE_Kestrel__Certificates__Default__Path=/usr/local/share/ca-certificates/app_cert.pem
+      # - ASPNETCORE_Kestrel__Certificates__Default__KeyPath=/usr/local/share/ca-certificates/app_key2.pem
+    depends_on: 
+      - mongodb
+    networks:
+      - dms-network
+
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - dms-network
+
+volumes:
+  dbdata6:
+
+networks:
+  dms-network:
+    driver: bridge

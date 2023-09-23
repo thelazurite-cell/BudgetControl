@@ -1,0 +1,79 @@
+.inserts-view-modal--heading {
+  display: flex;
+}
+.inserts-view-modal--heading--button,
+.inserts-view-modal--heading--button-success {
+  min-width: 0;
+  min-height: 0px;
+  padding: 0.5em;
+}
+.inserts-view-modal--heading--header {
+  flex: 1 1 auto;
+}
+.inserts-view-modal--view {
+  margin-bottom: 16px;
+  background-color: #f5f4df;
+}
+.inserts-view-modal--view > .inserts-view-modal--hidden-data {
+  width: 100%;
+}
+
+.inserts-view-modal--view > .inserts-view-modal--hidden-data > span > span,
+.inserts-view-modal--view > .inserts-view-modal--hidden-data > span {
+  width: 100% !important;
+}
+.hidden-data--tooltip--text.inserts-view-modal--hidden-data {
+  margin-left: 2rem;
+  position: fixed;
+  z-index: 999999999;
+}
+
+.inserts-view-modal > .cds--modal-container {
+  position: absolute;
+  top: 10vh;
+}
+.inserts-view-modal > div > .cds--modal-header > h3 {
+  padding-top: 0px;
+  margin: 0px;
+  height: 100%;
+}
+.inserts-view-modal > div > .cds--modal-header > .cds--modal-close {
+  width: 10%;
+  height: 5.1vh;
+}
+.inserts-view-modal > div > .cds--modal-header:focus {
+  cursor: grabbing;
+}
+.inserts-view-modal > div > .cds--modal-header {
+  border-bottom: 1px solid #e1e1e1;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  cursor: grab;
+}
+.inserts-view-modal--heading--button-success {
+  background: #22a61e;
+  display: none;
+}
+.inserts-view-modal--info {
+  padding-bottom: 1em;
+}
+.changes-preview--modal-border {
+  border: rgb(82, 82, 82) 2px solid;
+}
+.inserts-view-modal > div > div > h3 {
+  text-transform: capitalize;
+}
+.cds--modal-close {
+  border-left: 2px #e1e1e1 solid;
+  border-bottom: 2px #e1e1e1 solid;
+  border-radius: 0 0px 0px 5px;
+  color: #ffffff;
+}
+
+.cds--modal-close > svg {
+  color: #ffffff;
+}
